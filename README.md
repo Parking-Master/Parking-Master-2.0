@@ -25,6 +25,7 @@ Version 1.9 will still have some minor updates, but not big ones.
 <br>
 Version 2.0 is the all-new "remodeled" game, which inludes Bug fixes, Updated GUI/UI, Security updates, and Removal of Excessive Items.
 <br>
+You can play the original game at <kbd>https://parkingmaster.w3spaces.com</kbd>
 ## Desktop App
 Version 2.0 will also have a lightweight desktop app (free download) for Windows, Mac & Linux.
 <br>
