@@ -23,7 +23,11 @@ The latest version since then is 1.9, the latest and last version of Parking Mas
 <br>
 Version 1.9 will still have some minor updates, but not big ones.
 <br>
-Version 2.0 is the all-new "remodeled" game, which inludes Bug fixes, Updated GUI/UI, Security updates, and Removal of Excessive Items.
+Version 2.0 is the all-new "remodeled" game, which inludes Bug fixes, Updated GUI/UI, Security updates, and New Levels.
+<br>
+<br>
+[\> \><u> parkingmaster-2.w3spaces.com </u>\< \<](https://parkingmaster-2.w3spaces.com)
+<br>
 <br>
 You can play the original game at <kbd>https://parkingmaster.w3spaces.com</kbd>
 ## Desktop App
