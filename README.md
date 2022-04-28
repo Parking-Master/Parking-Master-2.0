@@ -37,3 +37,9 @@ Version 2.0 will also have a lightweight desktop app (free download) for Windows
 Parking Master 2.0 will have a MiniGame built into a desktop browser extension.
 <br>
 This is a backup in case you can't download the app.
+## Multiplayer
+With internet connection, all players are welcomed to play multiplayer in the website, app and minigame.
+<br>
+Multiplayer Parking Master 2.0 will have level-based challenges, but with multiplayer.
+<br>
+Players will be able to create a lobby name, go to the public "Lobby" page, and view/create a multiplayer server.
