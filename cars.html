@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Get a Car - Parking Master 2.0</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Simple-Alert@latest/simplealert.min.js"></script>
+    <style>
+      body {
+        background: #fefefe;
+        border-top: 8px solid #ddd;
+        border-radius: 6px;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #ddd;
+        font-weight: bold;
+      }
+      .wrapper {
+        position: absolute;
+        margin: 0 !important;
+        width: 70vw;
+        left: 50%;
+        margin-left: -35vw !important;
+      }
+      .tab {
+        background: #fff;
+        width: 130px;
+        height: 130px;
+        border-radius: 6px;
+        box-shadow: 0 0 5px 3px #ddd;
+        display: inline-block;
+        margin: 1vw;
+        margin-right: 5vw;
+        justify-content: center;
+        padding: 10px;
+        cursor: pointer !important;
+        user-select: none !important;
+        transition: transform .2s;
+      }
+      .tab:hover {
+        transform: scale(1.2);
+      }
+      .wrapper .tab#0 {
+        
+      }
+      .-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="tab" id="0" onclick="simple.alert('You already own this car.')"><img src="images/default_car.png" style="width:100%;margin:0!important;padding:0!important;" /><br><p class="-center" style="font-size:12px;">OWNED</p></div>
+      <div class="tab" id="2" onclick="let owned = false; for (let i = 0; i < localStorage['owned_cars'].split(',').length; i++) { if (localStorage['owned_cars'].split(',')[i] == '1') { owned = true } } !owned && simple.confirm('Do you want to purchase the Town Car for 500 PTS?', () => (equip(500, 'town_car') == false && simple.alert('You do not have enough PTS to purchase this car.')))"><img src="https://parkingmaster-2.w3spaces.com/images/pickup_truck.png" /></div>
+      <div class="tab" id="1" onclick="let owned = false; for (let i = 0; i < localStorage['owned_cars'].split(',').length; i++) { if (localStorage['owned_cars'].split(',')[i] == '2') { owned = true } } !owned && simple.confirm('Do you want to purchase the Pickup Truck for 800 PTS?', () => (equip(800, 'pickup_truck') == false && simple.alert('You do not have enough PTS to purchase this car.')))"><img src="images/town_car.png" style="width:100%;margin:0!important;padding:0!important;" /><br><p class="-center" style="font-size:14px;">500 PTS</p></div>
+      <div class="tab" id="3" onclick="simple.confirm('Do you want to purchase the Race Car for 1500 PTS?')"><img src="https://parkingmaster-2.w3spaces.com/images/race_car.png" /></div>
+      <div class="tab" id="4" onclick="simple.confirm('Do you want to purchase a Surprise Car for 650 PTS?')"><img src="https://parkingmaster-2.w3spaces.com/images/surprise.png" /></div>
+    </div>
+    <script>
+    (() => { let owned = false; for (let i = 0; i < localStorage['owned_cars'].split(',').length; i++) { if (localStorage['owned_cars'].split(',')[i] == '1') { owned = true } } (!!owned && (document.querySelector('p#1').textContent = 'OWNED')) });
+    (() => { let owned = false; for (let i = 0; i < localStorage['owned_cars'].split(',').length; i++) { if (localStorage['owned_cars'].split(',')[i] == '2') { owned = true } } (!!owned && (document.querySelector('p#2').textContent = 'OWNED')) });
+    (() => { let owned = false; for (let i = 0; i < localStorage['owned_cars'].split(',').length; i++) { if (localStorage['owned_cars'].split(',')[i] == '3') { owned = true } } (!!owned && (document.querySelector('p#3').textContent = 'OWNED')) });
+    (() => { let owned = false; for (let i = 0; i < localStorage['owned_cars'].split(',').length; i++) { if (localStorage['owned_cars'].split(',')[i] == '4') { owned = true } } (!!owned && (document.querySelector('p#4').textContent = 'OWNED')) });
+    function equip(price, car) {
+      if (parseFloat(localStorage["current_pts"], 0) < price) {
+        return false;
+      }
+      if (car == "town_car") {
+        localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 500).toString());
+        localStorage.setItem("owned_cars", localStorage["owned_cars"] + ",1")
+        localStorage.setItem("car", "{\"baseColor\":\"#fefefe\",\"wheelColor\":\"#333\",\"windowColor\":\"#333\",\"minSpeed\":5,\"maxSpeed\":30,\"default_specs\":[80, -22, 26, 40]}");
+      } else if (car == "pickup_truck") {
+        localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 800).toString());
+        localStorage.setItem("owned_cars", localStorage["owned_cars"] + ",2")
+        localStorage.setItem("car", "{\"baseColor\":\"#ff4400\",\"wheelColor\":\"#444\",\"windowColor\":\"#333\",\"minSpeed\":5,\"maxSpeed\":30,\"default_specs\":[80, -22, 26, 100]}");
+      } else if (car == "race_car") {
+        
+      } else if (car == "surprise_car") {
+        
+      }
+    }
+    </script>
+  </body>
+</html>
