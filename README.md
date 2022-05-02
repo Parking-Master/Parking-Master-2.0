@@ -26,7 +26,7 @@ Version 1.9 will still have some minor updates, but not big ones.
 Version 2.0 is the all-new "remodeled" game, which inludes Bug fixes, Updated GUI/UI, Security updates, and New Levels.
 <br>
 <br>
-[\> \><u> parkingmaster-2.w3spaces.com </u>\< \<](https://parkingmaster-2.w3spaces.com)
+[\> \><u> www.parkingmaster.tk </u>\< \<](https://www.parkingmaster.tk)
 <br>
 <br>
 You can play the original game at <kbd>https://parkingmaster.w3spaces.com</kbd>
