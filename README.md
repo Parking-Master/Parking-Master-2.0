@@ -1,5 +1,5 @@
 # Parking-Master-2.0
-to the all-new Parking-Master-2.0! This Repo is currently in production.
+Welco to the all-new Parking-Master-2.0! This Repo is currently in production.
 <img src="preview.png" />
 Parking-Master-2.0 is the all new Parking Master!
 <br>
