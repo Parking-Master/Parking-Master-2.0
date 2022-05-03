@@ -54,42 +54,55 @@
     let password = document.getElementById("pass-val").value.trim();
     let repeat = document.getElementById("psw-repeat").value.trim();
     if (repeat === password && username) {
-      let user = new Parse.User();
-      user.set("username", username);
-      user.set("password", password);
-      try {
-        user = await user.save();
-        if (user !== null) {
-          swal({
-            icon: "success",
-            title: "Account created!",
-            text: "User " + username + " added successfully",
-            button: "Log in",
-            closeOnClickOutside: false,
-            closeOnEsc: false
-          }).then(function() {
-            location.replace("/login.html");
-          });
-          document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
-          document.querySelector(".swal-button").style.boxShadow = "none";
+      if (grecaptcha && grecaptcha.getResponse().length > 0) {
+        let user = new Parse.User();
+        user.set("username", username);
+        user.set("password", password);
+        try {
+          user = await user.save();
+          if (user !== null) {
+            swal({
+              icon: "success",
+              title: "Account created!",
+              text: "User " + username + " added successfully",
+              button: "Log in",
+              closeOnClickOutside: false,
+              closeOnEsc: false
+            }).then(function() {
+              location.replace("/login.html");
+            });
+            document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
+            document.querySelector(".swal-button").style.boxShadow = "none";
+          }
+        } catch (err) {
+          if (err.message.toLowerCase().trim() == "account already exists for this username.") {
+            swal({
+              icon: "error",
+              title: "Error",
+              text: "An account with this username already exists.",
+              button: "Close",
+              closeOnClickOutside: false,
+              closeOnEsc: false
+            }).then(function() {
+              swal.close();
+            });
+            document.querySelector(".swal-button").style.backgroundColor = "#ff0000";
+            document.querySelector(".swal-button").style.boxShadow = "none";
+          } else {
+            alert(err.message);
+          }
         }
-      } catch (err) {
-        if (err.message.toLowerCase().trim() == "account already exists for this username.") {
-          swal({
-            icon: "error",
-            title: "Error",
-            text: "An account with this username already exists.",
-            button: "Close",
-            closeOnClickOutside: false,
-            closeOnEsc: false
-          }).then(function() {
-            swal.close();
-          });
-          document.querySelector(".swal-button").style.backgroundColor = "#ff0000";
-          document.querySelector(".swal-button").style.boxShadow = "none";
-        } else {
-          alert(err.message);
-        }
+      } else {
+        swal({
+          icon: "error",
+          title: "Error",
+          text: "Please verify the recaptcha!",
+          button: "Close",
+          closeOnClickOutside: false,
+          closeOnEsc: false
+        }).then(function() {
+          swal.close();
+        });
       }
     }
   }
