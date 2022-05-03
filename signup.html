@@ -9,8 +9,9 @@
     <meta http-equiv="X-Frame-Options" content="deny">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <title>Signup for Parking Master</title>
-    <style>input{color:#fff!important;background:#ddd!important;}::selection{background-color:#ddd;color:#f9f9f9}input:-webkit-autofill{-webkit-box-shadow:0 0 0px 1000px #ddd inset}body{caret-color:#333;-webkit-tap-highlight-color:transparent;font-family:Arial,Helvetica,sans-serif}*{box-sizing:border-box}input[type=email],input[type=password]{width:100%;padding:15px;margin:5px 0 22px 0;display:inline-block;border:none;background:#f1f1f1}input[type=password]:focus,input[type=text]:focus{background-color:#ddd;outline:0}button{background-color:#333;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:100%;opacity:.9;border-radius:2px}button:hover{opacity:1}.cancelbtn{padding:14px 20px;background-color:#f44336}.signupbtn{float:center;width:100%;position:relative;left:50%;margin-left:-50%}.container{padding:16px}.modal{display:block;position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:transparent;padding-top:50px}.modal-content{background-color:#fefefe;margin:5% auto 15% auto;width:90%}hr{border:1px solid #f1f1f1;margin-bottom:25px}.clearfix::after{content:"";clear:both;display:table}@media screen and (max-width:300px){.signupbtn{width:100%}}</style>
+    <style>input{color:#fff!important;background:#ddd!important;}::selection{background-color:#ddd;color:#f9f9f9}input:-webkit-autofill{-webkit-box-shadow:0 0 0px 1000px #ddd inset}body{caret-color:#333;-webkit-tap-highlight-color:transparent;font-family:Arial,Helvetica,sans-serif}*{box-sizing:border-box}input[type=email],input[type=text],input[type=password]{width:100%;padding:15px;margin:5px 0 22px 0;display:inline-block;border:none;background:#f1f1f1}input[type=password]:focus,input[type=text]:focus{background-color:#ddd;outline:0}button{background-color:#333;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:100%;opacity:.9;border-radius:2px}button:hover{opacity:1}.cancelbtn{padding:14px 20px;background-color:#f44336}.signupbtn{float:center;width:100%;position:relative;left:50%;margin-left:-50%}.container{padding:16px}.modal{display:block;position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:transparent;padding-top:50px}.modal-content{background-color:#fefefe;margin:5% auto 15% auto;width:90%}hr{border:1px solid #f1f1f1;margin-bottom:25px}.clearfix::after{content:"";clear:both;display:table}@media screen and (max-width:300px){.signupbtn{width:100%}}</style>
     <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?onload=onReady"></script>
   </head>
 <body>
 <div class="modal">
@@ -20,11 +21,11 @@
       <div style="color:#ddd;text-align:center;"><a style="text-decoration:none;color:#ddd;border-bottom:0.006vw solid #ddd;" href="https://parkingmaster-2.w3spaces.com/help.html">Help</a>&nbsp;&nbsp;&bullet;&nbsp;&nbsp;<a style="text-decoration:none;color:#ddd;border-bottom:0.006vw solid #ddd;" href="login.html">Login instead</a></div>
     
       <hr>
-      <label for="email" style="color:#ddd;"><b>Email</b></label>
-      <input autocorrect="off" spellcheck="false" autocomplete="off" id="email-val" type="email" placeholder="Enter Email" name="email" required style="outline:none!important;">
+      <label for="email" style="color:#ddd;"><b>Username</b></label>
+      <input autocorrect="off" spellcheck="false" autocomplete="off" id="email-val" type="text" placeholder="Create Username" name="email" required style="outline:none!important;">
       
       <label for="psw" style="color:#ddd;"><b>Password</b></label>
-      <input autocorrect="off" spellcheck="false" autocomplete="off" id="pass-val" type="password" placeholder="Enter Password" name="psw" required>
+      <input autocorrect="off" spellcheck="false" autocomplete="off" id="pass-val" type="password" placeholder="Create Password" name="psw" required>
 
       <label for="psw-repeat" style="color:#ddd;"><b>Repeat Password</b></label>
       <input autocorrect="off" spellcheck="false" autocomplete="off" type="password" placeholder="Repeat Password" id="psw-repeat" name="psw-repeat" required>
@@ -32,6 +33,8 @@
       <label style="color:#ddd;">
         <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
       </label>
+
+      <div class="g-recaptcha" data-theme="light" data-sitekey="6LcEhsAfAAAAABaoJv6CDN2VPxwugGGVA93ehC6W" style="display: inline-block;"></div>
 
       <p style="color:#ddd;">By creating an account you agree to our <a href="https://parkingmaster-2.w3spaces.com/legal/terms-of-use.html" style="color:#ddd">Terms & Privacy</a>.</p>
       <hr>
@@ -45,23 +48,21 @@
   Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee");
   Parse.serverURL = "https://parseapi.back4app.com/";
   async function signup() {
-    let email = document.getElementById("email-val").value.trim();
-    let username = email.split("@")[0];
+    let username = document.getElementById("email-val").value.trim();
     let password = document.getElementById("pass-val").value.trim();
     let repeat = document.getElementById("psw-repeat").value.trim();
-    if (repeat === password && username && email) {
+    if (repeat === password && username) {
       let user = new Parse.User();
-      user.set("username", username.replace(/0|1|2|3|4|5|6|7|8|9/i, "") + (Math.random().toString().substr(2, 8)));
-      user.set("email", email);
+      user.set("username", username);
       user.set("password", password);
       try {
         user = await user.save();
         if (user !== null) {
           swal({
             icon: "success",
-            title: "Verify your email",
-            text: "Please check your inbox at " + email.toString(),
-            button: "Dismiss",
+            title: "Account created!",
+            text: "User " + username + " added successfully",
+            button: "Log in",
             closeOnClickOutside: false,
             closeOnEsc: false
           }).then(function() {
@@ -71,12 +72,12 @@
           document.querySelector(".swal-button").style.boxShadow = "none";
         }
       } catch (err) {
-        if (err.message.toLowerCase().trim() == "account already exists for this username." || err.message.toLowerCase().trim() == "account already exists for this email address.") {
+        if (err.message.toLowerCase().trim() == "account already exists for this username.") {
           swal({
             icon: "error",
             title: "Error",
-            text: "An account with this email address already exists.",
-            button: "Dismiss",
+            text: "An account with this username already exists.",
+            button: "Close",
             closeOnClickOutside: false,
             closeOnEsc: false
           }).then(function() {
