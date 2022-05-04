@@ -615,12 +615,42 @@
       function mouseMRightUp() {
         gametime.run("PushUpRight");
       }
-      document.addEventListener("keydown", handler, true);
-      function handler(e) {
-        e.stopPropagation();
-        e.preventDefault();
-        mouseMDown();
-      }
+      document.body.addEventListener("keydown", function(e) {
+        if (e.key == "ArrowUp") {
+          e.preventDefault();
+          mouseMDown();
+        }
+        if (e.key == "ArrowLeft") {
+          e.preventDefault();
+          mouseMLeftDown();
+        }
+        if (e.key == "ArrowDown") {
+          e.preventDefault();
+          mouseMReverseDown();
+        }
+        if (e.key == "ArrowRight") {
+          e.preventDefault();
+          mouseMRightDown();
+        }
+      });
+      document.body.addEventListener("keyup", function(e) {
+        if (e.key == "ArrowUp") {
+          e.preventDefault();
+          mouseMUp();
+        }
+        if (e.key == "ArrowLeft") {
+          e.preventDefault();
+          mouseMLeftUp();
+        }
+        if (e.key == "ArrowDown") {
+          e.preventDefault();
+          mouseMReverseUp();
+        }
+        if (e.key == "ArrowRight") {
+          e.preventDefault();
+          mouseMRightUp();
+        }
+      });
     </script>
   </body>
 </html>
