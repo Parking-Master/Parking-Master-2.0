@@ -617,8 +617,8 @@
       }
       document.body.addEventListener("keydown", function(e) {
         if (e.key == "ArrowUp") {
-          e.preventDefault();
           e.stopPropagation();
+          e.preventDefault();
           mouseMDown();
         }
       }, true);
