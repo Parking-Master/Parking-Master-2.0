@@ -618,9 +618,10 @@
       document.body.addEventListener("keydown", function(e) {
         if (e.key == "ArrowUp") {
           e.preventDefault();
+          e.stopPropagation();
           mouseMDown();
         }
-      });
+      }, true);
     </script>
   </body>
 </html>
