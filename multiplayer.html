@@ -232,8 +232,8 @@
     globalDrivefunction = mouseDown;
     function blank() {}
     function shiftOption(src) {
-      src == "D" && (globalDrivefunction = mouseDown);
-      src == "R" && (globalDrivefunction = mouseReverseDown);
+      src == "D" && (globalDrivefunction = mouseMDown);
+      src == "R" && (globalDrivefunction = mouseMReverseDown);
       src == "P" && ((globalDrivefunction = blank), parkOption());
       src == "A" && ((globalDrivefunction = blank), simple.confirm("Auto Park Option (APO): Requires at least 100+ PTS. Would you like to use it one time?", () => { localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 100).toString()); stopTimer(); autoPark(); })); (parseFloat(localStorage["current_pts"], 0)) < 100 && (document.querySelector(".swal-button--confirm").disabled = "disabled");
     }
@@ -242,6 +242,7 @@
     }
     function stop() {
       mouseUp(), mouseLeftUp(), mouseReverseUp(), mouseRightUp();
+      mouseMUp(), mouseMLeftUp(), mouseMReverseUp(), mouseMRightUp();
     }
     function parkOption(auto = false) {
       let carPositionX = ((((coordinates.x * window.innerHeight / 10) / 5) * window.innerHeight / 10) / 5 * window.innerHeight / 10);
@@ -293,10 +294,10 @@
       }
     }
     window.onmessage = function(e) {
-      e.data == "mouseLeftDown()" && mouseLeftDown();
-      e.data == "mouseRightDown()" && mouseRightDown();
-      e.data == "mouseLeftUp()" && mouseLeftUp();
-      e.data == "mouseRightUp()" && mouseRightUp();
+      e.data == "mouseLeftDown()" && mouseMLeftDown();
+      e.data == "mouseRightDown()" && mouseMRightDown();
+      e.data == "mouseLeftUp()" && mouseMLeftUp();
+      e.data == "mouseRightUp()" && mouseMRightUp();
     };
     var carsarr = [];
     class Car {
@@ -578,10 +579,42 @@
       gametime.make("PushReverse");
       gametime.make("PushLeft");
       gametime.make("PushRight");
+      gametime.make("PushUpDrive");
+      gametime.make("PushUpReverse");
+      gametime.make("PushUpLeft");
+      gametime.make("PushUpRight");
       gametime.on("PushDrive", mouseDown);
       gametime.on("PushReverse", mouseReverseDown);
       gametime.on("PushLeft", mouseLeftDown);
       gametime.on("PushRight", mouseRightDown);
+      gametime.on("PushUpDrive", mouseUp);
+      gametime.on("PushUpReverse", mouseReverseUp);
+      gametime.on("PushUpLeft", mouseLeftUp);
+      gametime.on("PushUpRight", mouseRightUp);
+      function mouseMDown() {
+        gametime.run("PushDrive");
+      }
+      function mouseMReverseDown() {
+        gametime.run("PushReverse");
+      }
+      function mouseMLeftDown() {
+        gametime.run("PushLeft");
+      }
+      function mouseMRightDown() {
+        gametime.run("PushRight");
+      }
+      function mouseMUp() {
+        gametime.run("PushUpDrive");
+      }
+      function mouseMReverseUp() {
+        gametime.run("PushUpReverse");
+      }
+      function mouseMLeftUp() {
+        gametime.run("PushUpLeft");
+      }
+      function mouseMRightUp() {
+        gametime.run("PushUpRight");
+      }
     </script>
   </body>
 </html>
