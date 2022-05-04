@@ -618,7 +618,6 @@
       document.body.addEventListener("keydown", function(e) {
         if (e.key == "ArrowUp") {
           e.preventDefault();
-          mouseMDown();
         }
         if (e.key == "ArrowLeft") {
           e.preventDefault();
@@ -637,22 +636,18 @@
         if (e.key == "ArrowUp") {
           e.preventDefault();
           mouseMUp();
-          mouseUp();
         }
         if (e.key == "ArrowLeft") {
           e.preventDefault();
           mouseMLeftUp();
-          mouseLeftUp();
         }
         if (e.key == "ArrowDown") {
           e.preventDefault();
           mouseMReverseUp();
-          mouseReverseUp();
         }
         if (e.key == "ArrowRight") {
           e.preventDefault();
           mouseMRightUp();
-          mouseRightUp();
         }
       });
     </script>
