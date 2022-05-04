@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Parking Master 2.0 LVL 0</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Simple-Alert@latest/simplealert.min.js"></script>
+    <style>
+      html, body {
+        background: #f2f2f2;
+        font-family: Arial, Helvetica, sans-serif;
+        user-select: none !important;
+        overflow: hidden !important;
+        cursor: crosshair !important;
+      }
+      * {
+        cursor: crosshair !important;
+      }
+      body {
+        border: 2px dashed #ff9900;
+      }
+      .controls * {
+        z-index: 9999;
+      }
+      .controls {
+        position: absolute;
+        background: #fff;
+        padding: 10px;
+        padding-left: 100px;
+        border-top-right-radius: 4px;
+        border-bottom-right-radius: 4px;
+        left: -55px !important;
+        transition: left .2s;
+      }
+      .controls:hover {
+        left: -10px !important;
+      }
+      .parking-lot {
+        position: absolute;
+        transform: rotateX(50deg);
+      }
+      img {
+        pointer-events: none !important;
+      }
+      .controls button {
+        background: #eee;
+        border-radius: 4px;
+        border-right: 1px solid #555;
+        border-bottom: 1px solid #555;
+        border-left: 1px solid #eee;
+        border-top: 1px solid #eee;
+      }
+      .controls button:active {
+        border-right: 1px solid #eee;
+        border-bottom: 1px solid #eee;
+        border-left: 1px solid #555;
+        border-top: 1px solid #555;
+      }
+      .controls select {
+        background: #eee;
+        border-radius: 4px;
+        border-right: 1px solid #555;
+        border-bottom: 1px solid #555;
+        border-left: 1px solid #eee;
+        border-top: 1px solid #eee;
+      }
+      canvas {
+        position: absolute;
+        top: 0 !important;
+      }
+      .timer {
+        position: absolute;
+        left: 90.5%;
+        top: 80%;
+        font-family: Arial, Helvetica, sans-serif;
+        z-index: 9999;
+        font-size: 2.8vw;
+        color: #a1a1a1;
+        font-weight: bold;
+      }
+      .alertify-notifier.ajs-bottom.ajs-right {
+        z-index: 9999;
+      }
+      .ajs-message {
+        display: block !important;
+      }
+      #slider {
+        position: absolute;
+        z-index: 9999;
+        background: #ddd;
+        color: #fff;
+        font-weight: bold;
+        border-top-left-radius: 6px;
+        border-bottom-left-radius: 6px;
+        padding: 10px;
+        left: 100%;
+        top: 10vw;
+        width: 30vw;
+        font-size: 2vw;
+        transition: left .25s;
+      }
+      svg {
+        fill: #fff;
+        margin: -1px;
+        transform: scale(0.8vw), translateY(2px);
+      }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Gametime.js@latest/Gametime.min.js"></script>
+  </head>
+  <body>
+    <audio autoplay src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master-2.0@latest/sounds/car-start.mp3"></audio>
+    <audio id="first_drive" src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master-2.0@latest/sounds/car-first-drive.mp3"></audio>
+    <script name="three.js" src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/jjcc1421/Three3DExtras@latest/three3DExtras.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master@latest/threejs/main.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/gh/alvaromontoro/gamecontroller.js@latest/dist/gamecontroller.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master@master/libs/gamepad.js"></script>
+    <div class="controls" style="position:absolute;left:10%;top:70%;z-index:9999;">
+      <select value="D" onchange="shiftOption(this.value)">
+        <option value="D">D</option>
+        <option value="R">R</option>
+        <option value="P">P</option>
+        <option value="A">A</option>
+      </select>
+      <button onmousedown="go()" onmouseup="stop()" onmouseout="stop()" ontouchstart="go()" ontouchend="stop()" ontouchcancel="stop()">GO</button>
+      <button onmousedown="stop()">STOP</button>
+      <br>
+      <iframe class="steering" src="https://parking-master.github.io/Parking-Master/game/steering.html#steering" scrolling="no" style="margin:0!important;height:90px;width:100px;border:none!important;outline:none!important;"></iframe>
+    </div>
+    <span class="timer">00:15</span>
+    <img class="parking-lot" src="./images/parking-spots/lvl0.png" style="position:absolute;width:100vw;z-index:9998;top:-8.5vw;left:50%;margin-left:-50vw;" />
+    <div id="slider"></div>
+    <script>
+      if (!localStorage["car"]) {
+        window.default_specs = [60, -18, 18, 33, -6];
+        window.defaultCar = {
+          baseColor: "#999",
+          windowColor: "#222",
+          roofColor: "#fff",
+          minSpeed: 2,
+          maxSpeed: 20
+        };
+      } else {
+        window.default_specs = JSON.parse(localStorage["car"]).default_specs;
+        window.defaultCar = JSON.parse(localStorage["car"]);
+      }
+    function GameOver() {
+      window.onkeydown = null;
+      document.onkeydown = null;
+      document.documentElement.onkeydown = null;
+      window.addEventListener("keydown", function(e) { return e.preventDefault() });
+      document.addEventListener("keydown", function(e) { return e.preventDefault() });
+      document.body.addEventListener("keydown", function(e) { return e.preventDefault() });
+      document.body.onkeydown = function(e) {
+        if (e.key == "Enter") {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      };
+      document.documentElement.addEventListener("keydown", function(e) { return e.preventDefault() });
+      swal({
+        icon: "https://user-images.githubusercontent.com/88283567/133125808-dc7f4b5b-f810-4132-b1bf-b65b1b640001.png",
+        title: "Game Over",
+        text: "You ran out of time!",
+        buttons: ["Close", "Try Again (10 PTS)"],
+        closeOnEsc: false,
+        closeOnClickOutside: false
+      }).then(function(e) {
+        if (e) {
+          localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 10).toString());
+          return window.location.reload();
+        }
+        localStorage["current_lvl"] = "lvl0";
+        top.location.replace("/");
+      });
+      for (let i = 0; i < document.querySelectorAll(".swal-button").length; i++) {
+        document.querySelectorAll(".swal-button")[i].style.backgroundColor = "#222";
+        document.querySelectorAll(".swal-button")[i].style.color = "#fff";
+        document.querySelectorAll(".swal-button")[i].style.boxShadow = "none";
+        if (parseFloat(localStorage["current_pts"], 0) < 10) {
+          document.querySelector(".swal-button--confirm").disabled = "disabled";
+        }
+      }
+      document.querySelector(".swal-icon").style.width = "20%";
+      document.addEventListener("keydown", handler, true);
+      function handler(e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+    }
+    let timerCount = 15;
+    let timeLeft = timerCount.toString();
+    let over = setInterval(function() {
+      if (timerCount == 0) {
+        return GameOver(), clearInterval(over);
+      }
+      timerCount -= 1;
+      if (timerCount <= 2) {
+        // capture(100, 100, 1, ".swal-icon");
+      }
+      timeLeft = timerCount;
+      if (timerCount.toString().length == 1) {
+        timeLeft = "0" + timerCount.toString();
+      }
+      document.querySelector("span.timer").textContent = "00:" + timeLeft;
+    }, 1000);
+    function stopTimer() {
+      clearInterval(over);
+    }
+    function checkTouching(a, d) {
+      let b1 = a.position.y - a.geometry.parameters.height / 2;
+      let t1 = a.position.y + a.geometry.parameters.height / 2;
+      let r1 = a.position.x + a.geometry.parameters.width / 2;
+      let l1 = a.position.x - a.geometry.parameters.width / 2;
+      let f1 = a.position.z - a.geometry.parameters.depth / 2;
+      let B1 = a.position.z + a.geometry.parameters.depth / 2;
+      let b2 = d.position.y - d.geometry.parameters.height / 2;
+      let t2 = d.position.y + d.geometry.parameters.height / 2;
+      let r2 = d.position.x + d.geometry.parameters.width / 2;
+      let l2 = d.position.x - d.geometry.parameters.width / 2;
+      let f2 = d.position.z - d.geometry.parameters.depth / 2;
+      let B2 = d.position.z + d.geometry.parameters.depth / 2;
+      if (t1 < b2 || r1 < l2 || b1 > t2 || l1 > r2 || f1 > B2 || B1 < f2) {
+        return false;
+      }
+      return true;
+    }
+    globalDrivefunction = mouseDown;
+    function blank() {}
+    function shiftOption(src) {
+      src == "D" && (globalDrivefunction = mouseDown);
+      src == "R" && (globalDrivefunction = mouseReverseDown);
+      src == "P" && ((globalDrivefunction = blank), parkOption());
+      src == "A" && ((globalDrivefunction = blank), simple.confirm("Auto Park Option (APO): Requires at least 100+ PTS. Would you like to use it one time?", () => { localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 100).toString()); stopTimer(); autoPark(); })); (parseFloat(localStorage["current_pts"], 0)) < 100 && (document.querySelector(".swal-button--confirm").disabled = "disabled");
+    }
+    function go() {
+      globalDrivefunction();
+    }
+    function stop() {
+      mouseUp(), mouseLeftUp(), mouseReverseUp(), mouseRightUp();
+    }
+    function parkOption(auto = false) {
+      let carPositionX = ((((coordinates.x * window.innerHeight / 10) / 5) * window.innerHeight / 10) / 5 * window.innerHeight / 10);
+      let e = ["Good", "Good job!", "Nice!", "Awesome!"];
+      let t = e[Math.floor(Math.random() * e.length)];
+      if (auto) {
+        stopTimer();
+        swal({
+          icon: "success",
+          title: t,
+          text: "You parked! Click Next to continue.",
+          button: "Next",
+          closeOnClickOutside: true,
+          closeOnEnterKey: true
+        }).then(function() {
+          localStorage.setItem("current_lvl", "lvl1");
+          localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
+          location.replace("lvl1.html");
+        });
+        document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
+        return;
+      }
+      if (carPositionX < 0 && Math.abs(carPositionX).toString().substr(0, 1) == "3") {
+        stopTimer();
+        swal({
+          icon: "success",
+          title: t,
+          text: "You parked! Click Next to continue.",
+          button: "Next",
+          closeOnClickOutside: true,
+          closeOnEnterKey: true
+        }).then(function() {
+          localStorage.setItem("current_lvl", "lvl1");
+          localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
+          location.replace("lvl1.html");
+        });
+        document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
+      } else {
+        let e = document.createElement("div");
+        e.innerHTML = '<span style="color:#444;">Try <span style="color:#DB4437;text-decoration:underline;">parking again</span> or <span style="color:#DB4437;text-decoration:underline;">get closer</span> to the spot.';
+        swal({
+          icon: "error",
+          title: "You didn't park",
+          content: e
+        }).then(function() {
+          swal.close();
+        });
+        document.querySelector(".swal-button").style.backgroundColor = "#DB4437";
+      }
+    }
+    window.onmessage = function(e) {
+      e.data == "mouseLeftDown()" && mouseLeftDown();
+      e.data == "mouseRightDown()" && mouseRightDown();
+      e.data == "mouseLeftUp()" && mouseLeftUp();
+      e.data == "mouseRightUp()" && mouseRightUp();
+    };
+    var carsarr = [];
+    class Car {
+        constructor(e, t, n, o) {
+            if ("object" == typeof e) {
+                var carobj;
+                var r = e;
+                e = r.car.baseColor, carobj = {}, carobj.minSpeed = r.car.minSpeed, carobj.maxSpeed = r.car.maxSpeed, t = r.canvasColor, n = r.width, o = r.height
+            }
+            document.head.innerHTML += "<style>body{margin:0;font-weight:100;float:none;overflow:hidden}canvas{position:relative;width:" + n + "!important;height:" + o + "!important;margin:0;padding:0;border:none;outline:0}</style>";
+            let a = r.car.roofColor, i = r.car.windowColor;
+            const s = new THREE.Scene;
+            THREE.DrawLine = class {
+                constructor(e, t, n, o, r) {
+                    var a = new three3DExtras.tubeLine([1, 0, 1], [10, 0, 2], t / 2, n),
+                        i = new three3DExtras.tubeLine([1, 0, 1], [10, 0, 2], t / 2, n);
+                    e.add(a.getObject3D()), e.add(i.getObject3D())
+                }
+            }, s.background = new THREE.Color(t.toString());
+            const c = function() {
+                const t = new THREE.Group,
+                    n = R();
+                n.position.y = 6, n.position.x = /*-18*/default_specs[1], window.car_object = n;
+                t.add(n);
+                const o = R();
+                o.position.y = 6, o.position.x = /*18*/default_specs[2], t.add(o);
+                const r = new THREE.Mesh(new THREE.BoxBufferGeometry(/*60*/default_specs[0], 15, 30), new THREE.MeshLambertMaterial({
+                    color: e
+                }));
+                r.position.y = 12, t.add(r);
+                const i = p(),
+                    s = p(),
+                    c = H(),
+                    d = H();
+                d.center = new THREE.Vector2(.5, .5), d.rotation = Math.PI, d.flipY = !1;
+                const l = new THREE.Mesh(new THREE.BoxBufferGeometry(/*33*/default_specs[3], 15, 26), [new THREE.MeshLambertMaterial({
+                    map: i
+                }), new THREE.MeshLambertMaterial({
+                    map: s
+                }), new THREE.MeshLambertMaterial({
+                    color: a
+                }), new THREE.MeshLambertMaterial({
+                    color: a
+                }), new THREE.MeshLambertMaterial({
+                    map: c
+                }), new THREE.MeshLambertMaterial({
+                    map: d
+                })]);
+                return l.position.x = default_specs[4], l.position.y = 25.5, t.add(l), t
+            }();
+            c.position.y = -50;
+            setInterval(() => (window.coordinates = c.position));
+            c.name = "car1";
+            s.add(c);
+            window.removeCar = function() {
+              let selectedObject = s.getObjectByName(c.name);
+              s.remove(selectedObject);
+            };
+            window.autoPark = function() {
+                c.position.x = 0, c.position.y = -50, c.position.z = 0;
+                document.querySelector("canvas").remove();
+                var car = new Car({
+                  car: window.defaultCar,
+                  canvasColor: "#f2f2f2",
+                  width: "100%",
+                  height: "100%"
+                });
+                mouseLeftDown();
+                setTimeout(mouseLeftUp, 1000);
+                setTimeout(function() {
+                  mouseDown();
+                  setTimeout(mouseUp, 100);
+                }, 1500);
+                setTimeout(function() {
+                  mouseLeftDown();
+                  setTimeout(mouseLeftUp, 300);
+                }, 1800);
+                setTimeout(function() {
+                  mouseDown();
+                  setTimeout(mouseUp, 650);
+                  setTimeout(() => parkOption(true), 650);
+                }, 2500);
+            };
+            const d = new THREE.AmbientLight(16777215, .6);
+            s.add(d);
+            const l = new THREE.DirectionalLight(16777215, .8);
+            l.position.set(200, 500, 300), s.add(l);
+            const E = 300 / (window.innerWidth / window.innerHeight),
+                w = new THREE.OrthographicCamera(-150, 150, E / 2, E / -2, 200, 800);
+            w.position.set(200, 200, 200), w.lookAt(0, 10, 0);
+            const f = new THREE.WebGLRenderer({
+                antialias: !0
+            });
+            f.setSize(window.innerWidth, window.innerHeight), f.render(s, w);
+            let h = 0,
+                m = "";
+            document.body.addEventListener("keydown", (e => {
+                "F12" == e.key || (e.preventDefault(), m = e.key)
+            }));
+            var x6 = 4;
+            var x5 = carobj.minSpeed / 17.5;
+            document.body.addEventListener("keyup", (e => {
+                "F12" == e.key || (m = "");
+                x6 = 4
+            }));
+            const u = () => {
+                switch (m) {
+                    case "ArrowUp":
+                        x6 >= carobj.maxSpeed ? (x6 = carobj.maxSpeed) : (x6 += x5);
+                        c.translateX(x6);
+                        break;
+                    case "ArrowDown":
+                        x6 >= carobj.maxSpeed ? (x6 = carobj.maxSpeed) : (x6 += x5);
+                        c.translateX(-x6);
+                        break;
+                    case "ArrowLeft":
+                        h += .03, c.rotation.y = h;
+                        c.translateX(1);
+                        break;
+                    case "ArrowRight":
+                        h -= .03, c.rotation.y = h;
+                        c.translateX(-1);
+                }
+                window.requestAnimationFrame(u)
+            };
+
+            function R() {
+                const e = new THREE.BoxBufferGeometry(12, 12, 33),
+                    t = new THREE.MeshLambertMaterial({
+                        color: "#333"
+                    });
+                return new THREE.Mesh(e, t)
+            }
+
+            function p() {
+                const e = document.createElement("canvas");
+                e.width = 64, e.height = 32;
+                const t = e.getContext("2d");
+                return t.fillStyle = "#ffffff", t.fillRect(0, 0, 64, 32), t.fillStyle = i, t.fillRect(8, 8, 48, 24), new THREE.CanvasTexture(e)
+            }
+
+            function H() {
+                const e = document.createElement("canvas");
+                e.width = 128, e.height = 32;
+                const t = e.getContext("2d");
+                return t.fillStyle = "#ffffff", t.fillRect(0, 0, 128, 32), t.fillStyle = i, t.fillRect(10, 8, 38, 24), t.fillRect(58, 8, 60, 24), new THREE.CanvasTexture(e)
+            }
+            window.requestAnimationFrame(u), f.setAnimationLoop((() => {
+                f.render(s, w)
+            })), document.body.appendChild(f.domElement), document.querySelector("canvas").oncontextmenu = function(e) { /*return e.preventDefault()*/ }
+        }
+    }
+    var car = new Car({
+      car: window.defaultCar,
+      canvasColor: "#f2f2f2",
+      width: "100%",
+      height: "100%"
+    });
+    function mouseDown() {
+      document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp" }));
+      const l = document.querySelector("#first_drive");
+      l.currentTime = 1;
+      l.play();
+    }
+    function mouseReverseDown() {
+      document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
+      const l = document.querySelector("#first_drive");
+      l.currentTime = 1;
+      l.play();
+    }
+    function mouseLeftDown() {
+      document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }));
+      const l = document.querySelector("#first_drive");
+      l.currentTime = 1;
+      l.play();
+    }
+    function mouseRightDown() {
+      document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));
+      const l = document.querySelector("#first_drive");
+      l.currentTime = 1;
+      l.play();
+    }
+    function mouseUp() {
+      let interval;
+      let timeout;
+      document.body.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowUp" }));
+      interval = setInterval(fade, 200);
+      function fade() {
+        var sounds = document.querySelector("#first_drive");
+        var newVolume = sounds.volume - 0.3;
+        if (newVolume >= 0) {
+          sounds.volume = newVolume;
+        } else {
+          clearInterval(interval);
+          sounds.pause();
+          sounds.currentTime = 0;
+          sounds.volume = 1;
+        }
+      }
+    }
+    function mouseReverseUp() {
+      let interval;
+      let timeout;
+      document.body.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowDown" }));
+      interval = setInterval(fade, 200);
+      function fade() {
+        var sounds = document.querySelector("#first_drive");
+        var newVolume = sounds.volume - 0.3;
+        if (newVolume >= 0) {
+          sounds.volume = newVolume;
+        } else {
+          clearInterval(interval);
+          sounds.pause();
+          sounds.currentTime = 0;
+          sounds.volume = 1;
+        }
+      }
+    }
+    function mouseLeftUp() {
+      let interval;
+      let timeout;
+      document.body.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowLeft" }));
+      interval = setInterval(fade, 200);
+      function fade() {
+        var sounds = document.querySelector("#first_drive");
+        var newVolume = sounds.volume - 0.3;
+        if (newVolume >= 0) {
+          sounds.volume = newVolume;
+        } else {
+          clearInterval(interval);
+          sounds.pause();
+          sounds.currentTime = 0;
+          sounds.volume = 1;
+        }
+      }
+    }
+    function mouseRightUp() {
+      let interval;
+      let timeout;
+      document.body.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowRight" }));
+      interval = setInterval(fade, 200);
+      function fade() {
+        var sounds = document.querySelector("#first_drive");
+        var newVolume = sounds.volume - 0.3;
+        if (newVolume >= 0) {
+          sounds.volume = newVolume;
+        } else {
+          clearInterval(interval);
+          sounds.pause();
+          sounds.currentTime = 0;
+          sounds.volume = 1;
+        }
+      }
+    }
+    function windowMessage(msg) {
+      document.querySelector("#slider").style.left = "75vw";
+      document.querySelector("#slider").innerHTML = msg;
+      setTimeout(function() {
+        document.querySelector("#slider").style.left = "100%";
+        setTimeout(function() {
+          document.querySelector("#slider").innerHTML = "";
+        }, 500);
+      }, 2500);
+    }
+    Gamepad.Context.AButtonPressed = function() {
+      parkOption();
+    };
+    Gamepad.onConnect = () => {
+      windowMessage(`Gamepad Connected <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.46 7.594c2.21 5.602 2.54 8.12 2.54 9.123 0 .797-.299.866-.525.664-2.932-2.607-3.57-3.38-5.858-3.38h-7.233c-2.282 0-2.895.746-5.858 3.381-.228.201-.526.13-.526-.665 0-1.003.33-3.522 2.541-9.123.639-1.616 1.763-1.88 2.771-1.361 3.068 1.581 6.498 1.482 9.377 0 1.002-.518 2.129-.263 2.771 1.361zm-1.836-3.594c-.656 0-1.298.17-1.852.456-2.397 1.235-5.146 1.236-7.544 0-.554-.286-1.196-.456-1.852-.456-1.403 0-2.873.777-3.695 2.86-1.736 4.396-2.681 7.794-2.681 9.857 0 1.586.56 2.59 1.749 3.178.143.071.297.105.449.105.243 0 .483-.087.672-.255l3.109-2.745c.558-.494 1.044-1.004 2.404-1.004h7.232c1.36 0 1.847.51 2.404 1.004l3.109 2.745c.191.168.432.255.674.255.153 0 .307-.034.449-.105 1.189-.588 1.749-1.592 1.749-3.179 0-2.062-.945-5.461-2.68-9.856-.822-2.083-2.293-2.86-3.696-2.86zm-2.874 5.75c.414 0 .75.335.75.75s-.336.75-.75.75-.75-.335-.75-.75.336-.75.75-.75zm1.75 3.25c-.414 0-.75-.335-.75-.75s.336-.75.75-.75.75.335.75.75-.336.75-.75.75zm0-3.531c-.414 0-.75-.335-.75-.75s.336-.75.75-.75.75.335.75.75-.336.75-.75.75zm1.734 1.781c-.414 0-.75-.335-.75-.75s.336-.75.75-.75.75.335.75.75-.336.75-.75.75zm-10.734-2.25c.827 0 1.5.673 1.5 1.5s-.673 1.5-1.5 1.5-1.5-.673-1.5-1.5.673-1.5 1.5-1.5zm0-1c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5-1.119-2.5-2.5-2.5zm4.5 0c-.553 0-1 .448-1 1s.447 1 1 1 1-.448 1-1-.447-1-1-1z"/></svg>`);
+    };
+    document.body.addEventListener("keydown", function(e) {
+      (!e.repeat && e.key == "Enter") && parkOption();
+    });
+    </script>
+    <script>
+      gametime.set("key", "pub-c-74710794-cf40-43e3-ae10-d978cbdb8822", "sub-c-4da51a44-cbb3-11ec-924a-fed9c56767c0");
+      gametime.set("channel", "multiplayer_test");
+      gametime.make("PushDrive");
+      gametime.make("PushReverse");
+      gametime.make("PushLeft");
+      gametime.make("PushRight");
+      gametime.on("PushDrive", mouseDown);
+      gametime.on("PushReverse", mouseReverseDown);
+      gametime.on("PushLeft", mouseLeftDown);
+      gametime.on("PushRight", mouseRightDown);
+    </script>
+  </body>
+</html>
