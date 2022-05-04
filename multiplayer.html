@@ -615,6 +615,12 @@
       function mouseMRightUp() {
         gametime.run("PushUpRight");
       }
+      document.body.addEventListener("keydown", function(e) {
+        if (e.key == "ArrowUp") {
+          e.preventDefault();
+          mouseMDown();
+        }
+      });
     </script>
   </body>
 </html>
