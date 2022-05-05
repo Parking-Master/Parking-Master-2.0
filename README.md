@@ -7,6 +7,9 @@ Fully upgraded GUI, Security & In-Game Experience!
 <br>
 ## History
 Parking-Master 1.0 (v1.0.0) is the first and official version of Parking Master, released on the first of August in 2021.
+
+<details>
+<summary>View history</summary>
 <br>
 <br>
 v1.9
@@ -18,6 +21,7 @@ v1.6
 < v1.0 (in production)
 <img src="https://user-images.githubusercontent.com/88283567/164761406-fb962e3a-d0e9-45e9-b265-6236ee649efe.png" />
 <br>
+</details>
 
 The latest version since then is 1.9, the latest and last version of Parking Master.
 <br>
@@ -43,3 +47,15 @@ With internet connection, all players are welcomed to play multiplayer in the we
 Multiplayer Parking Master 2.0 will have level-based challenges, but with multiplayer.
 <br>
 Players will be able to create a lobby name, go to the public "Lobby" page, and view/create a multiplayer server.
+## Credits
+A list of items that helped make Parking-Master-2.0 possible.
+
+##### SweetAlert
+##### TippyJS
+##### SecurityJS.128
+##### Parking-Master
+##### Canva
+##### Gametime.js
+##### Back4App
+##### Parse API
+##### Node.js
