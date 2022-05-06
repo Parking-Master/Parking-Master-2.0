@@ -1,655 +1,450 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-    <title>Parking Master 2.0 LVL 0</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <script type="text/javascript" src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/alertify.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/css/themes/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/alertifyjs@1.11.1/build/alertify.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Simple-Alert@latest/simplealert.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Gametime.js@latest/Gametime.min.js"></script>
+    <title>Parking Master 2.0 Multiplayer</title>
     <style>
-      html, body {
-        background: #f2f2f2;
-        font-family: Arial, Helvetica, sans-serif;
-        user-select: none !important;
-        overflow: hidden !important;
-        cursor: crosshair !important;
-      }
-      * {
-        cursor: crosshair !important;
-      }
       body {
-        border: 2px dashed #ff9900;
+        overflow: hidden;
       }
-      .controls * {
-        z-index: 9999;
-      }
-      .controls {
+      .banner-blue {
         position: absolute;
-        background: #fff;
-        padding: 10px;
-        padding-left: 100px;
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
-        left: -55px !important;
-        transition: left .2s;
+        left: 0;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 45px;
+        background: #0000FF;
+        z-index: 10;
       }
-      .controls:hover {
-        left: -10px !important;
-      }
-      .parking-lot {
+      .banner-red {
         position: absolute;
-        transform: rotateX(50deg);
-      }
-      img {
-        pointer-events: none !important;
-      }
-      .controls button {
-        background: #eee;
-        border-radius: 4px;
-        border-right: 1px solid #555;
-        border-bottom: 1px solid #555;
-        border-left: 1px solid #eee;
-        border-top: 1px solid #eee;
-      }
-      .controls button:active {
-        border-right: 1px solid #eee;
-        border-bottom: 1px solid #eee;
-        border-left: 1px solid #555;
-        border-top: 1px solid #555;
-      }
-      .controls select {
-        background: #eee;
-        border-radius: 4px;
-        border-right: 1px solid #555;
-        border-bottom: 1px solid #555;
-        border-left: 1px solid #eee;
-        border-top: 1px solid #eee;
+        left: 0;
+        top: 100%;
+        bottom: 0;
+        right: 0;
+        margin-top: -45px;
+        width: 100%;
+        height: 45px;
+        background: #FF0000;
+        z-index: 10;
       }
       canvas {
-        position: absolute;
-        top: 0 !important;
+        border: 2px solid #e9e9e9;
+        background: #FFF;
+        border-radius: 3px;
+        padding: 0;
+        margin: 20px;
+        position: relative;
+        margin-top: 20vh;
       }
-      .timer {
-        position: absolute;
-        left: 90.5%;
-        top: 80%;
-        font-family: Arial, Helvetica, sans-serif;
-        z-index: 9999;
-        font-size: 2.8vw;
-        color: #a1a1a1;
-        font-weight: bold;
+      canvas[player="1"] {
+        position: relative;
+        border-color: #0000FF;
+        left: 50%;
+        margin-left: -620px;
       }
-      .alertify-notifier.ajs-bottom.ajs-right {
-        z-index: 9999;
+      canvas[player="2"] {
+        position: relative;
+        border-color: #FF0000;
+        left: 50%;
       }
-      .ajs-message {
-        display: block !important;
+      .btn.btn-main {
+        user-select: none !important;
+        cursor: pointer;
+        box-sizing: border-box;
+        margin: 20px;
+        padding: 0 10px 0 10px;
+        width: 132px;
+        height: 32px;
+        border: none;
+        border-radius: 10px;
+        background-color: #FFF;
+        background-image: linear-gradient(top, #58616f 0%, #363c45 40%, #2b2f36 80%, #3d434d 100%);
+        color: black;
+        text-align: center;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        font-size: 14px;
+        line-height: 44px;
+        margin-top: 8px;
+        display: inline-block;
       }
-      #slider {
-        position: absolute;
-        z-index: 9999;
-        background: #ddd;
-        color: #fff;
-        font-weight: bold;
-        border-top-left-radius: 6px;
-        border-bottom-left-radius: 6px;
-        padding: 10px;
-        left: 100%;
-        top: 10vw;
-        width: 30vw;
-        font-size: 2vw;
-        transition: left .25s;
+      .btn.btn-main:active {
+        position: relative;
+        top: 2.5px;
       }
-      svg {
-        fill: #fff;
-        margin: -1px;
-        transform: scale(0.8vw), translateY(2px);
+      .btn.btn-main:disabled, .btn.btn-main[data-disabled] {
+        background-color: #f1f1f1;
+        pointer-events: none;
+      }
+      .btn.btn-main:disabled:hover, .btn.btn-main[data-disabled]:hover {
+        cursor: not-allowed;
+      }
+      .btn-red {
+        color: #FF0000;
+      }
+      .btn-blue {
+        color: #0000FF;
+      }
+      .alertify-notifier {
+        z-index: 100000;
+        opacity: 1;
       }
     </style>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Gametime.js@latest/Gametime.min.js"></script>
   </head>
   <body>
-    <audio autoplay src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master-2.0@latest/sounds/car-start.mp3"></audio>
-    <audio id="first_drive" src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master-2.0@latest/sounds/car-first-drive.mp3"></audio>
-    <script name="three.js" src="https://threejs.org/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/jjcc1421/Three3DExtras@latest/three3DExtras.min.js"></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master@latest/threejs/main.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/gh/alvaromontoro/gamecontroller.js@latest/dist/gamecontroller.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master@master/libs/gamepad.js"></script>
-    <div class="controls" style="position:absolute;left:10%;top:70%;z-index:9999;">
-      <select value="D" onchange="shiftOption(this.value)">
-        <option value="D">D</option>
-        <option value="R">R</option>
-        <option value="P">P</option>
-        <option value="A">A</option>
-      </select>
-      <button onmousedown="go()" onmouseup="stop()" onmouseout="stop()" ontouchstart="go()" ontouchend="stop()" ontouchcancel="stop()">GO</button>
-      <button onmousedown="stop()">STOP</button>
-      <br>
-      <iframe class="steering" src="https://parking-master.github.io/Parking-Master/game/steering.html#steering" scrolling="no" style="margin:0!important;height:90px;width:100px;border:none!important;outline:none!important;"></iframe>
+    <div class="banner-blue">
+      <div class="btn btn-main drive-btn -blue" data-disabled>Drive</div>
+      <div class="btn btn-main reverse-btn -blue" data-disabled>Reverse</div>
     </div>
-    <span class="timer">00:15</span>
-    <img class="parking-lot" src="./images/parking-spots/lvl0.png" style="position:absolute;width:100vw;z-index:9998;top:-8.5vw;left:50%;margin-left:-50vw;" />
-    <div id="slider"></div>
+    <div class="banner-red">
+      <div class="btn btn-main drive-btn -red" data-disabled>Drive</div>
+      <div class="btn btn-main reverse-btn -red" data-disabled>Reverse</div>
+    </div>
+    <section class="non-select" data-abilities="{}" data-unselectable>
+    <canvas player="1" width="600" height="350"></canvas>
+    <canvas player="2" width="600" height="350"></canvas>
+    </section>
     <script>
-      if (!localStorage["car"]) {
-        window.default_specs = [60, -18, 18, 33, -6];
-        window.defaultCar = {
-          baseColor: "#999",
-          windowColor: "#222",
-          roofColor: "#fff",
-          minSpeed: 2,
-          maxSpeed: 20
-        };
-      } else {
-        window.default_specs = JSON.parse(localStorage["car"]).default_specs;
-        window.defaultCar = JSON.parse(localStorage["car"]);
-      }
-    function GameOver() {
-      window.onkeydown = null;
-      document.onkeydown = null;
-      document.documentElement.onkeydown = null;
-      window.addEventListener("keydown", function(e) { return e.preventDefault() });
-      document.addEventListener("keydown", function(e) { return e.preventDefault() });
-      document.body.addEventListener("keydown", function(e) { return e.preventDefault() });
-      document.body.onkeydown = function(e) {
-        if (e.key == "Enter") {
-          e.preventDefault();
-          e.stopPropagation();
-        }
+      var CurrentUserID = [];
+      gametime.onconnect = function() {
+        setInterval(function() {
+          if (!team) {
+            return;
+          }
+          if (team == "red") {
+            for (let i = 0; i < document.querySelectorAll(".-red").length; i++) {
+              document.querySelectorAll(".-red")[i].removeAttribute("data-disabled");
+              document.querySelectorAll(".-blue")[i].setAttribute("data-disabled", true);
+            }
+          } else if (team == "blue") {
+            for (let i = 0; i < document.querySelectorAll(".-blue").length; i++) {
+              document.querySelectorAll(".-blue")[i].removeAttribute("data-disabled");
+              document.querySelectorAll(".-red")[i].setAttribute("data-disabled", true);
+            }
+          }
+        }, 100);
       };
-      document.documentElement.addEventListener("keydown", function(e) { return e.preventDefault() });
-      swal({
-        icon: "https://user-images.githubusercontent.com/88283567/133125808-dc7f4b5b-f810-4132-b1bf-b65b1b640001.png",
-        title: "Game Over",
-        text: "You ran out of time!",
-        buttons: ["Close", "Try Again (10 PTS)"],
-        closeOnEsc: false,
-        closeOnClickOutside: false
-      }).then(function(e) {
-        if (e) {
-          localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 10).toString());
-          return window.location.reload();
-        }
-        localStorage["current_lvl"] = "lvl0";
-        top.location.replace("/");
-      });
-      for (let i = 0; i < document.querySelectorAll(".swal-button").length; i++) {
-        document.querySelectorAll(".swal-button")[i].style.backgroundColor = "#222";
-        document.querySelectorAll(".swal-button")[i].style.color = "#fff";
-        document.querySelectorAll(".swal-button")[i].style.boxShadow = "none";
-        if (parseFloat(localStorage["current_pts"], 0) < 10) {
-          document.querySelector(".swal-button--confirm").disabled = "disabled";
-        }
-      }
-      document.querySelector(".swal-icon").style.width = "20%";
-      document.addEventListener("keydown", handler, true);
-      function handler(e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-    }
-    let timerCount = 15;
-    let timeLeft = timerCount.toString();
-    let over = setInterval(function() {
-      if (timerCount == 0) {
-        return GameOver(), clearInterval(over);
-      }
-      timerCount -= 1;
-      if (timerCount <= 2) {
-        // capture(100, 100, 1, ".swal-icon");
-      }
-      timeLeft = timerCount;
-      if (timerCount.toString().length == 1) {
-        timeLeft = "0" + timerCount.toString();
-      }
-      document.querySelector("span.timer").textContent = "00:" + timeLeft;
-    }, 1000);
-    function stopTimer() {
-      clearInterval(over);
-    }
-    function checkTouching(a, d) {
-      let b1 = a.position.y - a.geometry.parameters.height / 2;
-      let t1 = a.position.y + a.geometry.parameters.height / 2;
-      let r1 = a.position.x + a.geometry.parameters.width / 2;
-      let l1 = a.position.x - a.geometry.parameters.width / 2;
-      let f1 = a.position.z - a.geometry.parameters.depth / 2;
-      let B1 = a.position.z + a.geometry.parameters.depth / 2;
-      let b2 = d.position.y - d.geometry.parameters.height / 2;
-      let t2 = d.position.y + d.geometry.parameters.height / 2;
-      let r2 = d.position.x + d.geometry.parameters.width / 2;
-      let l2 = d.position.x - d.geometry.parameters.width / 2;
-      let f2 = d.position.z - d.geometry.parameters.depth / 2;
-      let B2 = d.position.z + d.geometry.parameters.depth / 2;
-      if (t1 < b2 || r1 < l2 || b1 > t2 || l1 > r2 || f1 > B2 || B1 < f2) {
-        return false;
-      }
-      return true;
-    }
-    globalDrivefunction = mouseDown;
-    function blank() {}
-    function shiftOption(src) {
-      src == "D" && (globalDrivefunction = mouseMDown);
-      src == "R" && (globalDrivefunction = mouseMReverseDown);
-      src == "P" && ((globalDrivefunction = blank), parkOption());
-      src == "A" && ((globalDrivefunction = blank), simple.confirm("Auto Park Option (APO): Requires at least 100+ PTS. Would you like to use it one time?", () => { localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 100).toString()); stopTimer(); autoPark(); })); (parseFloat(localStorage["current_pts"], 0)) < 100 && (document.querySelector(".swal-button--confirm").disabled = "disabled");
-    }
-    function go() {
-      globalDrivefunction();
-    }
-    function stop() {
-      mouseUp(), mouseLeftUp(), mouseReverseUp(), mouseRightUp();
-      mouseMUp(), mouseMLeftUp(), mouseMReverseUp(), mouseMRightUp();
-    }
-    function parkOption(auto = false) {
-      let carPositionX = ((((coordinates.x * window.innerHeight / 10) / 5) * window.innerHeight / 10) / 5 * window.innerHeight / 10);
-      let e = ["Good", "Good job!", "Nice!", "Awesome!"];
-      let t = e[Math.floor(Math.random() * e.length)];
-      if (auto) {
-        stopTimer();
-        swal({
-          icon: "success",
-          title: t,
-          text: "You parked! Click Next to continue.",
-          button: "Next",
-          closeOnClickOutside: true,
-          closeOnEnterKey: true
-        }).then(function() {
-          localStorage.setItem("current_lvl", "lvl1");
-          localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
-          location.replace("lvl1.html");
+      (function() {
+        const d = (t) => {
+          t == 1 ? gametime.run("car1DriveForward") : (t == 2 ? gametime.run("car2DriveForward") : void(0));
+        };
+        const y = (t) => {
+          t == 1 ? gametime.run("car1DriveBackward") : (t == 2 ? gametime.run("car2DriveBackward") : void(0));
+        };
+        document.addEventListener("mousedown", function(e) {
+          if (e.target == document.querySelectorAll(".btn.btn-main.drive-btn.-blue")[0]) {
+            return d(1);
+          } else if (e.target == document.querySelectorAll(".btn.btn-main.drive-btn.-red")[0]) {
+            return d(2);
+          } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-blue")[0]) {
+            return y(1);
+          } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-red")[0]) {
+            return y(2);
+          }
         });
-        document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
-        return;
+        (function() {
+          const d = (t) => {
+            t == 1 ? gametime.run("car1StopForward") : (t == 2 ? gametime.run("car2StopForward") : void(0));
+          };
+          const y = (t) => {
+            t == 1 ? gametime.run("car1StopBackward") : (t == 2 ? gametime.run("car2StopBackward") : void(0));
+          };
+          document.addEventListener("mouseup", function(e) {
+            if (e.target == document.querySelectorAll(".btn.btn-main.-blue")[0]) {
+              return d(1);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.-red")[0]) {
+              return d(2);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-blue")[0]) {
+              return y(1);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-red")[0]) {
+              return y(2);
+            }
+          });
+          document.addEventListener("mouseout", function(e) {
+            if (e.target == document.querySelectorAll(".btn.btn-main.-blue")[0]) {
+              return d(1);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.-red")[0]) {
+              return d(2);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-blue")[0]) {
+              return y(1);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-red")[0]) {
+              return y(2);
+            }
+          });
+        })();
+      })();
+      if (!(new URLSearchParams(location.search).get("channel"))) {
+        location.search = "channel=all";
       }
-      if (carPositionX < 0 && Math.abs(carPositionX).toString().substr(0, 1) == "3") {
-        stopTimer();
+      const channel = (new URLSearchParams(location.search).get("channel")).toString();
+
+      gametime.set("key", "pub-c-c44c8fc4-612e-4fc3-b875-4398f01da63c", "sub-c-b6832794-3c08-11ec-b2c1-a25c7fcd9558");
+      gametime.set("channel", channel);
+
+      gametime.make("car1DriveForward");
+      gametime.make("car1DriveBackward");
+      gametime.make("car1DriveLeft");
+      gametime.make("car1DriveRight");
+
+      gametime.make("car2DriveForward");
+      gametime.make("car2DriveBackward");
+      gametime.make("car2DriveLeft");
+      gametime.make("car2DriveRight");
+
+      gametime.make("car1StopForward");
+      gametime.make("car1StopBackward");
+      gametime.make("car1StopLeft");
+      gametime.make("car1StopRight");
+
+      gametime.make("car2StopForward");
+      gametime.make("car2StopBackward");
+      gametime.make("car2StopLeft");
+      gametime.make("car2StopRight");
+
+      gametime.make("postID");
+      gametime.make("checkUserID");
+      gametime.make("isGuest");
+      gametime.make("leftGame");
+
+      let car1 = {};
+      let car2 = {};
+
+      car1.x = 10, car1.y = 10, car1.canvas = document.querySelector("canvas[player=\"1\"]"), car1.context = car1.canvas.getContext("2d");
+      car2.x = 10, car2.y = 10, car2.canvas = document.querySelector("canvas[player=\"2\"]"), car2.context = car2.canvas.getContext("2d");
+
+      const carWidth = 50, carHeight = 100;
+
+      car1.driveForward = function() {
+        car1.context.fillStyle = "#0000FF";
+        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
+        car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
+        car1.y += 3;
+        car1.animateA = requestAnimationFrame(car1.driveForward);
+      }
+      car1.driveBackward = function() {
+        car1.context.fillStyle = "#0000FF";
+        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
+        car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
+        car1.y -= 2.5;
+        car1.animateB = requestAnimationFrame(car1.driveBackward);
+      }
+      car1.driveLeft = function() {
+        car1.context.fillStyle = "#0000FF";
+        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
+        car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
+        car1.x -= 2;
+        car1.animateC = requestAnimationFrame(car1.driveLeft);
+      }
+      car1.driveRight = function() {
+        car1.context.fillStyle = "#0000FF";
+        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
+        car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
+        car1.x += 2;
+        car1.animateD = requestAnimationFrame(car1.driveRight);
+      }
+
+      car2.driveForward = function() {
+        car2.context.fillStyle = "#FF0000";
+        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
+        car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
+        car2.y += 3;
+        car2.animateA = requestAnimationFrame(car2.driveForward);
+      }
+      car2.driveBackward = function() {
+        car2.context.fillStyle = "#FF0000";
+        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
+        car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
+        car2.y -= 2.5;
+        car2.animateB = requestAnimationFrame(car2.driveBackward);
+      }
+      car2.driveLeft = function() {
+        car2.context.fillStyle = "#FF0000";
+        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
+        car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
+        car2.x -= 2;
+        car2.animateC = requestAnimationFrame(car2.driveLeft);
+      }
+      car2.driveRight = function() {
+        car2.context.fillStyle = "#FF0000";
+        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
+        car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
+        car2.x += 2;
+        car2.animateD = requestAnimationFrame(car2.driveRight);
+      }
+
+      car1.stopForward = function() {
+        cancelAnimationFrame(car1.animateA);
+      }
+      car1.stopBackward = function() {
+        cancelAnimationFrame(car1.animateB);
+      }
+      car1.stopLeft = function() {
+        cancelAnimationFrame(car1.animateC);
+      }
+      car1.stopRight = function() {
+        cancelAnimationFrame(car1.animateD);
+      }
+      
+      car2.stopForward = function() {
+        cancelAnimationFrame(car2.animateA);
+      }
+      car2.stopBackward = function() {
+        cancelAnimationFrame(car2.animateB);
+      }
+      car2.stopLeft = function() {
+        cancelAnimationFrame(car2.animateC);
+      }
+      car2.stopRight = function() {
+        cancelAnimationFrame(car2.animateD);
+      }
+
+      function postUserID(id) {
+        CurrentUserID.unshift(id.toString());
+      }
+
+      function left_game() {
+        window.onbeforeunload = null;
         swal({
-          icon: "success",
-          title: t,
-          text: "You parked! Click Next to continue.",
-          button: "Next",
-          closeOnClickOutside: true,
-          closeOnEnterKey: true
-        }).then(function() {
-          localStorage.setItem("current_lvl", "lvl1");
-          localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
-          location.replace("lvl1.html");
+          icon: "info",
+          title: "Player left",
+          text: "One or more players have left the game. You will return to the main menu.",
+          button: "Close"
+        }).then(() => {
+          cancelSearch();
         });
-        document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
-      } else {
-        let e = document.createElement("div");
-        e.innerHTML = '<span style="color:#444;">Try <span style="color:#DB4437;text-decoration:underline;">parking again</span> or <span style="color:#DB4437;text-decoration:underline;">get closer</span> to the spot.';
+      }
+
+      gametime.on("car1DriveForward", car1.driveForward);
+      gametime.on("car1DriveBackward", car1.driveBackward);
+      gametime.on("car1DriveLeft", car1.driveLeft);
+      gametime.on("car1DriveRight", car1.driveRight);
+
+      gametime.on("car2DriveForward", car2.driveForward);
+      gametime.on("car2DriveBackward", car2.driveBackward);
+      gametime.on("car2DriveLeft", car2.driveLeft);
+      gametime.on("car2DriveRight", car2.driveRight);
+
+      gametime.on("car1StopForward", car1.stopForward);
+      gametime.on("car1StopBackward", car1.stopBackward);
+      gametime.on("car1StopLeft", car1.stopLeft);
+      gametime.on("car1StopRight", car1.stopRight);
+
+      gametime.on("car2StopForward", car2.stopForward);
+      gametime.on("car2StopBackward", car2.stopBackward);
+      gametime.on("car2StopLeft", car2.stopLeft);
+      gametime.on("car2StopRight", car2.stopRight);
+
+      gametime.on("postID", postUserID);
+      gametime.on("leftGame", left_game);
+
+      function startGame() {
         swal({
-          icon: "error",
-          title: "You didn't park",
-          content: e
-        }).then(function() {
+          icon: "",
+          title: "Starting...",
+          text: "Starting in 10 seconds.\nNote: You are ...",
+          buttons: false,
+          closeOnClickOutside: false,
+          closeOnEsc: false
+        });
+        setInterval(function() {
+          if (!team) {
+            return;
+          }
+          document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/\.\.\./g, "<b>" + team + "</b>");
+        }, 1000);
+
+        setTimeout(() => {
           swal.close();
+          window.addEventListener("beforeunload", leftGame);
+          window.addEventListener("unload", leftGame);
+          window.addEventListener("pagehide", leftGame);
+          window.addEventListener("visibilitychange", leftGame);
+          window.addEventListener("offline", leftGame);
+        }, 10000);
+      }
+      function cancelSearch() {
+        startGame = null;
+        location.replace("/");
+      }
+      function getLink() {
+        navigator.clipboard.writeText(location.protocol + "//" + location.host + location.pathname + "?channel=" + channel + "&join=1");
+        alertify.message("Copied to clipboard!");
+      }
+
+      let startGameState = setInterval(async function() {
+        if (CurrentUserID.length >= 2) {
+          clearInterval(startGameState);
+          startGame();
+        };
+      }, 100);
+      window.onload = function() {
+        const cancelBtn = document.createElement("div");
+        cancelBtn.innerHTML = "<a href=\"#\" onclick=\"event.preventDefault(); getLink();\">Link</a> <a href=\"#\" onclick=\"event.preventDefault(); cancelSearch();\">Cancel</a>";
+        swal({
+          icon: "",
+          title: "Please wait...",
+          text: "Searching for players.",
+          content: cancelBtn,
+          buttons: false,
+          closeOnClickOutside: false,
+          closeOnEsc: false
         });
-        document.querySelector(".swal-button").style.backgroundColor = "#DB4437";
-      }
-    }
-    window.onmessage = function(e) {
-      e.data == "mouseLeftDown()" && mouseMLeftDown();
-      e.data == "mouseRightDown()" && mouseMRightDown();
-      e.data == "mouseLeftUp()" && mouseMLeftUp();
-      e.data == "mouseRightUp()" && mouseMRightUp();
-    };
-    var carsarr = [];
-    class Car {
-        constructor(e, t, n, o) {
-            if ("object" == typeof e) {
-                var carobj;
-                var r = e;
-                e = r.car.baseColor, carobj = {}, carobj.minSpeed = r.car.minSpeed, carobj.maxSpeed = r.car.maxSpeed, t = r.canvasColor, n = r.width, o = r.height
+        setTimeout(() => gametime.run("postID", [gametime.user.id]), 2500);
+        setInterval(() => {
+          setTimeout(function() {
+            if (CurrentUserID[0] == gametime.user.id) {
+              isGuest = true;
+              isHost = false;
+              team = "red";
+            } else if (CurrentUserID[1] == gametime.user.id) {
+              isHost = true;
+              isGuest = false;
+              team = "blue";
             }
-            document.head.innerHTML += "<style>body{margin:0;font-weight:100;float:none;overflow:hidden}canvas{position:relative;width:" + n + "!important;height:" + o + "!important;margin:0;padding:0;border:none;outline:0}</style>";
-            let a = r.car.roofColor, i = r.car.windowColor;
-            const s = new THREE.Scene;
-            THREE.DrawLine = class {
-                constructor(e, t, n, o, r) {
-                    var a = new three3DExtras.tubeLine([1, 0, 1], [10, 0, 2], t / 2, n),
-                        i = new three3DExtras.tubeLine([1, 0, 1], [10, 0, 2], t / 2, n);
-                    e.add(a.getObject3D()), e.add(i.getObject3D())
-                }
-            }, s.background = new THREE.Color(t.toString());
-            const c = function() {
-                const t = new THREE.Group,
-                    n = R();
-                n.position.y = 6, n.position.x = /*-18*/default_specs[1], window.car_object = n;
-                t.add(n);
-                const o = R();
-                o.position.y = 6, o.position.x = /*18*/default_specs[2], t.add(o);
-                const r = new THREE.Mesh(new THREE.BoxBufferGeometry(/*60*/default_specs[0], 15, 30), new THREE.MeshLambertMaterial({
-                    color: e
-                }));
-                r.position.y = 12, t.add(r);
-                const i = p(),
-                    s = p(),
-                    c = H(),
-                    d = H();
-                d.center = new THREE.Vector2(.5, .5), d.rotation = Math.PI, d.flipY = !1;
-                const l = new THREE.Mesh(new THREE.BoxBufferGeometry(/*33*/default_specs[3], 15, 26), [new THREE.MeshLambertMaterial({
-                    map: i
-                }), new THREE.MeshLambertMaterial({
-                    map: s
-                }), new THREE.MeshLambertMaterial({
-                    color: a
-                }), new THREE.MeshLambertMaterial({
-                    color: a
-                }), new THREE.MeshLambertMaterial({
-                    map: c
-                }), new THREE.MeshLambertMaterial({
-                    map: d
-                })]);
-                return l.position.x = default_specs[4], l.position.y = 25.5, t.add(l), t
-            }();
-            c.position.y = -50;
-            setInterval(() => (window.coordinates = c.position));
-            c.name = "car1";
-            s.add(c);
-            window.removeCar = function() {
-              let selectedObject = s.getObjectByName(c.name);
-              s.remove(selectedObject);
-            };
-            window.autoPark = function() {
-                c.position.x = 0, c.position.y = -50, c.position.z = 0;
-                document.querySelector("canvas").remove();
-                var car = new Car({
-                  car: window.defaultCar,
-                  canvasColor: "#f2f2f2",
-                  width: "100%",
-                  height: "100%"
-                });
-                mouseLeftDown();
-                setTimeout(mouseLeftUp, 1000);
-                setTimeout(function() {
-                  mouseDown();
-                  setTimeout(mouseUp, 100);
-                }, 1500);
-                setTimeout(function() {
-                  mouseLeftDown();
-                  setTimeout(mouseLeftUp, 300);
-                }, 1800);
-                setTimeout(function() {
-                  mouseDown();
-                  setTimeout(mouseUp, 650);
-                  setTimeout(() => parkOption(true), 650);
-                }, 2500);
-            };
-            const d = new THREE.AmbientLight(16777215, .6);
-            s.add(d);
-            const l = new THREE.DirectionalLight(16777215, .8);
-            l.position.set(200, 500, 300), s.add(l);
-            const E = 300 / (window.innerWidth / window.innerHeight),
-                w = new THREE.OrthographicCamera(-150, 150, E / 2, E / -2, 200, 800);
-            w.position.set(200, 200, 200), w.lookAt(0, 10, 0);
-            const f = new THREE.WebGLRenderer({
-                antialias: !0
-            });
-            f.setSize(window.innerWidth, window.innerHeight), f.render(s, w);
-            let h = 0,
-                m = "";
-            document.body.addEventListener("keydown", (e => {
-                "F12" == e.key || (e.preventDefault(), m = e.key)
-            }));
-            var x6 = 4;
-            var x5 = carobj.minSpeed / 17.5;
-            document.body.addEventListener("keyup", (e => {
-                "F12" == e.key || (m = "");
-                x6 = 4
-            }));
-            const u = () => {
-                switch (m) {
-                    case "ArrowUp":
-                        x6 >= carobj.maxSpeed ? (x6 = carobj.maxSpeed) : (x6 += x5);
-                        c.translateX(x6);
-                        break;
-                    case "ArrowDown":
-                        x6 >= carobj.maxSpeed ? (x6 = carobj.maxSpeed) : (x6 += x5);
-                        c.translateX(-x6);
-                        break;
-                    case "ArrowLeft":
-                        h += .03, c.rotation.y = h;
-                        c.translateX(1);
-                        break;
-                    case "ArrowRight":
-                        h -= .03, c.rotation.y = h;
-                        c.translateX(-1);
-                }
-                window.requestAnimationFrame(u)
-            };
-
-            function R() {
-                const e = new THREE.BoxBufferGeometry(12, 12, 33),
-                    t = new THREE.MeshLambertMaterial({
-                        color: "#333"
-                    });
-                return new THREE.Mesh(e, t)
-            }
-
-            function p() {
-                const e = document.createElement("canvas");
-                e.width = 64, e.height = 32;
-                const t = e.getContext("2d");
-                return t.fillStyle = "#ffffff", t.fillRect(0, 0, 64, 32), t.fillStyle = i, t.fillRect(8, 8, 48, 24), new THREE.CanvasTexture(e)
-            }
-
-            function H() {
-                const e = document.createElement("canvas");
-                e.width = 128, e.height = 32;
-                const t = e.getContext("2d");
-                return t.fillStyle = "#ffffff", t.fillRect(0, 0, 128, 32), t.fillStyle = i, t.fillRect(10, 8, 38, 24), t.fillRect(58, 8, 60, 24), new THREE.CanvasTexture(e)
-            }
-            window.requestAnimationFrame(u), f.setAnimationLoop((() => {
-                f.render(s, w)
-            })), document.body.appendChild(f.domElement), document.querySelector("canvas").oncontextmenu = function(e) { /*return e.preventDefault()*/ }
-        }
-    }
-    var car = new Car({
-      car: window.defaultCar,
-      canvasColor: "#f2f2f2",
-      width: "100%",
-      height: "100%"
-    });
-    function mouseDown() {
-      document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowUp" }));
-      const l = document.querySelector("#first_drive");
-      l.currentTime = 1;
-      l.play();
-    }
-    function mouseReverseDown() {
-      document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowDown" }));
-      const l = document.querySelector("#first_drive");
-      l.currentTime = 1;
-      l.play();
-    }
-    function mouseLeftDown() {
-      document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowLeft" }));
-      const l = document.querySelector("#first_drive");
-      l.currentTime = 1;
-      l.play();
-    }
-    function mouseRightDown() {
-      document.body.dispatchEvent(new KeyboardEvent("keydown", { key: "ArrowRight" }));
-      const l = document.querySelector("#first_drive");
-      l.currentTime = 1;
-      l.play();
-    }
-    function mouseUp() {
-      let interval;
-      let timeout;
-      document.body.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowUp" }));
-      interval = setInterval(fade, 200);
-      function fade() {
-        var sounds = document.querySelector("#first_drive");
-        var newVolume = sounds.volume - 0.3;
-        if (newVolume >= 0) {
-          sounds.volume = newVolume;
-        } else {
-          clearInterval(interval);
-          sounds.pause();
-          sounds.currentTime = 0;
-          sounds.volume = 1;
-        }
+          }, 800);
+        }, 4000);
       }
-    }
-    function mouseReverseUp() {
-      let interval;
-      let timeout;
-      document.body.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowDown" }));
-      interval = setInterval(fade, 200);
-      function fade() {
-        var sounds = document.querySelector("#first_drive");
-        var newVolume = sounds.volume - 0.3;
-        if (newVolume >= 0) {
-          sounds.volume = newVolume;
-        } else {
-          clearInterval(interval);
-          sounds.pause();
-          sounds.currentTime = 0;
-          sounds.volume = 1;
-        }
-      }
-    }
-    function mouseLeftUp() {
-      let interval;
-      let timeout;
-      document.body.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowLeft" }));
-      interval = setInterval(fade, 200);
-      function fade() {
-        var sounds = document.querySelector("#first_drive");
-        var newVolume = sounds.volume - 0.3;
-        if (newVolume >= 0) {
-          sounds.volume = newVolume;
-        } else {
-          clearInterval(interval);
-          sounds.pause();
-          sounds.currentTime = 0;
-          sounds.volume = 1;
-        }
-      }
-    }
-    function mouseRightUp() {
-      let interval;
-      let timeout;
-      document.body.dispatchEvent(new KeyboardEvent("keyup", { key: "ArrowRight" }));
-      interval = setInterval(fade, 200);
-      function fade() {
-        var sounds = document.querySelector("#first_drive");
-        var newVolume = sounds.volume - 0.3;
-        if (newVolume >= 0) {
-          sounds.volume = newVolume;
-        } else {
-          clearInterval(interval);
-          sounds.pause();
-          sounds.currentTime = 0;
-          sounds.volume = 1;
-        }
-      }
-    }
-    function windowMessage(msg) {
-      document.querySelector("#slider").style.left = "75vw";
-      document.querySelector("#slider").innerHTML = msg;
-      setTimeout(function() {
-        document.querySelector("#slider").style.left = "100%";
-        setTimeout(function() {
-          document.querySelector("#slider").innerHTML = "";
-        }, 500);
-      }, 2500);
-    }
-    Gamepad.Context.AButtonPressed = function() {
-      parkOption();
-    };
-    Gamepad.onConnect = () => {
-      windowMessage(`Gamepad Connected <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19.46 7.594c2.21 5.602 2.54 8.12 2.54 9.123 0 .797-.299.866-.525.664-2.932-2.607-3.57-3.38-5.858-3.38h-7.233c-2.282 0-2.895.746-5.858 3.381-.228.201-.526.13-.526-.665 0-1.003.33-3.522 2.541-9.123.639-1.616 1.763-1.88 2.771-1.361 3.068 1.581 6.498 1.482 9.377 0 1.002-.518 2.129-.263 2.771 1.361zm-1.836-3.594c-.656 0-1.298.17-1.852.456-2.397 1.235-5.146 1.236-7.544 0-.554-.286-1.196-.456-1.852-.456-1.403 0-2.873.777-3.695 2.86-1.736 4.396-2.681 7.794-2.681 9.857 0 1.586.56 2.59 1.749 3.178.143.071.297.105.449.105.243 0 .483-.087.672-.255l3.109-2.745c.558-.494 1.044-1.004 2.404-1.004h7.232c1.36 0 1.847.51 2.404 1.004l3.109 2.745c.191.168.432.255.674.255.153 0 .307-.034.449-.105 1.189-.588 1.749-1.592 1.749-3.179 0-2.062-.945-5.461-2.68-9.856-.822-2.083-2.293-2.86-3.696-2.86zm-2.874 5.75c.414 0 .75.335.75.75s-.336.75-.75.75-.75-.335-.75-.75.336-.75.75-.75zm1.75 3.25c-.414 0-.75-.335-.75-.75s.336-.75.75-.75.75.335.75.75-.336.75-.75.75zm0-3.531c-.414 0-.75-.335-.75-.75s.336-.75.75-.75.75.335.75.75-.336.75-.75.75zm1.734 1.781c-.414 0-.75-.335-.75-.75s.336-.75.75-.75.75.335.75.75-.336.75-.75.75zm-10.734-2.25c.827 0 1.5.673 1.5 1.5s-.673 1.5-1.5 1.5-1.5-.673-1.5-1.5.673-1.5 1.5-1.5zm0-1c-1.381 0-2.5 1.119-2.5 2.5s1.119 2.5 2.5 2.5 2.5-1.119 2.5-2.5-1.119-2.5-2.5-2.5zm4.5 0c-.553 0-1 .448-1 1s.447 1 1 1 1-.448 1-1-.447-1-1-1z"/></svg>`);
-    };
-    document.body.addEventListener("keydown", function(e) {
-      (!e.repeat && e.key == "Enter") && parkOption();
-    });
-    </script>
-    <script>
-      gametime.set("key", "pub-c-74710794-cf40-43e3-ae10-d978cbdb8822", "sub-c-4da51a44-cbb3-11ec-924a-fed9c56767c0");
-      gametime.set("channel", "multiplayer_test");
-      gametime.make("PushDrive");
-      gametime.make("PushReverse");
-      gametime.make("PushLeft");
-      gametime.make("PushRight");
-      gametime.make("PushUpDrive");
-      gametime.make("PushUpReverse");
-      gametime.make("PushUpLeft");
-      gametime.make("PushUpRight");
-      gametime.on("PushDrive", mouseDown);
-      gametime.on("PushReverse", mouseReverseDown);
-      gametime.on("PushLeft", mouseLeftDown);
-      gametime.on("PushRight", mouseRightDown);
-      gametime.on("PushUpDrive", mouseUp);
-      gametime.on("PushUpReverse", mouseReverseUp);
-      gametime.on("PushUpLeft", mouseLeftUp);
-      gametime.on("PushUpRight", mouseRightUp);
-      function mouseMDown() {
-        gametime.run("PushDrive");
-      }
-      function mouseMReverseDown() {
-        gametime.run("PushReverse");
-      }
-      function mouseMLeftDown() {
-        gametime.run("PushLeft");
-      }
-      function mouseMRightDown() {
-        gametime.run("PushRight");
-      }
-      function mouseMUp() {
-        gametime.run("PushUpDrive");
-      }
-      function mouseMReverseUp() {
-        gametime.run("PushUpReverse");
-      }
-      function mouseMLeftUp() {
-        gametime.run("PushUpLeft");
-      }
-      function mouseMRightUp() {
-        gametime.run("PushUpRight");
-      }
-      document.body.addEventListener("keydown", function(e) {
-        if (e.key == "ArrowUp") {
-          e.preventDefault();
-        }
-        if (e.key == "ArrowLeft") {
-          e.preventDefault();
-          mouseMLeftDown();
-        }
-        if (e.key == "ArrowDown") {
-          e.preventDefault();
-          mouseMReverseDown();
-        }
-        if (e.key == "ArrowRight") {
-          e.preventDefault();
-          mouseMRightDown();
-        }
+      window.onbeforeunload = (event) => {
+        return event.preventDefault();
+      };
+      window.addEventListener("load", function() {
+        car1.context.fillStyle = "#0000FF";
+        car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
+        car2.context.fillStyle = "#FF0000";
+        car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
       });
-      document.body.addEventListener("keyup", function(e) {
-        if (e.key == "ArrowUp") {
-          e.preventDefault();
-          mouseMUp();
+
+      setInterval(() => {
+        function removeDuplicate(arr) {
+          var tmp = [];
+          for (var i = 0; i < arr.length; i++){
+            if (tmp.indexOf(arr[i]) == -1) {
+              tmp.push(arr[i]);
+            }
+          }
+          return tmp;
         }
-        if (e.key == "ArrowLeft") {
-          e.preventDefault();
-          mouseMLeftUp();
+        CurrentUserID = removeDuplicate(CurrentUserID);
+      }, 100);
+
+      let checkIfUserJoined = setInterval(() => {
+        if (CurrentUserID.length >= 2) {
+          clearInterval(checkIfUserJoined);
+          gametime.run("postID", [gametime.user.id])
         }
-        if (e.key == "ArrowDown") {
-          e.preventDefault();
-          mouseMReverseUp();
-        }
-        if (e.key == "ArrowRight") {
-          e.preventDefault();
-          mouseMRightUp();
-        }
-      });
+      }, 1500);
+
+      function leftGame() {
+        gametime.run("leftGame");
+      }
     </script>
   </body>
 </html>
