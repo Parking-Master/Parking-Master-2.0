@@ -134,12 +134,12 @@
           if (!team) {
             return;
           }
-          if (team == "red") {
+          if (team == "red" || team == "yellow" || team == "white") {
             for (let i = 0; i < document.querySelectorAll(".-red").length; i++) {
               document.querySelectorAll(".-red")[i].removeAttribute("data-disabled");
               document.querySelectorAll(".-blue")[i].setAttribute("data-disabled", true);
             }
-          } else if (team == "blue") {
+          } else if (team == "blue" || team == "purple" || team == "green") {
             for (let i = 0; i < document.querySelectorAll(".-blue").length; i++) {
               document.querySelectorAll(".-blue")[i].removeAttribute("data-disabled");
               document.querySelectorAll(".-red")[i].setAttribute("data-disabled", true);
@@ -419,10 +419,12 @@
               isGuest = true;
               isHost = false;
               team = chosenTeams.positive_team;
+              document.querySelector("canvas[player='1']").style = "border: 2px solid " + team + " !important;";
             } else if (CurrentUserID[1] == gametime.user.id) {
               isHost = true;
               isGuest = false;
               team = chosenTeams.negative_team;
+              document.querySelector("canvas[player='2']").style = "border: 2px solid " + team + " !important;";
             }
           }, 2000);
         }, 4000);
