@@ -12,6 +12,7 @@
     <style>
       body {
         overflow: hidden;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serifx;
       }
       .banner-blue {
         position: absolute;
@@ -20,7 +21,7 @@
         right: 0;
         width: 100%;
         height: 45px;
-        background: #0000FF;
+        background: #ddd;
         z-index: 10;
       }
       .banner-red {
@@ -32,7 +33,7 @@
         margin-top: -45px;
         width: 100%;
         height: 45px;
-        background: #FF0000;
+        background: #ddd;
         z-index: 10;
       }
       canvas {
@@ -40,20 +41,19 @@
         background: #FFF;
         border-radius: 3px;
         padding: 0;
-        margin: 20px;
         position: relative;
-        margin-top: 20vh;
+        margin-top: 20vh !important;
+        left: 10%;
+        margin: 35px;
       }
       canvas[player="1"] {
         position: relative;
-        border-color: #0000FF;
-        left: 50%;
-        margin-left: -620px;
+        border-color: #ddd;
+        margin-left: -5vw;
       }
       canvas[player="2"] {
         position: relative;
-        border-color: #FF0000;
-        left: 50%;
+        border-color: #ddd;
       }
       .btn.btn-main {
         user-select: none !important;
@@ -97,6 +97,17 @@
         z-index: 100000;
         opacity: 1;
       }
+      a {
+        color: #222;
+        text-decoration: none !important;
+        border-bottom: 1px solid currentColor;
+      }
+      .swal-text {
+        color: #222 !important;
+      }
+      .swal-content a {
+        margin-right: 10px;
+      }
     </style>
   </head>
   <body>
@@ -113,6 +124,10 @@
     <canvas player="2" width="600" height="350"></canvas>
     </section>
     <script>
+      let positive_teams = ["red", "yellow", "white"];
+      let negative_teams = ["blue", "purple", "green"];
+      const chosenTeamsPosition = Math.floor(Math.random() * positive_teams.length);
+      const chosenTeams = { positive_team: positive_teams[chosenTeamsPosition], negative_team: negative_teams[chosenTeamsPosition] };
       var CurrentUserID = [];
       gametime.onconnect = function() {
         setInterval(function() {
@@ -349,7 +364,7 @@
         swal({
           icon: "",
           title: "Starting...",
-          text: "Starting in 10 seconds.\nNote: You are ...",
+          text: "Starting in 10 seconds.\nNote: You are ... (Deciding team)",
           buttons: false,
           closeOnClickOutside: false,
           closeOnEsc: false
@@ -358,9 +373,9 @@
           if (!team) {
             return;
           }
-          document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/\.\.\./g, "<b>" + team + "</b>");
+          document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/\.\.\./g, "<b>" + team + " team</b>");
+          document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace("(Deciding team)", "");
         }, 1000);
-
         setTimeout(() => {
           swal.close();
           window.addEventListener("beforeunload", leftGame);
@@ -403,13 +418,13 @@
             if (CurrentUserID[0] == gametime.user.id) {
               isGuest = true;
               isHost = false;
-              team = "red";
+              team = chosenTeams.positive_team;
             } else if (CurrentUserID[1] == gametime.user.id) {
               isHost = true;
               isGuest = false;
-              team = "blue";
+              team = chosenTeams.negative_team;
             }
-          }, 800);
+          }, 2000);
         }, 4000);
       }
       window.onbeforeunload = (event) => {
