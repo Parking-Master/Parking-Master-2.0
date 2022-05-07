@@ -124,9 +124,11 @@
     <canvas player="2" width="600" height="350"></canvas>
     </section>
     <script>
-      let positive_teams = ["red", "yellow", "white"];
-      let negative_teams = ["blue", "purple", "green"];
-      const chosenTeamsPosition = Math.floor(Math.random() * positive_teams.length);
+      let positive_teams = ["red"/*, "yellow", "white"*/];
+      let negative_teams = ["blue"/*, "purple", "green"*/];
+      // const chosenTeamsPosition = Math.floor(Math.random() * positive_teams.length);
+      const chosenTeamsPosition = 0;
+      defaultCarColors = ["#ddd", "#ddd"];
       const chosenTeams = { positive_team: positive_teams[chosenTeamsPosition], negative_team: negative_teams[chosenTeamsPosition] };
       var CurrentUserID = [];
       gametime.onconnect = function() {
@@ -238,28 +240,28 @@
       const carWidth = 50, carHeight = 100;
 
       car1.driveForward = function() {
-        car1.context.fillStyle = "#0000FF";
+        car1.context.fillStyle = defaultCarColors[0];
         car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
         car1.y += 3;
         car1.animateA = requestAnimationFrame(car1.driveForward);
       }
       car1.driveBackward = function() {
-        car1.context.fillStyle = "#0000FF";
+        car1.context.fillStyle = defaultCarColors[0];
         car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
         car1.y -= 2.5;
         car1.animateB = requestAnimationFrame(car1.driveBackward);
       }
       car1.driveLeft = function() {
-        car1.context.fillStyle = "#0000FF";
+        car1.context.fillStyle = defaultCarColors[0];
         car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
         car1.x -= 2;
         car1.animateC = requestAnimationFrame(car1.driveLeft);
       }
       car1.driveRight = function() {
-        car1.context.fillStyle = "#0000FF";
+        car1.context.fillStyle = defaultCarColors[0];
         car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
         car1.x += 2;
@@ -267,28 +269,28 @@
       }
 
       car2.driveForward = function() {
-        car2.context.fillStyle = "#FF0000";
+        car2.context.fillStyle = defaultCarColors[1];
         car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
         car2.y += 3;
         car2.animateA = requestAnimationFrame(car2.driveForward);
       }
       car2.driveBackward = function() {
-        car2.context.fillStyle = "#FF0000";
+        car2.context.fillStyle = defaultCarColors[1];
         car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
         car2.y -= 2.5;
         car2.animateB = requestAnimationFrame(car2.driveBackward);
       }
       car2.driveLeft = function() {
-        car2.context.fillStyle = "#FF0000";
+        car2.context.fillStyle = defaultCarColors[1];
         car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
         car2.x -= 2;
         car2.animateC = requestAnimationFrame(car2.driveLeft);
       }
       car2.driveRight = function() {
-        car2.context.fillStyle = "#FF0000";
+        car2.context.fillStyle = defaultCarColors[1];
         car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
         car2.x += 2;
@@ -380,8 +382,6 @@
           swal.close();
           window.addEventListener("beforeunload", leftGame);
           window.addEventListener("unload", leftGame);
-          window.addEventListener("pagehide", leftGame);
-          window.addEventListener("visibilitychange", leftGame);
           window.addEventListener("offline", leftGame);
         }, 10000);
       }
@@ -419,25 +419,37 @@
               isGuest = true;
               isHost = false;
               team = chosenTeams.positive_team;
-              document.querySelector("canvas[player='1']").style = "border: 2px solid " + team + " !important;";
+              document.querySelector("canvas[player='2']").style = "border: 2px solid " + team + " !important;";
+              document.querySelector("canvas[player='1']").style = "border: 2px solid " + "#444" + " !important;";
+              defaultCarColors[1] = team;
+              defaultCarColors[0] = "#444";
+              document.querySelector(".banner-red").style.background = team;
+              document.querySelector(".banner-blue").style.background = "#444";
+              document.querySelector(".banner-blue").style.opacity = "0.6";
+              init();
             } else if (CurrentUserID[1] == gametime.user.id) {
               isHost = true;
               isGuest = false;
               team = chosenTeams.negative_team;
-              document.querySelector("canvas[player='2']").style = "border: 2px solid " + team + " !important;";
+              document.querySelector("canvas[player='1']").style = "border: 2px solid " + team + " !important;";
+              document.querySelector("canvas[player='2']").style = "border: 2px solid " + "#444" + " !important;";
+              defaultCarColors[0] = team;
+              defaultCarColors[1] = "#444";
+              car1.context.fillStyle = team;
+              document.querySelector(".banner-blue").style.background = team;
+              document.querySelector(".banner-red").style.background = "#444";
+              document.querySelector(".banner-red").style.opacity = "0.6";
+              init();
             }
           }, 2000);
         }, 4000);
       }
-      window.onbeforeunload = (event) => {
-        return event.preventDefault();
-      };
-      window.addEventListener("load", function() {
-        car1.context.fillStyle = "#0000FF";
+      function init() {
+        car1.context.fillStyle = defaultCarColors[0];
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
-        car2.context.fillStyle = "#FF0000";
+        car2.context.fillStyle = defaultCarColors[1];
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
-      });
+      }
 
       setInterval(() => {
         function removeDuplicate(arr) {
