@@ -50,13 +50,13 @@ Players will be able to create a lobby name, go to the public "Lobby" page, and 
 ## Credits
 A list of items that helped make Parking-Master-2.0 possible.
 
-##### SweetAlert
-##### TippyJS
-##### SecurityJS.128
-##### Parking-Master
-##### Canva
-##### Gametime.js
-##### Back4App
-##### Parse API
-##### Node.js
-##### Google reCaptcha
+##### SweetAlert \> https://github.com/t4t5/sweetalert
+##### TippyJS \> https://github.com/atomiks/tippyjs
+##### SecurityJS.128 \> https://github.com/Parking-Master/SecurityJS.128
+##### Parking-Master \> https://github.com/Parking-Master/Parking-Master
+##### Canva \> https://www.canva.com
+##### Gametime.js \> https://github.com/Parking-Master/Gametime.js
+##### Back4App \> https://www.back4app.com
+##### Parse API \> https://parse-dashboard.back4app.com
+##### Node.js \> https://www.nodejs.org/en
+##### Google reCaptcha \> https://developers.google.com/recaptcha
