@@ -155,10 +155,14 @@
     <div class="banner-blue">
       <div class="btn btn-main drive-btn -blue" data-disabled>Drive</div>
       <div class="btn btn-main reverse-btn -blue" data-disabled>Reverse</div>
+      <div class="btn btn-main left-btn -blue" data-disabled>Left</div>
+      <div class="btn btn-main right-btn -blue" data-disabled>Right</div>
     </div>
     <div class="banner-red">
       <div class="btn btn-main drive-btn -red" data-disabled>Drive</div>
       <div class="btn btn-main reverse-btn -red" data-disabled>Reverse</div>
+      <div class="btn btn-main left-btn -red" data-disabled>Left</div>
+      <div class="btn btn-main right-btn -red" data-disabled>Right</div>
     </div>
     <section class="non-select" data-abilities="{}" data-unselectable>
     <canvas player="1" width="600" height="350"></canvas>
@@ -175,9 +179,8 @@
           if (timerCurrent > 1) { timerCurrent -= 1; document.querySelector(".countdown-number").textContent = timerCurrent; } else { document.querySelector(".countdown-number").textContent = "GO!"; setTimeout(() => document.querySelector(".countdown-cover").style.display = "none", 1000); }
         }, 1000);
       }
-      let positive_teams = ["red"/*, "yellow", "white"*/];
-      let negative_teams = ["blue"/*, "purple", "green"*/];
-      // const chosenTeamsPosition = Math.floor(Math.random() * positive_teams.length);
+      let positive_teams = ["red"];
+      let negative_teams = ["blue"];
       const chosenTeamsPosition = 0;
       defaultCarColors = ["#ddd", "#ddd"];
       const chosenTeams = { positive_team: positive_teams[chosenTeamsPosition], negative_team: negative_teams[chosenTeamsPosition] };
@@ -190,11 +193,13 @@
           if (team == "red" || team == "yellow" || team == "white") {
             for (let i = 0; i < document.querySelectorAll(".-red").length; i++) {
               document.querySelectorAll(".-red")[i].removeAttribute("data-disabled");
+              document.querySelectorAll(".-red")[i].style.opacity = "1";
               document.querySelectorAll(".-blue")[i].setAttribute("data-disabled", true);
             }
           } else if (team == "blue" || team == "purple" || team == "green") {
             for (let i = 0; i < document.querySelectorAll(".-blue").length; i++) {
               document.querySelectorAll(".-blue")[i].removeAttribute("data-disabled");
+              document.querySelectorAll(".-blue")[i].style.opacity = "1";
               document.querySelectorAll(".-red")[i].setAttribute("data-disabled", true);
             }
           }
@@ -204,8 +209,14 @@
         const d = (t) => {
           t == 1 ? gametime.run("car1DriveForward") : (t == 2 ? gametime.run("car2DriveForward") : void(0));
         };
+        const x = (t) => {
+          t == 1 ? gametime.run("car1DriveLeft") : (t == 2 ? gametime.run("car2DriveLeft") : void(0));
+        };
         const y = (t) => {
           t == 1 ? gametime.run("car1DriveBackward") : (t == 2 ? gametime.run("car2DriveBackward") : void(0));
+        };
+        const z = (t) => {
+          t == 1 ? gametime.run("car1DriveRight") : (t == 2 ? gametime.run("car2DriveRight") : void(0));
         };
         document.addEventListener("mousedown", function(e) {
           if (e.target == document.querySelectorAll(".btn.btn-main.drive-btn.-blue")[0]) {
@@ -216,14 +227,28 @@
             return y(1);
           } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-red")[0]) {
             return y(2);
+          } else if (e.target == document.querySelectorAll(".btn.btn-main.left-btn.-blue")[0]) {
+            return x(1);
+          } else if (e.target == document.querySelectorAll(".btn.btn-main.right-btn.-blue")[0]) {
+            return z(1);
+          } else if (e.target == document.querySelectorAll(".btn.btn-main.left-btn.-red")[0]) {
+            return x(2);
+          } else if (e.target == document.querySelectorAll(".btn.btn-main.right-btn.-red")[0]) {
+            return z(2);
           }
         });
         (function() {
           const d = (t) => {
             t == 1 ? gametime.run("car1StopForward") : (t == 2 ? gametime.run("car2StopForward") : void(0));
           };
+          const x = (t) => {
+            t == 1 ? gametime.run("car1StopLeft") : (t == 2 ? gametime.run("car2StopLeft") : void(0));
+          };
           const y = (t) => {
             t == 1 ? gametime.run("car1StopBackward") : (t == 2 ? gametime.run("car2StopBackward") : void(0));
+          };
+          const z = (t) => {
+            t == 1 ? gametime.run("car1StopRight") : (t == 2 ? gametime.run("car2StopRight") : void(0));
           };
           document.addEventListener("mouseup", function(e) {
             if (e.target == document.querySelectorAll(".btn.btn-main.-blue")[0]) {
@@ -234,6 +259,14 @@
               return y(1);
             } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-red")[0]) {
               return y(2);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.left-btn.-blue")[0]) {
+              return x(1);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.right-btn.-blue")[0]) {
+              return z(1);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.left-btn.-red")[0]) {
+              return x(2);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.right-btn.-red")[0]) {
+              return z(2);
             }
           });
           document.addEventListener("mouseout", function(e) {
@@ -245,6 +278,14 @@
               return y(1);
             } else if (e.target == document.querySelectorAll(".btn.btn-main.reverse-btn.-red")[0]) {
               return y(2);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.left-btn.-blue")[0]) {
+              return x(1);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.right-btn.-blue")[0]) {
+              return z(1);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.left-btn.-red")[0]) {
+              return x(2);
+            } else if (e.target == document.querySelectorAll(".btn.btn-main.right-btn.-red")[0]) {
+              return z(2);
             }
           });
         })();
@@ -478,7 +519,6 @@
               defaultCarColors[0] = "#444";
               document.querySelector(".banner-red").style.background = team;
               document.querySelector(".banner-blue").style.background = "#444";
-              document.querySelector(".banner-blue").style.opacity = "0.6";
               init();
             } else if (CurrentUserID[1] == gametime.user.id) {
               isHost = true;
@@ -491,7 +531,6 @@
               car1.context.fillStyle = team;
               document.querySelector(".banner-blue").style.background = team;
               document.querySelector(".banner-red").style.background = "#444";
-              document.querySelector(".banner-red").style.opacity = "0.6";
               init();
             }
           }, 2000);
