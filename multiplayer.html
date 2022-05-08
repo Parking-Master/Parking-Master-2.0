@@ -10,6 +10,22 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Gametime.js@latest/Gametime.min.js"></script>
     <title>Parking Master 2.0 Multiplayer</title>
     <style>
+      @font-face {
+        font-family: "Digital";
+        src: url(./fonts/Digital.ttf);
+      }
+      @font-face {
+        font-family: "Digital-Italic";
+        src: url(./fonts/Digital-Italic.ttf);
+      }
+      @font-face {
+        font-family: "DigitalMono";
+        src: url(./fonts/DigitalMono.ttf);
+      }
+      @font-face {
+        font-family: "DigitalMono-Italic";
+        src: url(./fonts/DigitalMono-Italic.ttf);
+      }
       body {
         overflow: hidden;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serifx;
@@ -108,6 +124,31 @@
       .swal-content a {
         margin-right: 10px;
       }
+      .countdown-cover {
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        background: #555;
+        opacity: 0.75;
+        z-index: 9999;
+        transition: display .2s;
+      }
+      .countdown-number {
+        position: absolute;
+        font-family: "DigitalMono-Italic";
+        font-size: 6em;
+        z-index: 9999 !important;
+        opacity: 1;
+        color: #eee;
+        width: 100px;
+        left: 50%;
+        margin-left: -50px;
+        top: 40vh;
+      }
     </style>
   </head>
   <body>
@@ -123,7 +164,17 @@
     <canvas player="1" width="600" height="350"></canvas>
     <canvas player="2" width="600" height="350"></canvas>
     </section>
+    <div class="countdown-cover" style="display: none;">
+      <div class="countdown-number">3</div>
+    </div>
     <script>
+      function startCountDown() {
+        document.querySelector(".countdown-cover").style.display = "block";
+        let timerCurrent = 3;
+        setInterval(() => {
+          if (timerCurrent > 1) { timerCurrent -= 1; document.querySelector(".countdown-number").textContent = timerCurrent; } else { document.querySelector(".countdown-number").textContent = "GO!"; setTimeout(() => document.querySelector(".countdown-cover").style.display = "none", 1000); }
+        }, 1000);
+      }
       let positive_teams = ["red"/*, "yellow", "white"*/];
       let negative_teams = ["blue"/*, "purple", "green"*/];
       // const chosenTeamsPosition = Math.floor(Math.random() * positive_teams.length);
@@ -376,10 +427,12 @@
             return;
           }
           document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/\.\.\./g, "<b>" + team + " team</b>");
+          document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/red|blue/g, team);
           document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace("(Deciding team)", "");
         }, 1000);
         setTimeout(() => {
           swal.close();
+          startCountDown();
           window.addEventListener("beforeunload", leftGame);
           window.addEventListener("unload", leftGame);
           window.addEventListener("offline", leftGame);
