@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Example chat - Parking Master</title>
+    <script src="https://cdn.jsdelivr.net/gh/Parking-Master/Gametime.js@latest/Gametime.min.js"></script>
+    <style>
+      body { margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      #form { background: rgba(0, 0, 0, 0.15); padding: 0.25rem; position: fixed; bottom: 0; left: 0; right: 0; display: flex; height: 3rem; box-sizing: border-box; } #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #input:focus { outline: none; } #form button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages > li { padding: 0.5rem 1rem; }
+      #messages > li:nth-child(odd) { background: #efefef; }
+      #input:disabled, form button:disabled { opacity: 0.5; }
+    </style>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Gametime.js@latest/Gametime.js"></script>
+  </head>
+  <body>
+    <ul id="messages"></ul>
+    <form id="form" action="">
+      <input id="input" autocomplete="off" /><button class="send">Send</button><button class="disconnect">Disconnect</button>
+    </form>
+    <script>
+      function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(";");
+        for (let i = 0; i < ca.length; i++) {
+          let c = ca[i];
+          while (c.charAt(0) == " ") {
+            c = c.substring(1);
+          }
+          if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+          }
+        }
+        return "";
+      }
+      var username = !!(getCookie("user-email") && getCookie("user-pass")) ? getCookie("user-name") : (localStorage["uname"]) || "";
+
+      var CurrentUserID = [];
+      gametime.set("key", "pub-c-c44c8fc4-612e-4fc3-b875-4398f01da63c", "sub-c-b6832794-3c08-11ec-b2c1-a25c7fcd9558");
+      gametime.set("channel", "example-channel123");
+
+      gametime.make("message");
+      gametime.make("postID");
+      gametime.make("checkUserID");
+      gametime.make("isGuest");
+
+      function sendMessage(msg) {
+        var item = document.createElement("li");
+        item.textContent = msg;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+        var chatHistory = localStorage["history"];
+        var noBug = chatHistory === "" ? "" : ",";
+        localStorage.setItem("history", (chatHistory + noBug + encodeURIComponent(msg)).split(",").toString());
+      }
+
+      gametime.on("message", sendMessage);
+      
+      var messages = document.getElementById("messages");
+      var form = document.getElementById("form");
+      var input = document.getElementById("input");
+
+      if (!localStorage["history"]) {
+        localStorage.setItem("history", "");
+      } else {
+        for (var i = 0; i < localStorage["history"].split(",").length; i++) {
+          var item = document.createElement("li");
+          item.textContent = (username + ": ") + decodeURIComponent(localStorage["history"].split(",")[i]);
+          messages.appendChild(item);
+          window.scrollTo(0, document.body.scrollHeight);
+        }
+      }
+      
+      form.onsubmit = function(event) {
+        event.preventDefault();
+        if (input.value) {
+          gametime.run("message", [(username + ": ") + input.value]);
+          input.value = "";
+        }
+      };
+
+      document.querySelector(".disconnect").onclick = function(event) {
+        event.preventDefault();
+        if (confirm("Are you sure?")) {
+          this.textContent = "Reconnect";
+          gametime.disconnect();
+          localStorage.removeItem("history");
+          messages.innerHTML = "";
+          document.querySelector(".disconnect").disabled = "disabled", document.querySelector(".send").disabled = "disabled", input.disabled = "disabled";
+        }
+      };
+      function postUserID(id) {
+        CurrentUserID.unshift(id.toString());
+      }
+      gametime.on("postID", postUserID);
+      window.onload = function() {
+        setTimeout(() => gametime.run("postID", [gametime.user.id]), 2500);
+        setInterval(() => {
+          setTimeout(function() {
+            if (CurrentUserID[0] == gametime.user.id) {
+              isGuest = true;
+              isHost = false;
+              team = "red";
+            } else if (CurrentUserID[1] == gametime.user.id) {
+              isHost = true;
+              isGuest = false;
+              team = "blue";
+            }
+          }, 800);
+        }, 4000);
+      }
+      setInterval(() => {
+        function removeDuplicate(arr) {
+          var tmp = [];
+          for (var i = 0; i < arr.length; i++){
+            if (tmp.indexOf(arr[i]) == -1) {
+              tmp.push(arr[i]);
+            }
+          }
+          return tmp;
+        }
+        CurrentUserID = removeDuplicate(CurrentUserID);
+      }, 100);
+      let checkIfUserJoined = setInterval(() => {
+        if (CurrentUserID.length >= 2) {
+          clearInterval(checkIfUserJoined);
+          gametime.run("postID", [gametime.user.id])
+        }
+      }, 1500);
+    </script>
+  </body>
+</html>

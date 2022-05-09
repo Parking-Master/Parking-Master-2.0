@@ -419,7 +419,11 @@
         CurrentUserID.unshift(id.toString());
       }
 
-      function left_game() {
+      function left_game(e) {
+        if (e) {
+          swal.close();
+          window.stop();
+        }
         window.onbeforeunload = null;
         swal({
           icon: "info",
@@ -456,6 +460,14 @@
 
       function startGame() {
         swal({
+          title: "Player found",
+          text: "Connecting session...",
+          closeOnClickOutside: false,
+          closeOnEsc: false,
+          button: "Cancel"
+        }).then(() => (swal.close(), leftGame(true), location.replace("/")));
+        setTimeout(function() {
+        swal({
           icon: "",
           title: "Starting...",
           text: "Starting in 10 seconds.\nNote: You are ... (Deciding team)",
@@ -478,6 +490,7 @@
           window.addEventListener("unload", leftGame);
           window.addEventListener("offline", leftGame);
         }, 10000);
+        }, 1000);
       }
       function cancelSearch() {
         startGame = null;
