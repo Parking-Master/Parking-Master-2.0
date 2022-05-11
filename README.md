@@ -44,11 +44,11 @@ You can play the original game at <kbd>https://parkingmaster.w3spaces.com</kbd>
 <h2 align="left">Desktop App</h2>
 Version 2.0 will also have a lightweight desktop app (free download) for Windows, Mac & Linux.
 <br>
-## Play on the go
+<h2>Play on the go</h2>
 Parking Master 2.0 will have a MiniGame built into a desktop browser extension.
 <br>
 This is a backup in case you can't download the app.
-## Multiplayer
+<h2>Multiplayer</h2>
 With internet connection, all players are welcomed to play multiplayer in the website, app and minigame.
 <br>
 Multiplayer Parking Master 2.0 will have level-based challenges, but with multiplayer.
