@@ -5,6 +5,8 @@
     <title>Parking Master 2.0</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Simple-Alert@latest/simplealert.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Date.js@latest/date.js"></script>
+    <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
     <style>
       @font-face {
         src: url(fonts/CooperHewitt-Bold.ttf);
@@ -77,9 +79,16 @@
         color: #fff;
         font-family: "Cooper", Arial;
         border: none;
+        border-color: #ddd;
+      }
+      .tippy-arrow {
+        border-color: #ddd !important;
       }
       .tippy-box[data-theme~="parkingmaster"]::before {
         border: none;
+        background: #ddd;
+      }
+      .tippy-arrow {
         background: #ddd;
       }
       .midline {
@@ -246,9 +255,95 @@
         color: #fff;
         font-family: "Cooper";
       }
+      .lobbies {
+        position: absolute;
+        width: 40%;
+        left: 50%;
+        margin-left: -20%;
+        background: #fff;
+        box-shadow: 0 0 10px 3px #ddd;
+        top: -215px;
+        height: 200px;
+        z-index: 9999;
+        transition: top .6s;
+        padding: 4px;
+        overflow-y: scroll !important;
+        overflow-x: hidden !important;
+      }
+      .createLobby {
+        background: #f1f1f1;
+        color: #ddd;
+        font-weight: normal;
+        border: none;
+        outline: none;
+        padding: 3px;
+        border-radius: 5px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        width: 100%;
+        margin: 0px;
+        box-shadow: 0 2px .2px #ddd;
+      }
+      .createLobby:active {
+        box-shadow: 0 .5px .2px #ddd;
+      }
+      .currentLobbies a {
+        color: #ddd;
+        cursor: pointer;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        text-decoration: none !important;
+        border-bottom: 1px solid currentColor !important;
+      }
+      .currentLobbies {
+        text-align: center;
+      }
+      * {
+        scrollbar-color: #ddd;
+        scrollbar-width: thin;
+      }
+      ::-webkit-scrollbar {
+        width: 4px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #ddd;
+      }
+      hr.close-lobby-section {
+        height: 5px;
+        border: none;
+        outline: none;
+        background: #ddd;
+        border-radius: 8px;
+        transition: left 1s, width 1s;
+      }
+      /* hr.close-lobby-section:hover {
+        width: 94% !important;
+        left: -6%;
+        margin-left: 0;
+        display: inline-block;
+        cursor: pointer;
+      }
+      hr.close-lobby-section:hover + #close-btn {
+        display: inline-block;
+      }
+      #close-btn:hover {
+        display: inline-block;
+      } */
+      #close-btn {
+        display: none;
+        margin: 0;
+        padding: 0;
+        color: #ddd;
+        transform: translateY(-6px);
+        margin-left: 2px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
+    <div class="lobbies">
+      <button class="createLobby" onclick="multiplayer()">Create new lobby</button>
+      <hr data-tippy-content="Close" data-tippy-theme="parkingmaster" data-tippy-arrow="false" class="close-lobby-section" onclick="this.parentElement.style.top = '-215px';"><span id="close-btn">&times;</span>
+      <section class="currentLobbies"></section>
+    </div>
     <div class="page-mark">PTS:&nbsp;&nbsp;<span id="points">0</span></div>
     <h1 class="main-title"><svg xmlns="http://www.w3.org/2000/svg" width="700" height="150" viewBox="0 0 700 72"><text x="0" y="70">Parking Master</text></svg></h1>
     <h1 class="secondary-title">2.0</h1>
@@ -270,7 +365,7 @@
     <div class="buttons">
       <a href="play.html"><div class="nav-btn" data-tippy-content="Play" data-tippy-theme="parkingmaster" data-tippy-arrow="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-3 17v-10l9 5.146-9 4.854z"/></svg></div></a>
       <a href="cars.html"><div class="nav-btn" data-tippy-content="Cars" data-tippy-theme="parkingmaster" data-tippy-arrow="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 12.242v7.894l-4.291.864-.709-3.827 4.005-5.909c.331.382.352.46.995.978zm2 1.176v8.015l2.732 2.567 3.268-2.567-1.052-1.109 1.052-1.108-1.052-1.108 1.052-1.108v-3.583c-.941.381-1.955.583-3.001.583-1.045 0-2.059-.202-2.999-.582zm7.242-11.661c-2.131-2.131-5.424-2.25-7.687-.651-1.174.821-1.96 1.94-2.335 3.378-1.664-.087-2.72-.905-2.72-1.484 0-.6 1.128-1.46 2.898-1.494.42-.524.67-.822 1.42-1.36-.42-.086-.856-.146-1.318-.146-2.485 0-4.5 1.343-4.5 3 0 1.936 2.526 3 4.5 3 2.818 0 5.337-1.892 4.252-3.967.567-.912 1.682-.902 2.309-.275.975.975.24 2.625-1.146 2.544-.862 2.006-3.376 3-5.794 2.879.225 1.122.768 2.192 1.638 3.062 2.342 2.344 6.141 2.343 8.484 0 1.17-1.172 1.757-2.708 1.757-4.244 0-1.535-.586-3.07-1.758-4.242z"/></svg></div></a>
-      <a href="multiplayer.html"><div class="nav-btn" data-tippy-content="Multiplayer" data-tippy-theme="parkingmaster" data-tippy-arrow="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 12c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/></svg></div></a>
+      <a href="#" onclick="openLobbies()"><div class="nav-btn" data-tippy-content="Multiplayer" data-tippy-theme="parkingmaster" data-tippy-arrow="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 12c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/></svg></div></a>
       <a href="help.html" id="last"><div class="nav-btn" data-tippy-content="Help" data-tippy-theme="parkingmaster" data-tippy-arrow="false"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 24c6.627 0 12-5.373 12-12s-5.373-12-12-12-12 5.373-12 12 5.373 12 12 12zm1-6h-2v-8h2v8zm-1-12.25c.69 0 1.25.56 1.25 1.25s-.56 1.25-1.25 1.25-1.25-.56-1.25-1.25.56-1.25 1.25-1.25z"/></svg></div></a>
     </div>
     <hr class="midline" id="m1">
@@ -281,6 +376,8 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script>
+      Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee");
+      Parse.serverURL = "https://parseapi.back4app.com/";
       tippy('[data-tippy-content]');
       tippy('[data-tippy-arrow]');
       tippy('[data-tippy-theme]');
@@ -289,6 +386,45 @@
       !localStorage["owned_cars"] && (localStorage["owned_cars"] = "0");
       let pts = 0;
       setInterval(() => ((localStorage["current_pts"] != pts && (pts += 1)), document.querySelector("#points").textContent = pts), 10);
+      (async () => {
+        const AllLobbies = Parse.Object.extend("Lobby");
+        const activeLobbies = new Parse.Query(AllLobbies);
+        const lobbyResults = await activeLobbies.find();
+        for (let i = 0; i < lobbyResults.length; i++) {
+          const ActiveLobbies = Parse.Object.extend("Lobby");
+          const lobbies = new Parse.Query(ActiveLobbies);
+          lobbies.get(lobbyResults[i].id).then((lobbyName) => {
+            const lobby = { name: lobbyName.get("lobbyName"), time: lobbyName.get("createdAt") };
+            document.querySelector(".currentLobbies").innerHTML += `
+              <a href="multiplayer.html?channel=${lobby.name}">&quot;${lobby.name}&quot;&nbsp;&nbsp;:&nbsp;&nbsp;${lobby.time.toString().split(" ").reverse().splice(4).reverse().splice(1).join(" ").split(":").reverse().splice(1).reverse().join(":")}</a>
+              <br>
+            `;
+          }, (error) => {
+            // The object was not retrieved successfully.
+          });
+        }
+      })();
+      function multiplayer() {
+        simple.prompt("Enter lobby name (at least 2 characters):", "", (name) => {
+          if (name.length >= 2 && name.length <= 10) {
+            const Lobbies = Parse.Object.extend("Lobby");
+            const lobby = new Lobbies();
+            
+            lobby.set("lobbyName", name);
+            lobby.set("createdAt", ((new Date).toString().split(" ").reverse().splice(4).reverse().join(" ").split(" ")[0] + ", ") + (new Date).toString().split(" ").reverse().splice(4).reverse().splice(1).join(" "));
+            
+            lobby.save().then((result) => {
+              location.assign("multiplayer.html?channel=" + name);
+            }, (error) => {
+              simple.alert("Error: Failed to create lobby. Check console for error or contact support.");
+              console.log(error);
+            });
+          }
+        });
+      }
+      function openLobbies() {
+        document.querySelector(".lobbies").style.top = "0px";
+      }
     </script>
   </body>
 </html>
