@@ -7,7 +7,12 @@ Fully upgraded GUI, Security & In-Game Experience!
 <br>
 ## History
 Parking-Master 1.0 (v1.0.0) is the first and official version of Parking Master, released on the first of August in 2021.
-
+<br>
+As such, Parking Master will have a celebration for the 1 year anniversary and popularity - Parking Master 2.0, The all-new Parking Master game.
+<br>
+The original Parking-Master's popularity has grown since it was released.
+<img align="left" alt="Analytics Growth Chart" src="https://user-images.githubusercontent.com/88283567/167962660-0eb83720-109c-4655-9626-d421d0911f68.png" width="400" />
+<br>
 <details>
 <summary>View history</summary>
 <br>
@@ -34,20 +39,23 @@ Version 2.0 is the all-new "remodeled" game, which inludes Bug fixes, Updated GU
 <br>
 <br>
 You can play the original game at <kbd>https://parkingmaster.w3spaces.com</kbd>
-## Desktop App
+<br>
+<br>
+<h2 align="left">Desktop App</h2>
 Version 2.0 will also have a lightweight desktop app (free download) for Windows, Mac & Linux.
 <br>
-## Play on the go
+<h2>Play on the go</h2>
 Parking Master 2.0 will have a MiniGame built into a desktop browser extension.
 <br>
 This is a backup in case you can't download the app.
-## Multiplayer
+<h2>Multiplayer</h2>
 With internet connection, all players are welcomed to play multiplayer in the website, app and minigame.
 <br>
 Multiplayer Parking Master 2.0 will have level-based challenges, but with multiplayer.
 <br>
 Players will be able to create a lobby name, go to the public "Lobby" page, and view/create a multiplayer server.
-## Credits
+<hr>
+<h2>Credits</h2>
 A list of items that helped make Parking-Master-2.0 possible.
 
 ##### SweetAlert \> https://github.com/t4t5/sweetalert
