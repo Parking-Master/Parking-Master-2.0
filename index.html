@@ -386,6 +386,9 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script>
+    function getMonthFromString(mon) {
+      return new Date(Date.parse(mon +" 1, 2012")).getMonth() +1;
+    }
       Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee");
       Parse.serverURL = "https://parseapi.back4app.com/";
       tippy('[data-tippy-content]');
@@ -405,6 +408,29 @@
           const lobbies = new Parse.Query(ActiveLobbies);
           lobbies.get(lobbyResults[i].id).then((lobbyName) => {
             const lobby = { name: lobbyName.get("lobbyName"), time: lobbyName.get("createdAt") };
+            let month = (getMonthFromString(lobby.time.toString().split(" ").splice(1)[0]));
+            let currentMonth = (new Date()).getMonth() +1;
+            let compareMonth = currentMonth - month;
+            let date = ((lobby.time.toString().split(" ").splice(2)[0]));
+            let currentDate = (new Date()).getDate();
+            let compareDate = currentDate - date;
+            let time = parseFloat((lobby.time.toString().split(" ").splice(4)[0]).split(":")[0]);
+            let currentTime = (new Date()).getHours();
+            let dateList = {};
+            dateList.months = compareMonth;
+            dateList.days = compareDate;
+            if (dateList.months >= 0 && (dateList.days >= 1 || (dateList.days == 1 && currentTime > time))) {
+              lobbies.get(lobbyResults[i].id).then((data) => {
+                data.destroy().then((data) => {
+                }, (error) => {
+                  // The delete failed.
+                  // error is a Parse.Error with an error code and message.
+                })
+              }, (error) => {
+                // The object was not retrieved successfully.
+              });
+
+            }
             document.querySelector(".currentLobbies").innerHTML += `
               <a href="multiplayer.html?channel=${lobby.name}">&quot;${lobby.name}&quot;&nbsp;&nbsp;:&nbsp;&nbsp;${lobby.time.toString().split(" ").reverse().splice(4).reverse().splice(1).join(" ").split(":").reverse().splice(1).reverse().join(":")}</a>
               <br>
@@ -417,21 +443,31 @@
       function multiplayer() {
         simple.prompt("Enter lobby name (at least 2 characters):", "", (name) => {
           if (name.length >= 2 && name.length <= 10) {
-            const Lobbies = Parse.Object.extend("Lobby");
-            const lobby = new Lobbies();
-            
-            lobby.set("lobbyName", name);
-            lobby.set("createdAt", ((new Date).toString().split(" ").reverse().splice(4).reverse().join(" ").split(" ")[0] + ", ") + (new Date).toString().split(" ").reverse().splice(4).reverse().splice(1).join(" "));
-            
-            lobby.save().then((result) => {
-              location.assign("multiplayer.html?channel=" + name);
-            }, (error) => {
-              simple.alert("Error: Failed to create lobby. Check console for error or contact support.");
-              console.log(error);
+            simple.confirm("Parking Master 2.0 Multiplayer involves interacting with players via chat. You can block another player by clicking the menu and selecting \"Block Player\". If you prefer to not play against real players, you can play against a bot by clicking the \"Start bot\" link on the start dialog. By creating a lobby, I agree to Parking Master 2.0's Terms of Service & Privacy Policy", () => {
+              const Lobbies = Parse.Object.extend("Lobby");
+              const lobby = new Lobbies();
+              
+              lobby.set("lobbyName", name);
+              lobby.set("createdAt", ((new Date).toString().split(" ").reverse().splice(4).reverse().join(" ").split(" ")[0] + ", ") + (new Date).toString().split(" ").reverse().splice(4).reverse().splice(1).join(" "));
+              
+              lobby.save().then((result) => {
+                location.assign("multiplayer.html?channel=" + name);
+              }, (error) => {
+                simple.alert("Error: Failed to create lobby. Check console for error or contact support.");
+                console.log(error);
+              });
             });
+            document.querySelector(".swal-button--confirm").textContent = "Confirm";
           }
         });
       }
+      function multiplayerBot(name) {
+        document.querySelector(".currentLobbies").innerHTML += `
+          <a href="multiplayer.html?channel=Example" onclick="event.preventDefault(); simple.alert('This is an example lobby. Find an active lobby in this list, or create a new one.')">&quot;Example&quot;&nbsp;&nbsp;:&nbsp;&nbsp;${(new Date).toString().split(" ").splice(1).reverse().splice(4).reverse().join(" ").split(":").reverse().splice(1).reverse().join(":")}</a>
+          <br>
+        `;
+      }
+      multiplayerBot("Example");
       function openLobbies() {
         document.querySelector(".lobbies").style.top = "0px";
       }
