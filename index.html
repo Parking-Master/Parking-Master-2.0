@@ -386,6 +386,7 @@
     <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://unpkg.com/tippy.js@6"></script>
     <script>
+      function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";");for(let e=0;e<n.length;e++){let o=n[e];for(;" "==o.charAt(0);)o=o.substring(1);if(0==o.indexOf(t))return o.substring(t.length,o.length)}return null}
       window.opened = false;
       function getMonthFromString(mon) {
         return new Date(Date.parse(mon +" 1, 2012")).getMonth() +1;
@@ -399,7 +400,13 @@
       !localStorage["current_pts"] && (localStorage["current_pts"] = "0");
       !localStorage["owned_cars"] && (localStorage["owned_cars"] = "0");
       let pts = 0;
-      setInterval(() => ((localStorage["current_pts"] != pts && (pts += 1)), document.querySelector("#points").textContent = pts), 10);
+      if (document.cookie.indexOf("username=") > -1) {
+        pts = getCookie("points");
+        document.querySelectorAll(".learn-more")[1].remove();
+        document.querySelector(".learn-more").querySelector("a span").textContent = "log out";
+        document.querySelector(".learn-more").querySelector("a").href = "login.html?logout=1";
+      }
+      setInterval(() => (((getCookie("username") ? getCookie("points") : localStorage["current_pts"]) != pts && (pts += 1)), document.querySelector("#points").textContent = pts), 10);
       (async () => {
         const AllLobbies = Parse.Object.extend("Lobby");
         const activeLobbies = new Parse.Query(AllLobbies);

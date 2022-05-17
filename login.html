@@ -9,7 +9,7 @@
     <meta http-equiv="X-Frame-Options" content="deny">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
     <title>Login to Parking Master</title>
-    <style>input{color:#fff!important;background:#ddd!important;}::selection{background-color:#ddd;color:#f9f9f9}input:-webkit-autofill{-webkit-box-shadow:0 0 0px 1000px #ddd inset}body{caret-color:#333;-webkit-tap-highlight-color:transparent;font-family:Arial,Helvetica,sans-serif}*{box-sizing:border-box}input[type=email],input[type=password]{width:100%;padding:15px;margin:5px 0 22px 0;display:inline-block;border:none;background:#f1f1f1}input[type=password]:focus,input[type=text]:focus{background-color:#ddd;outline:0}button{background-color:#333;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:100%;opacity:.9;border-radius:2px}button:hover{opacity:1}.cancelbtn{padding:14px 20px;background-color:#f44336}.signupbtn{float:center;width:100%;position:relative;left:50%;margin-left:-50%}.container{padding:16px}.modal{display:block;position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:transparent;padding-top:50px}.modal-content{background-color:#fefefe;margin:5% auto 15% auto;width:90%}hr{border:1px solid #f1f1f1;margin-bottom:25px}.clearfix::after{content:"";clear:both;display:table}@media screen and (max-width:300px){.signupbtn{width:100%}}</style>
+    <style>input{color:#fff!important;background:#ddd!important;}::selection{background-color:#ddd;color:#f9f9f9}input:-webkit-autofill{-webkit-box-shadow:0 0 0px 1000px #ddd inset}body{caret-color:#333;-webkit-tap-highlight-color:transparent;font-family:Arial,Helvetica,sans-serif}*{box-sizing:border-box}input[type=email],input[type=text],input[type=password]{width:100%;padding:15px;margin:5px 0 22px 0;display:inline-block;border:none;background:#f1f1f1}input[type=password]:focus,input[type=text]:focus{background-color:#ddd;outline:0}button{background-color:#333;color:#fff;padding:14px 20px;margin:8px 0;border:none;cursor:pointer;width:100%;opacity:.9;border-radius:2px}button:hover{opacity:1}.cancelbtn{padding:14px 20px;background-color:#f44336}.signupbtn{float:center;width:100%;position:relative;left:50%;margin-left:-50%}.container{padding:16px}.modal{display:block;position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:transparent;padding-top:50px}.modal-content{background-color:#fefefe;margin:5% auto 15% auto;width:90%}hr{border:1px solid #f1f1f1;margin-bottom:25px}.clearfix::after{content:"";clear:both;display:table}@media screen and (max-width:300px){.signupbtn{width:100%}}</style>
     <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
   </head>
 <body>
@@ -21,7 +21,7 @@
       
       <hr>
       <label for="email" style="color:#ddd;"><b>Username</b></label>
-      <input autocorrect="off" spellcheck="false" autocomplete="off" id="email-val" type="email" placeholder="Enter Username" name="email" required style="outline:none!important;">
+      <input autocorrect="off" spellcheck="false" autocomplete="off" id="email-val" type="text" placeholder="Enter Username" name="email" required style="outline:none!important;">
       
       <label for="psw" style="color:#ddd;"><b>Password</b></label>
       <input autocorrect="off" spellcheck="false" autocomplete="off" id="pass-val" type="password" placeholder="Enter Password" name="psw" required>
@@ -39,6 +39,11 @@
   </form>
 </div>
 <script>
+  if (new URLSearchParams(location.search).get("logout")) {
+    document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+    localStorage.clear();
+    sessionStorage.clear();
+  }
   function setCookie(cname, cvalue, exdays) {
     const d = new Date();
     d.setTime(d.getTime() + (exdays*24*60*60*1000));
@@ -48,11 +53,23 @@
   Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee");
   Parse.serverURL = "https://parseapi.back4app.com/";
   async function login() {
+    const User = Parse.Object.extend("User");
+    const userPreResult = new Parse.Query(User);
+    const pts = await userPreResult.find();
+    let points;
+    for (let i = 0; i < pts.length; i++) {
+      const User2 = Parse.Object.extend("User");
+      const userPreResult2 = new Parse.Query(User2);
+      userPreResult2.get(pts[i].id).then((pts_res) => {
+        points = pts_res.get("points");
+      });
+    }
     let username = document.getElementById("email-val").value.trim();
     let password = document.getElementById("pass-val").value.trim();
     alertify.message("Logging in...");
     try {
       let user = await Parse.User.logIn(username, password);
+      setCookie("points", points || 0, 30);
       setCookie("username", username, 30);
       setCookie("password", password, 30);
       location.replace("/");
