@@ -92,6 +92,10 @@
         margin-top: 8px;
         display: inline-block;
       }
+      .btn.btn-main.-red {
+        position: relative;
+        left: 50%;
+      }
       .btn.btn-main:active {
         position: relative;
         top: 2.5px;
@@ -149,6 +153,41 @@
         margin-left: -50px;
         top: 40vh;
       }
+      .vertical-divider {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 8px;
+        background: #ddd;
+        height: 100%;
+        left: 50%;
+        margin-left: -4px;
+      }
+      .park-btn {
+        position: absolute;
+        background: #f1f1f1;
+        width: 30px;
+        height: 30px;
+        padding: 2px;
+        font-size: 25px;
+        border-radius: 50%;
+        text-align: center;
+        color: #ddd;
+        cursor: pointer;
+        z-index: 9999;
+      }
+      .park-btn.-blue {
+        left: 10px;
+      }
+      .park-btn.-red {
+        left: 100vw;
+        top: 100vh;
+        margin-left: -50px;
+        margin-top: -100px;
+      }
+      *[data-disabled] {
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
@@ -157,21 +196,32 @@
       <div class="btn btn-main reverse-btn -blue" data-disabled>Reverse</div>
       <div class="btn btn-main left-btn -blue" data-disabled>Left</div>
       <div class="btn btn-main right-btn -blue" data-disabled>Right</div>
+      <div class="park-btn -blue" onclick="parkDetector(1)" data-disabled>&checkmark;</div>
     </div>
+    <div class="vertical-divider"></div>
     <div class="banner-red">
       <div class="btn btn-main drive-btn -red" data-disabled>Drive</div>
       <div class="btn btn-main reverse-btn -red" data-disabled>Reverse</div>
       <div class="btn btn-main left-btn -red" data-disabled>Left</div>
       <div class="btn btn-main right-btn -red" data-disabled>Right</div>
     </div>
+    <div class="park-btn -red" onclick="parkDetector(2)" data-disabled>&checkmark;</div>
     <section class="non-select" data-abilities="{}" data-unselectable>
-    <canvas player="1" width="600" height="350"></canvas>
-    <canvas player="2" width="600" height="350"></canvas>
+    <canvas class="canvas-blue" player="1" width="600" height="350"></canvas>
+    <canvas class="canvas-red" player="2" width="600" height="350"></canvas>
     </section>
     <div class="countdown-cover" style="display: none;">
       <div class="countdown-number">3</div>
     </div>
     <script>
+      usingBot = false;
+      winner = undefined;
+      window.addEventListener("load", function() {
+        window.justLoaded = true;
+        setTimeout(() => {
+          window.justLoaded = false;
+        }, 6000);
+      })
       function startCountDown() {
         document.querySelector(".countdown-cover").style.display = "block";
         let timerCurrent = 3;
@@ -458,39 +508,114 @@
       gametime.on("postID", postUserID);
       gametime.on("leftGame", left_game);
 
-      function startGame() {
-        swal({
-          title: "Player found",
-          text: "Connecting session...",
-          closeOnClickOutside: false,
-          closeOnEsc: false,
-          button: "Cancel"
-        }).then(() => (swal.close(), leftGame(true), location.replace("/")));
-        setTimeout(function() {
-        swal({
-          icon: "",
-          title: "Starting...",
-          text: "Starting in 10 seconds.\nNote: You are ... (Deciding team)",
-          buttons: false,
-          closeOnClickOutside: false,
-          closeOnEsc: false
-        });
-        setInterval(function() {
-          if (!team) {
+      if (new URLSearchParams(location.search).get("round") == "2") {
+        setInterval(() => {
+          window.team = new URLSearchParams(location.search).get("team");
+          let opposingTeam = team == "red" ? "blue" : "red";
+          document.querySelector(".banner-" + team).style.background = team;
+          document.querySelector(".canvas-" + team).style.borderColor = team;
+          document.querySelector(".banner-" + opposingTeam).style.background = "#444";
+          document.querySelector(".canvas-" + opposingTeam).style.borderColor = "#444";
+        }, 0);
+        window.startGame = function() {
+          swal({
+            icon: "",
+            title: "Round 2",
+            text: "Starting in 10 seconds.\nNote: You are " + new URLSearchParams(location.search).get("team") + " team",
+            buttons: false,
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          });
+          setTimeout(function() {
+            swal.close();
+            startCountDown();
+          }, 10500);
+        };
+        if (new URLSearchParams(location.search).get("usingBot") == "true") {
+          startBot();
+        }
+        continueGameL1 = function(player) {
+          player1points = localStorage["player1points"];
+          player2points = localStorage["player2points"];
+          if (window.justLoaded) {
             return;
           }
-          document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/\.\.\./g, "<b>" + team + " team</b>");
-          document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/red|blue/g, team);
-          document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace("(Deciding team)", "");
-        }, 1000);
-        setTimeout(() => {
-          swal.close();
-          startCountDown();
-          window.addEventListener("beforeunload", leftGame);
-          window.addEventListener("unload", leftGame);
-          window.addEventListener("offline", leftGame);
-        }, 10000);
-        }, 1000);
+          document.querySelector(".swal-overlay").style.width = "100%";
+          document.querySelector(".swal-overlay").style.left = "0";
+          if ((player1points || 0) > (player2points || 0)) {
+            swal({
+              icon: (defaultCarColors[player -1] == team ? "success" : "error"),
+              title: "Game over",
+              text: (defaultCarColors[player -1] == team ? "You won the game!" : "Player 1 wins!"),
+              button: "Close",
+              closeOnClickOutside: false,
+              closeOnEsc: false
+            }).then(() => {
+              location.replace("/");
+            });
+            (defaultCarColors[player -1] == team ? document.querySelector(".swal-button").style.backgroundColor = "#6cc22e" : document.querySelector(".swal-button").style.backgroundColor = "#ff0000");
+          } else if ((player2points || 0) > (player1points || 0)) {
+            swal({
+              icon: (defaultCarColors[player -1] == team ? "success" : "error"),
+              title: "Game over",
+              text: (defaultCarColors[player -1] == team ? "You won the game!" : "Player 2 wins!"),
+              button: "Close",
+              closeOnClickOutside: false,
+              closeOnEsc: false
+            }).then(() => {
+              location.replace("/");
+            });
+            (defaultCarColors[player -1] == team ? document.querySelector(".swal-button").style.backgroundColor = "#6cc22e" : document.querySelector(".swal-button").style.backgroundColor = "#ff0000");
+          } else if ((player1points || 0) === (player2points || 0)) {            
+            swal({
+              icon: "info",
+              title: "Game over",
+              text: "The game was a tie!",
+              button: "Close",
+              closeOnClickOutside: false,
+              closeOnEsc: false
+            }).then(() => {
+              location.replace("/");
+            });
+          }
+        }
+      } else {
+        localStorage.removeItem("player1points");
+        localStorage.removeItem("player2points");
+        window.startGame = function() {
+          swal({
+            title: "Player found",
+            text: "Connecting session...",
+            closeOnClickOutside: false,
+            closeOnEsc: false,
+            button: "Cancel"
+          }).then(() => (swal.close(), leftGame(true), location.replace("/")));
+          setTimeout(function() {
+          swal({
+            icon: "",
+            title: "Starting...",
+            text: "Starting in 10 seconds.\nNote: You are ... (Deciding team)",
+            buttons: false,
+            closeOnClickOutside: false,
+            closeOnEsc: false
+          });
+          setInterval(function() {
+            if (!team) {
+              return;
+            }
+            document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/\.\.\./g, "<b>" + team + " team</b>");
+            document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace(/red|blue/g, team);
+            document.querySelector(".swal-text").innerHTML = document.querySelector(".swal-text").innerHTML.replace("(Deciding team)", "");
+          }, 1000);
+          setTimeout(() => {
+            swal.close();
+            startCountDown();
+            window.addEventListener("beforeunload", leftGame);
+            window.addEventListener("unload", leftGame);
+            window.addEventListener("offline", leftGame);
+          }, 10000);
+          }, 1000);
+        }
       }
       function cancelSearch() {
         startGame = null;
@@ -500,7 +625,69 @@
         navigator.clipboard.writeText(location.protocol + "//" + location.host + location.pathname + "?channel=" + channel + "&join=1");
         alertify.message("Copied to clipboard!");
       }
-
+      function triggerMouseEvent(e,t){var n=document.createEvent("MouseEvents");n.initEvent(t,!0,!0),e.dispatchEvent(n)}
+      function startBot() {
+        usingBot = true;
+        window.stopEvent = false;
+        window.slowEvent = false;
+        window.reverseEvent = false;
+        if ([0, 1, 2][Math.floor(Math.random() * 3)] == [0, 1, 2][Math.floor(Math.random() * 3)]) {
+          stopEvent = true;
+        }
+        if ([0, 1, 2, 3, 4][Math.floor(Math.random() * 5)] == [0, 1, 2, 3, 4][Math.floor(Math.random() * 5)]) {
+          // slowEvent = true;
+        }
+        if ([0, 1, 2, 3, 4][Math.floor(Math.random() * 5)] == 1) {
+          reverseEvent = true;
+        }
+        startGame();
+        setTimeout(function() {
+          team == "blue" && (botTeam = "red");
+          team == "red" && (botTeam = "blue");
+          triggerMouseEvent(document.querySelector(".drive-btn.-" + botTeam), "mousedown");
+          setTimeout(() => triggerMouseEvent(document.querySelector(".drive-btn.-" + botTeam), "mouseup"), (stopEvent ? 1000 : 1250));
+          setTimeout(() => {
+            if (slowEvent) {
+              let slowevent_prop = setInterval(() => {
+                triggerMouseEvent(document.querySelector(".right-btn.-" + botTeam), "mousedown");
+                setTimeout(() => triggerMouseEvent(document.querySelector(".right-btn.-" + botTeam), "mouseup"));
+              }, 50);
+              setTimeout(() => clearInterval(slowevent_prop), 650);
+            } else {
+              setTimeout(() => triggerMouseEvent(document.querySelector(".right-btn.-" + botTeam), "mousedown"), 1500);
+            }
+          }, 2500);
+          setTimeout(() => triggerMouseEvent(document.querySelector(".right-btn.-" + botTeam), "mouseup"), (slowEvent ? 8100 : 8000));
+          function planB() {
+            setTimeout(() => {
+              let t = true;
+              let c = true;
+              let checkX = setInterval(function() {
+                if (car1.x < 515) {
+                  t && (triggerMouseEvent(document.querySelector(".right-btn.-" + botTeam), "mousedown"), t = false);
+                } else {
+                  clearInterval(checkX);
+                  (triggerMouseEvent(document.querySelector(".right-btn.-" + botTeam), "mouseup"), t = false);
+                }
+              });
+              let checkY = setInterval(function() {
+                if (car1.y < 230) {
+                  c && (triggerMouseEvent(document.querySelector(".drive-btn.-" + botTeam), "mousedown"), c = false);
+                } else {
+                  clearInterval(checkY);
+                  (triggerMouseEvent(document.querySelector(".drive-btn.-" + botTeam), "mouseup"), c = false);
+                }
+              });
+              setTimeout(() => {
+                if (car1.x > 515 && car1.y > 230) {
+                  parkDetector(1) == true && (setTimeout(() => swal.close(), 1000), document.querySelector("canvas[player='1']").style.opacity = "0.7");
+                }
+              }, 1500);
+            }, 1000);
+          }
+          setTimeout(() => ((parkDetector(1) || planB()), setTimeout(() => swal.close(), 1000)), 8000 + (slowEvent ? 100: 200));
+        }, 15500);
+      }
       let startGameState = setInterval(async function() {
         if (CurrentUserID.length >= 2) {
           clearInterval(startGameState);
@@ -509,7 +696,7 @@
       }, 100);
       window.onload = function() {
         const cancelBtn = document.createElement("div");
-        cancelBtn.innerHTML = "<a href=\"#\" onclick=\"event.preventDefault(); getLink();\">Link</a> <a href=\"#\" onclick=\"event.preventDefault(); cancelSearch();\">Cancel</a>";
+        cancelBtn.innerHTML = "<a href=\"#\" onclick=\"event.preventDefault(); getLink();\">Link</a>&nbsp;<a href=\"#\" onclick=\"event.preventDefault(); startBot();\">Start bot</a>&nbsp;<a href=\"#\" onclick=\"event.preventDefault(); cancelSearch();\">Cancel</a>";
         swal({
           icon: "",
           title: "Please wait...",
@@ -531,7 +718,9 @@
               defaultCarColors[1] = team;
               defaultCarColors[0] = "#444";
               document.querySelector(".banner-red").style.background = team;
+              document.querySelector(".park-btn.-red").style.background = team;
               document.querySelector(".banner-blue").style.background = "#444";
+              document.querySelector(".park-btn.-blue").style.background = "#444";
               init();
             } else if (CurrentUserID[1] == gametime.user.id) {
               isHost = true;
@@ -543,9 +732,12 @@
               defaultCarColors[1] = "#444";
               car1.context.fillStyle = team;
               document.querySelector(".banner-blue").style.background = team;
+              document.querySelector(".park-btn.-blue").style.background = team;
               document.querySelector(".banner-red").style.background = "#444";
+              document.querySelector(".park-btn.-red").style.background = "#444";
               init();
             }
+            document.querySelector(".vertical-divider").style.background = "#444";
           }, 2000);
         }, 4000);
       }
@@ -578,6 +770,88 @@
 
       function leftGame() {
         gametime.run("leftGame");
+      }
+      function getAllStyles(e){if(!e)return[];var t,r=document.defaultView||window,l=[];if(r.getComputedStyle){t=r.getComputedStyle(e,"");for(var u=0;u<t.length;u++)l.push(t[u]+":"+t.getPropertyValue(t[u]))}else if(e.currentStyle)for(var n in t=e.currentStyle)l.push(n+":"+t[n]);else{t=e.style;for(u=0;u<t.length;u++)l.push(t[u]+":"+t[t[u]])}return l}
+      function parkDetector(team) {
+        document.querySelector(".swal-overlay").style.width = "50%";
+        if (team == 1 && car1.x >= 520 && car1.x <= 580 && car1.y >= 230 && car1.y <= 290) {
+          if (!winner) {
+            winner = 1;
+          }
+          swal({
+            icon: "success",
+            title: "You parked!",
+            text: "You won this round. Please wait for the next player to continue."
+          }).then(() => {
+            winner && continueGame(winner);
+          });
+          document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
+          return true;
+        } else if (team == 2 && car2.x >= 520 && car2.x <= 580 && car2.y >= 230 && car2.y <= 290) {
+          if (!winner) {
+            winner = 2;
+          }
+          swal({
+            icon: "success",
+            title: "You parked!",
+            text: "You won this round. Please wait for the next player to continue."
+          }).then(() => {
+            winner && continueGame(winner);
+          });
+          document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
+          document.querySelector(".swal-overlay").style.left = "50%";
+          return true;
+        }
+        let e = document.createElement("div");
+        e.innerHTML = '<span style="color:#444;">Try <span style="color:#DB4437;text-decoration:underline;">parking again</span> or <span style="color:#DB4437;text-decoration:underline;">get closer</span> to the spot.';
+        swal({
+          icon: "error",
+          title: "You didn't park",
+          content: e
+        }).then(function() {
+          swal.close();
+          setTimeout(() => {
+            document.querySelector(".swal-overlay").style.left = "0";
+            document.querySelector(".swal-overlay").style.width = "100%";
+          }, 1000);
+        });
+        document.querySelector(".swal-button").style.backgroundColor = "#DB4437";
+        document.querySelector(".swal-overlay").style.width = "50%";
+        if (team == 1) {
+          return;
+        } else {
+          document.querySelector(".swal-overlay").style.left = "50%";
+        }
+        return false;
+      }
+      function continueGameL1(player) {
+        if (window.justLoaded) {
+          return;
+        }
+        document.querySelector(".swal-overlay").style.width = "100%";
+        document.querySelector(".swal-overlay").style.left = "0";
+        swal({
+          icon: (defaultCarColors[player -1] == team ? "success" : "error"),
+          title: "Player " + player + " wins!",
+          text: (defaultCarColors[player -1] == team ? "Congrats! You won this round." : "You lost this round. Better luck next time!"),
+          buttons: false,
+          closeOnClickOutside: false,
+          closeOnEsc: false
+        });
+        localStorage.setItem(`player${player}points`, ((parseFloat(`player${player}points`, 0) || 0) + 1).toString());
+        setTimeout(function() {
+          swal.close();
+          setTimeout(() => {
+            document.body.innerHTML += `
+              <iframe src="${location.href}&round=2&team=${team}&usingBot=${usingBot}" style="position:absolute;border;none;left:0;top:0;right:0;bottom:0;margin:0;padding:0;width:100%;height:100%;background:#fff;z-index:9999;"></iframe>
+            `;
+          }, 500);
+        }, 7500);
+      }
+      gametime.make("continueGame");
+      gametime.on("continueGame", continueGameL1);
+      function continueGame(player) {
+        gametime.run("continueGame", [player])
       }
     </script>
   </body>
