@@ -61,7 +61,7 @@
       const User2 = Parse.Object.extend("User");
       const userPreResult2 = new Parse.Query(User2);
       userPreResult2.get(pts[i].id).then((pts_res) => {
-        points = pts_res.get("points");
+        pts_res.get("username") == document.getElementById("email-val").value.trim() && (points = pts_res.get("points"));
       });
     }
     let username = document.getElementById("email-val").value.trim();
