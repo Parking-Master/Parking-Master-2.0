@@ -1,3 +1,5 @@
+Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee");
+Parse.serverURL = "https://parseapi.back4app.com/";
 function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";");for(let e=0;e<n.length;e++){let o=n[e];for(;" "==o.charAt(0);)o=o.substring(1);if(0==o.indexOf(t))return o.substring(t.length,o.length)}return null}
 (function() {
   if (localStorage["p"]) {
@@ -27,8 +29,6 @@ window.opened = false;
 function getMonthFromString(mon) {
   return new Date(Date.parse(mon +" 1, 2012")).getMonth() +1;
 }
-Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee");
-Parse.serverURL = "https://parseapi.back4app.com/";
 tippy('[data-tippy-content]');
 tippy('[data-tippy-arrow]');
 tippy('[data-tippy-theme]');
