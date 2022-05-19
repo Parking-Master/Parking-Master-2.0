@@ -10,7 +10,7 @@ function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";
         const User = Parse.Object.extend("User");
         const userQuery = new Parse.Query(User);
         const userPreResult = await userQuery.find();
-        for (let i = 0; i < lobbyResults.length; i++) {
+        for (let i = 0; i < userPreResult.length; i++) {
           const User2 = Parse.Object.extend("User");
           const userPreResult2 = new Parse.Query(User2);
           userPreResult2.get(userPreResult[i].id).then((user) => {
