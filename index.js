@@ -1,4 +1,4 @@
-Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee");
+Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee", "O0HhUFuXGJjxan3e3HshfsfLSnhk7Dp6skSQXMqf");
 Parse.serverURL = "https://parseapi.back4app.com/";
 function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";");for(let e=0;e<n.length;e++){let o=n[e];for(;" "==o.charAt(0);)o=o.substring(1);if(0==o.indexOf(t))return o.substring(t.length,o.length)}return null}
 (function() {
@@ -7,19 +7,8 @@ function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";
     localStorage.removeItem("p");
     if (getCookie("username") && getCookie("password")) {
       (async () => {
-        const User = Parse.Object.extend("User");
-        const userQuery = new Parse.Query(User);
-        const userPreResult = await userQuery.find();
-        for (let i = 0; i < userPreResult.length; i++) {
-          const User2 = Parse.Object.extend("User");
-          const userPreResult2 = new Parse.Query(User2);
-          userPreResult2.get(userPreResult[i].id).then((user) => {
-            if (user.get("username") == getCookie("username") && user.get("password") == getCookie("password")) {
-              user.set("points", (parseFloat(user.get("points"), 0) + pts).toString());
-            }
-          });
-        }
-      })();
+        // update pts here
+      })();      
     } else {
       localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) + pts).toString());
     }

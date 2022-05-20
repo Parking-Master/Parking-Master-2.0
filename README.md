@@ -1,9 +1,9 @@
 # Parking-Master-2.0
-Welcome to the all-new Parking-Master-2.0! This Repo is currently in production.
+Welcome to the all-new Parking-Master-2.0!
 <img src="preview.png" />
 Parking-Master-2.0 is the all new Parking Master!
 <br>
-Fully upgraded GUI, Security & In-Game Experience!
+Fully upgraded UI, Security & In-Game Experience!
 <br>
 ## History
 Parking-Master 1.0 (v1.0.0) is the first and official version of Parking Master, released on the first of August in 2021.
@@ -58,12 +58,12 @@ Players will be able to create a lobby name, go to the public "Lobby" page, and 
 <h2>Credits</h2>
 A list of items that helped make Parking-Master-2.0 possible.
 
-##### SweetAlert \> https://github.com/t4t5/sweetalert
-##### TippyJS \> https://github.com/atomiks/tippyjs
-##### SecurityJS.128 \> https://github.com/Parking-Master/SecurityJS.128
-##### Parking-Master \> https://github.com/Parking-Master/Parking-Master
+##### SweetAlert \> https://sweetalert.js.org
+##### TippyJS \> https://atomiks.github.io/tippyjs
+##### SecurityJS.128 \> https://parking-master.github.io/SecurityJS.128
+##### Parking-Master \> https://parkingmaster.w3spaces.com
 ##### Canva \> https://www.canva.com
-##### Gametime.js \> https://github.com/Parking-Master/Gametime.js
+##### Gametime.js \> https://gametime.js.org
 ##### Back4App \> https://www.back4app.com
 ##### Parse API \> https://parse-dashboard.back4app.com
 ##### Node.js \> https://www.nodejs.org/en
