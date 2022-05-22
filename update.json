@@ -5,7 +5,7 @@
     "information": "A local important file for this app is out-dated. This update will change this file along with other minor fixes",
     "files": ["main.js"],
     "createNewFiles": false,
-    "fileChanges": [""],
+    "fileChanges": ["wwww"],
     "filesToCreate": [],
     "newFilesToEdit": []
   }
