@@ -1,12 +1,12 @@
 {
-  "updateToken": "clIBTa6pcpRKipq9t7Nk",
-  "update": true,
-  "isCritical": true,
+  "updateToken": "",
+  "update": false,
+  "isCritical": false,
   "details": {
-    "information": "A local important file for this app is out-dated. This update will change this file along with other minor fixes",
-    "files": ["main.js"],
+    "information": "",
+    "files": [],
     "createNewFiles": false,
-    "fileChanges": ["const%20%7B%20BrowserWindow%2C%20app%2C%20Menu%2C%20shell%20%7D%20%3D%20require%28%22electron%22%29%3B"],
+    "fileChanges": [],
     "filesToCreate": [],
     "newFilesToEdit": []
   }
