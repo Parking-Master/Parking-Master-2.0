@@ -44,6 +44,7 @@
           }
           img {
             pointer-events: none !important;
+            z-index: 0 !important;
           }
           .controls button {
             background: #eee;
@@ -70,6 +71,7 @@
           canvas {
             position: absolute;
             top: 0 !important;
+            background: transparent !important;
           }
           .timer {
             position: absolute;
@@ -392,8 +394,10 @@
                     w = new THREE.OrthographicCamera(-150, 150, E / 2, E / -2, 200, 800);
                 w.position.set(200, 200, 200), w.lookAt(0, 10, 0);
                 const f = new THREE.WebGLRenderer({
-                    antialias: !0
+                    antialias: !0,
+                    alpha: true
                 });
+                f.setClearColor( 0x000000, 0 );
                 f.setSize(window.innerWidth, window.innerHeight), f.render(s, w);
                 let h = 0,
                     m = "";
@@ -469,11 +473,12 @@
                   vector.y = - ( vector.y * heightHalf ) + heightHalf;
                   return vector;
                 }
+                s.background = null;
             }
         }
         var car = new Car({
           car: window.defaultCar,
-          canvasColor: "#f2f2f2",
+          canvasColor: "transparent",
           width: "100%",
           height: "100%"
         });
@@ -592,6 +597,7 @@
         document.body.addEventListener("keydown", function(e) {
           (!e.repeat && e.key == "Enter") && parkOption();
         });
+        stopTimer();
         </script>
     </body>
 </html>
