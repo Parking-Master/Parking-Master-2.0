@@ -35,7 +35,7 @@
         }
         return "";
       }
-      var username = !!(getCookie("user-email") && getCookie("user-pass")) ? getCookie("user-name") : (localStorage["uname"]) || "";
+      var username = !!(getCookie("user-email") && getCookie("user-pass")) ? getCookie("user-name") : (localStorage["uname"]) || "Unknown";
 
       var CurrentUserID = [];
       gametime.set("key", "pub-c-c44c8fc4-612e-4fc3-b875-4398f01da63c", "sub-c-b6832794-3c08-11ec-b2c1-a25c7fcd9558");
@@ -53,7 +53,7 @@
         window.scrollTo(0, document.body.scrollHeight);
         var chatHistory = localStorage["history"];
         var noBug = chatHistory === "" ? "" : ",";
-        localStorage.setItem("history", (chatHistory + noBug + encodeURIComponent(msg)).split(",").toString());
+        localStorage.setItem("history", (chatHistory + noBug + encodeURIComponent(msg.split(":").splice(1).join(":").trim())).split(",").toString());
       }
 
       gametime.on("message", sendMessage);

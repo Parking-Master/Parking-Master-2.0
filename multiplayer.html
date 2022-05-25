@@ -188,6 +188,25 @@
       *[data-disabled] {
         pointer-events: none;
       }
+      .chat-btn {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 99999;
+        background: #ddd;
+        text-align: center;
+        font-size: 16px;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #333;
+        border-radius: 50%;
+        margin-left: -25.5px;
+        margin-top: -25.5px;
+        padding: 1px;
+        color: #333;
+        /* visibility: hidden; */
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -199,6 +218,7 @@
       <div class="park-btn -blue" onclick="parkDetector(1)" data-disabled>&checkmark;</div>
     </div>
     <div class="vertical-divider"></div>
+    <button onclick="openChat()" class="chat-btn">CHAT</button>
     <div class="banner-red">
       <div class="btn btn-main drive-btn -red" data-disabled>Drive</div>
       <div class="btn btn-main reverse-btn -red" data-disabled>Reverse</div>
@@ -213,6 +233,60 @@
     <div class="countdown-cover" style="display: none;">
       <div class="countdown-number">3</div>
     </div>
+    <div class="fake-browser-ui">
+        <div class="frame">
+            <span onclick="this.parentElement.parentElement.style.display = 'none';">&times;</span>
+            <span onclick="chatClose()">&minus;</span>
+            <span></span>
+        </div>
+        <iframe src="chat.html" width="600" height="400" style="border: none !important;"></iframe>
+    </div>
+    <style>
+        .fake-browser-ui {
+          position: absolute;
+          padding: 20px 0 0;
+          border-radius: 5px;
+          background: #555;
+          display: inline-block;
+          position: relative;
+          line-height: 0;
+          left: 50%;
+          margin-left: -300px;
+          top: 50%;
+          margin-top: -400px;
+          cursor: default !important;
+          box-shadow: 0 0 10px 5px #777;
+          display: none;
+        }
+        .fake-browser-ui .frame {
+          display: block;
+          height: 15px;
+          position: absolute;
+          top: 5px;
+          left: 1px;
+        }
+        .fake-browser-ui span {
+          height: 8px;
+          width: 13px;
+          border-radius: 8px;
+          background: #777;
+          float: left;
+          margin: 0 0 0 5px;
+          font-size: 10px;
+          text-align: center;
+          padding-top: 5px;
+          margin-top: -2px;
+          color: transparent;
+        }
+        .fake-browser-ui .frame:hover span {
+          color: #333;
+        }
+        .fake-browser-ui iframe {
+          background: #ddd !important;
+          border-bottom-right-radius: 5px;
+          border-bottom-left-radius: 5px;
+        }
+    </style>
     <script>
       usingBot = false;
       winner = undefined;
@@ -226,7 +300,7 @@
         document.querySelector(".countdown-cover").style.display = "block";
         let timerCurrent = 3;
         setInterval(() => {
-          if (timerCurrent > 1) { timerCurrent -= 1; document.querySelector(".countdown-number").textContent = timerCurrent; } else { document.querySelector(".countdown-number").textContent = "GO!"; setTimeout(() => document.querySelector(".countdown-cover").style.display = "none", 1000); }
+          if (timerCurrent > 1) { timerCurrent -= 1; document.querySelector(".countdown-number").textContent = timerCurrent; } else { document.querySelector(".countdown-number").textContent = "GO!"; setTimeout(() => (document.querySelector(".countdown-cover").style.display = "none", document.querySelector(".chat-btn").style.visibility = "visible"), 1000); }
         }, 1000);
       }
       let positive_teams = ["red"];
@@ -852,6 +926,22 @@
       gametime.on("continueGame", continueGameL1);
       function continueGame(player) {
         gametime.run("continueGame", [player])
+      }
+      function openChat() {
+        document.querySelector(".fake-browser-ui").style.display = "inline-block";
+      }
+      function chatClose() {
+        let i = document.querySelector(".fake-browser-ui");
+        i.style.transition = "margin-left .2s";
+        i.style.marginLeft = "-500px";
+        setTimeout(() => {
+          i.style.marginLeft = "1000px";
+        }, 300);
+        setTimeout(() => {
+          i.style.transition = "none";
+          i.style.marginLeft = "-300px";
+          i.style.display = "none";
+        }, 525);
       }
     </script>
   </body>
