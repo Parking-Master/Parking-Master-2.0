@@ -82,7 +82,7 @@ setInterval(() => (((getCookie("username") ? getCookie("points") : localStorage[
 function multiplayer() {
   simple.prompt("Enter lobby name (at least 2 characters):", "", (name) => {
     if (name.length >= 2 && name.length <= 10) {
-      simple.confirm("Parking Master 2.0 Multiplayer involves interacting with players via chat. You can block another player by clicking the menu and selecting \"Block Player\". If you prefer to not play against real players, you can play against a bot by clicking the \"Start bot\" link on the start dialog. By creating a lobby, I agree to Parking Master 2.0's Terms of Service & Privacy Policy", () => {
+      simple.confirm("Parking Master 2.0 Multiplayer involves interacting with players via chat. You can block another player by clicking the menu and selecting \"Block Player\". If you prefer to not play against real players, you can play against a bot by clicking the \"Start bot\" link on the start dialog. Publicly-created lobbies last up to 24 hours. By creating a lobby, I agree to Parking Master 2.0's Terms of Service & Privacy Policy", () => {
         const Lobbies = Parse.Object.extend("Lobby");
         const lobby = new Lobbies();
         
