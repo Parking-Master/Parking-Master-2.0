@@ -22,10 +22,10 @@
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PG7Z87V" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
-    <div id="load-cover" style="position:absolute;left:0;top:0;bottom:0;right:0;background:#f5f5f5;margin:0;padding:0;z-index:100000;">
+    <div id="load-cover" style="transition:opacity .2s;position:absolute;left:0;top:0;bottom:0;right:0;background:#f5f5f5;margin:0;padding:0;z-index:100000;">
       <div class="loading-container" id="load">
         <i class="fa fa-coffee"></i>
-        <p style="text-align:center;margin-top:0.25em;">Loading...</p>
+        <p style="text-align:center;margin-top:0.25em;">Loading... <span id="load-percent">0</span>%</p>
         <style>
           .progress {
             position: relative;
@@ -44,7 +44,7 @@
           <div class="progress">
             <div class="progress_bar"></div>
           </div>
-          <script>!function(){let e=0;if(0==e){e=1;let t=1,r=setInterval((function(){t>=100?(clearInterval(r),e=0,setTimeout(() => document.querySelector("#load-cover").remove(), 1500)):(t+=.25,document.querySelector(".progress_bar").style.width=t+"%")}),1)}}();</script>
+          <script>!function(){let e=0;if(0==e){e=1;let t=1,r=setInterval((function(){t>=100?(clearInterval(r),e=0,setTimeout(()=>(document.querySelector("#load-cover").style.opacity="0",setTimeout(()=>document.querySelector("#load-cover").remove(),200)),1250)):(t+=.25,document.querySelector("#load-percent").textContent=t.toFixed(0),document.querySelector(".progress_bar").style.width=t+"%")}),1)}}();</script>
         <noscript><div style="position:absolute;left:0;top:0;right:0;bottom:0;margin:0;background:#f9f9f9;padding:0;"><span style="z-index:1;color:#222;font-weight:bold;font-size:2vw;text-align:center;font-family:Arial">JavaScript is disabled</span></div></noscript>
       </div>
     </div>
