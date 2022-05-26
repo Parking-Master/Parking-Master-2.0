@@ -7,7 +7,9 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Simple-Alert@latest/simplealert.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Date.js@latest/date.js"></script>
     <script type="text/javascript" src="https://npmcdn.com/parse/dist/parse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Parking-Master/Gametime.js@latest/js/username-generator.min.js"></script>
     <link rel="stylesheet" type="text/css" href="./styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -20,6 +22,32 @@
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PG7Z87V" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <!-- End Google Tag Manager (noscript) -->
+    <div id="load-cover" style="position:absolute;left:0;top:0;bottom:0;right:0;background:#f5f5f5;margin:0;padding:0;z-index:100000;">
+      <div class="loading-container" id="load">
+        <i class="fa fa-coffee"></i>
+        <p style="text-align:center;margin-top:0.25em;">Loading...</p>
+        <style>
+          .progress {
+            position: relative;
+            width: 145px;
+            background-color: #f5f5f5;
+            height: 20px;
+            left: 50%;
+            margin-left: -72.5px;
+          }
+          .progress_bar {
+            width: 0%;
+            height: 20px;
+            background-color: #fff;
+          }
+          </style>
+          <div class="progress">
+            <div class="progress_bar"></div>
+          </div>
+          <script>!function(){let e=0;if(0==e){e=1;let t=1,r=setInterval((function(){t>=100?(clearInterval(r),e=0,setTimeout(() => document.querySelector("#load-cover").remove(), 1500)):(t+=.25,document.querySelector(".progress_bar").style.width=t+"%")}),1)}}();</script>
+        <noscript><div style="position:absolute;left:0;top:0;right:0;bottom:0;margin:0;background:#f9f9f9;padding:0;"><span style="z-index:1;color:#222;font-weight:bold;font-size:2vw;text-align:center;font-family:Arial">JavaScript is disabled</span></div></noscript>
+      </div>
+    </div>
     <audio id="menu-audio" src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master@latest/index/menu-audio.mp3" autoplay="" loop=""></audio>
     <div class="lobbies">
       <button class="createLobby" onclick="multiplayer()">Create new lobby</button>

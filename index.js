@@ -1,7 +1,13 @@
 Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee", "O0HhUFuXGJjxan3e3HshfsfLSnhk7Dp6skSQXMqf");
 Parse.serverURL = "https://parseapi.back4app.com/";
-function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";");for(let e=0;e<n.length;e++){let o=n[e];for(;" "==o.charAt(0);)o=o.substring(1);if(0==o.indexOf(t))return o.substring(t.length,o.length)}return null}
+if(!localStorage.uname){localStorage.setItem("uname", generateName())}function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";");for(let e=0;e<n.length;e++){let o=n[e];for(;" "==o.charAt(0);)o=o.substring(1);if(0==o.indexOf(t))return o.substring(t.length,o.length)}return null}
+function checkBrowser(){let e="",r=navigator.userAgent.search("Chrome"),a=navigator.userAgent.search("Firefox"),n=navigator.userAgent.search("MSIE 8.0"),t=navigator.userAgent.search("MSIE 9.0");return r>-1?e="Chrome":a>-1?e="Firefox":t>-1?e="MSIE 9.0":n>-1&&(e="MSIE 8.0"),e}
 (function() {
+  if (checkBrowser() == "Firefox") {
+    for (let i = 0; i < document.querySelectorAll(".nav-btn").length; i++) {
+      document.querySelectorAll(".nav-btn")[i].style.fontSize = "51.5px";
+    }
+  }
   if (localStorage["p"]) {
     let pts = parseFloat(localStorage["p"], 0);
     localStorage.removeItem("p");
