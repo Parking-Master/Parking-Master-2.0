@@ -706,6 +706,9 @@
       }
       function triggerMouseEvent(e,t){var n=document.createEvent("MouseEvents");n.initEvent(t,!0,!0),e.dispatchEvent(n)}
       function startBot() {
+        document.querySelector("iframe").contentWindow.document.querySelector("button.send").addEventListener("click", function() {
+          alert();
+        });
         usingBot = true;
         window.stopEvent = false;
         window.slowEvent = false;
