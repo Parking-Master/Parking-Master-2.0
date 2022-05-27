@@ -708,7 +708,7 @@
       function startBot() {
         const utterances=[["hi","hey","hello"],["how are you","how are things"],["what is going on","what is up"],["happy","good","well","fantastic","cool"],["bad","bored","tired","sad"],["tell me story","tell me joke"],["thanks","thank you"],["bye","good bye","goodbye"]],answers=[["Hello!","Hi!","Hey!","Hi there!"],["Fine... how are you?","Pretty well, how are you?","Fantastic, how are you?"],["Nothing much","Exciting things!"],["Glad to hear it"],["Why?","Cheer up buddy"],["What about?","Once upon a time..."],["You're welcome","No problem"],["Goodbye","See you later"]],alternatives=["Same","Go on...","Try again","I'm listening...","Bro..."];function output(e){let t,a=e.toLowerCase().replace(/[^\w\s\d]/gi,"");a=a.replace(/ a /g," ").replace(/whats/g,"what is").replace(/please /g,"").replace(/ please/g,"").replace(/r u/g,"are you"),t=compare(utterances,answers,a)?compare(utterances,answers,a):alternatives[Math.floor(Math.random()*alternatives.length)];return(t)}function compare(e,t,a){let o,r=!1;for(let n=0;n<e.length;n++){for(let l=0;l<e[n].length;l++)if(e[n][l]===a){let e=t[n];o=e[Math.floor(Math.random()*e.length)],r=!0;break}if(r)break}return o}
         document.querySelector("iframe").contentWindow.document.querySelector("button.send").addEventListener("click", function() {
-          document.querySelector("iframe").contentWindow.sendMessage(output(document.querySelector("iframe").contentWindow.document.querySelector("input").value));
+          setTimeout(() => document.querySelector("iframe").contentWindow.sendMessage(output(document.querySelector("iframe").contentWindow.document.querySelector("input").value)), 2000);
         });
         usingBot = true;
         window.stopEvent = false;
