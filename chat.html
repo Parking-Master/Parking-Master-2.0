@@ -53,7 +53,7 @@
         window.scrollTo(0, document.body.scrollHeight);
         var chatHistory = localStorage["history"];
         var noBug = chatHistory === "" ? "" : ",";
-        localStorage.setItem("history", (chatHistory + noBug + encodeURIComponent(msg.split(":").splice(1).join(":").trim())).split(",").toString());
+        // localStorage.setItem("history", (chatHistory + noBug + encodeURIComponent(msg.split(":").splice(1).join(":").trim())).split(",").toString());
       }
 
       gametime.on("message", sendMessage);
