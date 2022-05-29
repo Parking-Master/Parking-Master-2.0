@@ -789,7 +789,7 @@
               let t = true;
               let c = true;
               let checkX = setInterval(function() {
-                if (car1.x < 515) {
+                if (car1.x < 240) {
                   t && (triggerMouseEvent(document.querySelector(".right-btn.-" + botTeam), "mousedown"), t = false);
                 } else {
                   clearInterval(checkX);
@@ -797,7 +797,7 @@
                 }
               });
               let checkY = setInterval(function() {
-                if (car1.y < 230) {
+                if (car1.y < 220) {
                   c && (triggerMouseEvent(document.querySelector(".drive-btn.-" + botTeam), "mousedown"), c = false);
                 } else {
                   clearInterval(checkY);
@@ -805,7 +805,7 @@
                 }
               });
               setTimeout(() => {
-                if (car1.x > 515 && car1.y > 230) {
+                if (car1.x > 240 && car1.y > 220) {
                   parkDetector(1) == true && (setTimeout(() => swal.close(), 1000), document.querySelector("canvas[player='1']").style.opacity = "0.7");
                 }
               }, 1500);
