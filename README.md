@@ -47,13 +47,21 @@ Version 2.0 is the all-new "remodeled" game, which inludes Bug fixes, Updated GU
 You can play the original game at <kbd>https://parkingmaster.w3spaces.com</kbd>
 <br>
 <br>
+<br>
+<br>
+<br>
+<br>
 <h2 align="left">Desktop App (Out now!)</h2>
-Version 2.0 has a lightweight desktop app for Windows, Mac & Linux.<br>
-<img width="100" src="https://raw.githubusercontent.com/Parking-Master/Parking-Master-2.0/main/preview.gif" />
+Version 2.0 has a lightweight desktop app for Windows, Mac & Linux.
+<br>
+<img width="600" src="https://raw.githubusercontent.com/Parking-Master/Parking-Master-2.0/main/preview.gif" alt="Desktop Preview" />
+<br>
 Play multiplayer, offline-cached edition, login/signup, the possibilities are endless!
-[Download for MacOS](https://parkingmaster.tk/Parking Master 2.0 (Mac v1).zip)
-[Download for Windows](https://parkingmaster.tk/Parking Master 2.0 (Win v1).zip)
-[Download for Linux]((https://parkingmaster.tk/Parking Master 2.0 (Lin v1).zip))
+<br>
+<br>
+- <a href="https://parkingmaster.tk/Parking%20Master%202.0%20\(Mac%20v1\).zip" rel="nofollow">Download for MacOS</a><br>
+- <a href="https://parkingmaster.tk/Parking%20Master%202.0%20\(Win%20v1\).zip" rel="nofollow">Download for Windows</a><br>
+- <a href="https://parkingmaster.tk/Parking%20Master%202.0%20\(Lin%20v1\).zip" rel="nofollow">Download for Linux</a><br>
 <br>
 <h2>Play on the go</h2>
 Parking Master 2.0 will have a MiniGame built into a desktop browser extension.
