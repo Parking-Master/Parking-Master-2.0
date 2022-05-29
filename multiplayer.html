@@ -463,60 +463,100 @@
 
       car1.driveForward = function() {
         car1.context.fillStyle = defaultCarColors[0];
-        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
-        car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
+        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height);
+        car1.context.fillRect(car1.x + carWidth, car1.y + 1, 5, 30);
+        car1.context.fillRect(car1.x + carWidth, car1.y + carHeight - 34, 3, 30);
+        car1.context.fillRect(car1.x - 5, car1.y + 2, 5, 30);
+        car1.context.fillRect(car1.x - 3, car1.y + carHeight - 34, 3, 30);
+        car1.context.fillRect(car1.x, car1.y - 1, carWidth, carHeight);
         car1.y += 3;
         car1.animateA = requestAnimationFrame(car1.driveForward);
+        drawParkingLot();
       }
       car1.driveBackward = function() {
         car1.context.fillStyle = defaultCarColors[0];
-        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
+        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height);
+        car1.context.fillRect(car1.x + carWidth, car1.y + 1, 5, 30);
+        car1.context.fillRect(car1.x + carWidth, car1.y + carHeight - 34, 3, 30);
+        car1.context.fillRect(car1.x - 5, car1.y + 2, 5, 30);
+        car1.context.fillRect(car1.x - 3, car1.y + carHeight - 34, 3, 30);
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
         car1.y -= 2.5;
         car1.animateB = requestAnimationFrame(car1.driveBackward);
+        drawParkingLot();
       }
       car1.driveLeft = function() {
         car1.context.fillStyle = defaultCarColors[0];
-        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
+        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height);
+        car1.context.fillRect(car1.x + carWidth, car1.y + 1, 5, 30);
+        car1.context.fillRect(car1.x + carWidth, car1.y + carHeight - 34, 3, 30);
+        car1.context.fillRect(car1.x - 5, car1.y + 2, 5, 30);
+        car1.context.fillRect(car1.x - 3, car1.y + carHeight - 34, 3, 30);
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
         car1.x -= 2;
         car1.animateC = requestAnimationFrame(car1.driveLeft);
+        drawParkingLot();
       }
       car1.driveRight = function() {
         car1.context.fillStyle = defaultCarColors[0];
-        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height)
+        car1.context.clearRect(0, 0, car1.canvas.width, car1.canvas.height);
+        car1.context.fillRect(car1.x + carWidth, car1.y + 1, 5, 30);
+        car1.context.fillRect(car1.x + carWidth, car1.y + carHeight - 34, 3, 30);
+        car1.context.fillRect(car1.x - 5, car1.y + 2, 5, 30);
+        car1.context.fillRect(car1.x - 3, car1.y + carHeight - 34, 3, 30);
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
         car1.x += 2;
         car1.animateD = requestAnimationFrame(car1.driveRight);
+        drawParkingLot();
       }
 
       car2.driveForward = function() {
         car2.context.fillStyle = defaultCarColors[1];
-        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
+        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height);
+        car2.context.fillRect(car2.x + carWidth, car2.y + 1, 5, 30);
+        car2.context.fillRect(car2.x + carWidth, car2.y + carHeight - 34, 3, 30);
+        car2.context.fillRect(car2.x - 5, car2.y + 2, 5, 30);
+        car2.context.fillRect(car2.x - 3, car2.y + carHeight - 34, 3, 30);
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
         car2.y += 3;
         car2.animateA = requestAnimationFrame(car2.driveForward);
+        drawParkingLot();
       }
       car2.driveBackward = function() {
         car2.context.fillStyle = defaultCarColors[1];
-        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
+        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height);
+        car2.context.fillRect(car2.x + carWidth, car2.y + 1, 5, 30);
+        car2.context.fillRect(car2.x + carWidth, car2.y + carHeight - 34, 3, 30);
+        car2.context.fillRect(car2.x - 5, car2.y + 2, 5, 30);
+        car2.context.fillRect(car2.x - 3, car2.y + carHeight - 34, 3, 30);
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
         car2.y -= 2.5;
         car2.animateB = requestAnimationFrame(car2.driveBackward);
+        drawParkingLot();
       }
       car2.driveLeft = function() {
         car2.context.fillStyle = defaultCarColors[1];
-        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
+        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height);
+        car2.context.fillRect(car2.x + carWidth, car2.y + 1, 5, 30);
+        car2.context.fillRect(car2.x + carWidth, car2.y + carHeight - 34, 3, 30);
+        car2.context.fillRect(car2.x - 5, car2.y + 2, 5, 30);
+        car2.context.fillRect(car2.x - 3, car2.y + carHeight - 34, 3, 30);
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
         car2.x -= 2;
         car2.animateC = requestAnimationFrame(car2.driveLeft);
+        drawParkingLot();
       }
       car2.driveRight = function() {
         car2.context.fillStyle = defaultCarColors[1];
-        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height)
+        car2.context.clearRect(0, 0, car2.canvas.width, car2.canvas.height);
+        car2.context.fillRect(car2.x + carWidth, car2.y + 1, 5, 30);
+        car2.context.fillRect(car2.x + carWidth, car2.y + carHeight - 34, 3, 30);
+        car2.context.fillRect(car2.x - 5, car2.y + 2, 5, 30);
+        car2.context.fillRect(car2.x - 3, car2.y + carHeight - 34, 3, 30);
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
         car2.x += 2;
         car2.animateD = requestAnimationFrame(car2.driveRight);
+        drawParkingLot();
       }
 
       car1.stopForward = function() {
@@ -708,9 +748,11 @@
       function triggerMouseEvent(e,t){var n=document.createEvent("MouseEvents");n.initEvent(t,!0,!0),e.dispatchEvent(n)}
       function startBot() {
         const utterances=[["hi","hey","hello"],["how are you","how are things"],["what is going on","what is up"],["happy","good","well","fantastic","cool"],["bad","bored","tired","sad"],["tell me story","tell me joke"],["thanks","thank you"],["bye","good bye","goodbye"]],answers=[["Hello!","Hi!","Hey!","Hi there!"],["Fine... how are you?","Pretty well, how are you?","Fantastic, how are you?"],["Nothing much","Exciting things!"],["Glad to hear it"],["Why?","Cheer up buddy"],["What about?","Once upon a time..."],["You're welcome","No problem"],["Goodbye","See you later"]],alternatives=["Same","Go on...","Try again","I'm listening...","Bro..."];function output(e){let t,a=e.toLowerCase().replace(/[^\w\s\d]/gi,"");a=a.replace(/ a /g," ").replace(/whats/g,"what is").replace(/please /g,"").replace(/ please/g,"").replace(/r u/g,"are you"),t=compare(utterances,answers,a)?compare(utterances,answers,a):alternatives[Math.floor(Math.random()*alternatives.length)];return(t)}function compare(e,t,a){let o,r=!1;for(let n=0;n<e.length;n++){for(let l=0;l<e[n].length;l++)if(e[n][l]===a){let e=t[n];o=e[Math.floor(Math.random()*e.length)],r=!0;break}if(r)break}return o}
-        document.querySelector("iframe").contentWindow.document.querySelector("button.send").addEventListener("click", function() {
-          setTimeout(() => document.querySelector("iframe").contentWindow.sendMessage(generateName() + ": " + output(document.querySelector("iframe").contentWindow.document.querySelector("input").value)), 2000);
-        });
+        if (location.protocol == "https") {
+          document.querySelector("iframe").contentWindow.document.querySelector("button.send").addEventListener("click", function() {
+            setTimeout(() => document.querySelector("iframe").contentWindow.sendMessage(generateName() + ": " + output(document.querySelector("iframe").contentWindow.document.querySelector("input").value)), 2000);
+          });
+        }
         usingBot = true;
         window.stopEvent = false;
         window.slowEvent = false;
@@ -806,6 +848,7 @@
               document.querySelector(".banner-blue").style.background = "#444";
               document.querySelector(".park-btn.-blue").style.background = "#444";
               init();
+              drawParkingLot();
             } else if (CurrentUserID[1] == gametime.user.id) {
               isHost = true;
               isGuest = false;
@@ -820,6 +863,7 @@
               document.querySelector(".banner-red").style.background = "#444";
               document.querySelector(".park-btn.-red").style.background = "#444";
               init();
+              drawParkingLot();
             }
             document.querySelector(".vertical-divider").style.background = "#444";
           }, 2000);
@@ -827,9 +871,53 @@
       }
       function init() {
         car1.context.fillStyle = defaultCarColors[0];
+        car1.context.fillRect(car1.x + carWidth, car1.y + 1, 5, 30);
+        car1.context.fillRect(car1.x + carWidth, car1.y + carHeight - 34, 3, 30);
+        car1.context.fillRect(car1.x - 5, car1.y + 2, 5, 30);
+        car1.context.fillRect(car1.x - 3, car1.y + carHeight - 34, 3, 30);
         car1.context.fillRect(car1.x, car1.y, carWidth, carHeight);
         car2.context.fillStyle = defaultCarColors[1];
+        car2.context.fillRect(car2.x + carWidth, car2.y + 1, 5, 30);
+        car2.context.fillRect(car2.x + carWidth, car2.y + carHeight - 34, 3, 30);
+        car2.context.fillRect(car2.x - 5, car2.y + 2, 5, 30);
+        car2.context.fillRect(car2.x - 3, car2.y + carHeight - 34, 3, 30);
         car2.context.fillRect(car2.x, car2.y, carWidth, carHeight);
+      }
+
+      function drawParkingLot() {
+        car1.context.fillRect(0, 350 - 10, 600, 10);
+        car1.context.fillRect(0, 350 - 140, 10, 140);
+        car1.context.fillRect(90, 350 - 140, 10, 140);
+        car1.context.fillRect(180, 350 - 140, 10, 140);
+        car1.context.fillRect(270, 350 - 140, 10, 140);
+        car1.context.fillRect(360, 350 - 140, 10, 140);
+
+        car1.context.fillRect(450, 350 - 35, 10, 25);
+        car1.context.fillRect(450, 350 - 70, 10, 25);
+        car1.context.fillRect(450, 350 - 105, 10, 25);
+        car1.context.fillRect(450, 350 - 140, 10, 25);
+
+        car1.context.fillRect(540, 350 - 35, 10, 25);
+        car1.context.fillRect(540, 350 - 70, 10, 25);
+        car1.context.fillRect(540, 350 - 105, 10, 25);
+        car1.context.fillRect(540, 350 - 140, 10, 25);
+
+        car2.context.fillRect(0, 350 - 10, 600, 10);
+        car2.context.fillRect(0, 350 - 140, 10, 140);
+        car2.context.fillRect(90, 350 - 140, 10, 140);
+        car2.context.fillRect(180, 350 - 140, 10, 140);
+        car2.context.fillRect(270, 350 - 140, 10, 140);
+        car2.context.fillRect(360, 350 - 140, 10, 140);
+
+        car2.context.fillRect(450, 350 - 35, 10, 25);
+        car2.context.fillRect(450, 350 - 70, 10, 25);
+        car2.context.fillRect(450, 350 - 105, 10, 25);
+        car2.context.fillRect(450, 350 - 140, 10, 25);
+
+        car2.context.fillRect(540, 350 - 35, 10, 25);
+        car2.context.fillRect(540, 350 - 70, 10, 25);
+        car2.context.fillRect(540, 350 - 105, 10, 25);
+        car2.context.fillRect(540, 350 - 140, 10, 25);
       }
 
       setInterval(() => {
@@ -858,7 +946,7 @@
       function getAllStyles(e){if(!e)return[];var t,r=document.defaultView||window,l=[];if(r.getComputedStyle){t=r.getComputedStyle(e,"");for(var u=0;u<t.length;u++)l.push(t[u]+":"+t.getPropertyValue(t[u]))}else if(e.currentStyle)for(var n in t=e.currentStyle)l.push(n+":"+t[n]);else{t=e.style;for(u=0;u<t.length;u++)l.push(t[u]+":"+t[t[u]])}return l}
       function parkDetector(team) {
         document.querySelector(".swal-overlay").style.width = "50%";
-        if (team == 1 && car1.x >= 520 && car1.x <= 580 && car1.y >= 230 && car1.y <= 290) {
+        if (team == 1 && car1.x >= 460 && car1.x <= 490 && car1.y >= 220 && car1.y <= 250) {
           if (!winner) {
             winner = 1;
           }
@@ -871,7 +959,7 @@
           });
           document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
           return true;
-        } else if (team == 2 && car2.x >= 520 && car2.x <= 580 && car2.y >= 230 && car2.y <= 290) {
+        } else if (team == 2 && car2.x >= 460 && car2.x <= 490 && car2.y >= 220 && car2.y <= 250) {
           if (!winner) {
             winner = 2;
           }
