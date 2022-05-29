@@ -73,6 +73,11 @@ With internet connection, all players are welcomed to play multiplayer in the we
 Multiplayer Parking Master 2.0 will have level-based challenges, but with multiplayer.
 <br>
 Players will be able to create a lobby name, go to the public "Lobby" page, and view/create a multiplayer server.
+<br>
+<br>
+Try it out:
+<br>
+Enter a lobby name (2-10 characters): <svg align="left" fill="none" viewBox="0 0 240 20" width="240" height="20" xmlns="http://www.w3.org/2000/svg"> <foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><form action="https://parkingmaster.tk/multiplayer.html" target="_blank" method="get"><input type="text" style="background:#fff;caret-color:#333;border:1px solid #333;outline:none!important;color:#333;" /></form></div></foreignObject></svg>
 <hr>
 <h2>Credits</h2>
 A list of items that helped make Parking-Master-2.0 possible.
