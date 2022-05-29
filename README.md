@@ -77,7 +77,7 @@ Players will be able to create a lobby name, go to the public "Lobby" page, and 
 <br>
 Try it out:
 <br>
-Enter a lobby name (2-10 characters): <svg align="left" fill="none" viewBox="0 0 240 20" width="240" height="20" xmlns="http://www.w3.org/2000/svg"> <foreignObject width="100%" height="100%"><div xmlns="http://www.w3.org/1999/xhtml"><form action="https://parkingmaster.tk/multiplayer.html" target="_blank" method="get"><input type="text" style="background:#fff;caret-color:#333;border:1px solid #333;outline:none!important;color:#333;" /></form></div></foreignObject></svg>
+Enter a lobby name (2-10 characters): <embed src='data:image/svg+xml;base64,PHN2ZyBhbGlnbj0ibGVmdCIgZmlsbD0ibm9uZSIgdmlld0JveD0iMCAwIDI0MCAyMCIgd2lkdGg9IjI0MCIgaGVpZ2h0PSIyMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4gPGZvcmVpZ25PYmplY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSI+PGRpdiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94aHRtbCI+PGZvcm0gYWN0aW9uPSJodHRwczovL3BhcmtpbmdtYXN0ZXIudGsvbXVsdGlwbGF5ZXIuaHRtbCIgdGFyZ2V0PSJfYmxhbmsiIG1ldGhvZD0iZ2V0Ij48aW5wdXQgdHlwZT0idGV4dCIgc3R5bGU9ImJhY2tncm91bmQ6I2ZmZjtjYXJldC1jb2xvcjojMzMzO2JvcmRlcjoxcHggc29saWQgIzMzMztvdXRsaW5lOm5vbmUhaW1wb3J0YW50O2NvbG9yOiMzMzM7IiAvPjwvZm9ybT48L2Rpdj48L2ZvcmVpZ25PYmplY3Q+PC9zdmc+'>
 <hr>
 <h2>Credits</h2>
 A list of items that helped make Parking-Master-2.0 possible.
