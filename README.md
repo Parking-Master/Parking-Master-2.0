@@ -49,6 +49,7 @@ You can play the original game at <kbd>https://parkingmaster.w3spaces.com</kbd>
 <br>
 <h2 align="left">Desktop App (Out now!)</h2>
 Version 2.0 has a lightweight desktop app for Windows, Mac & Linux.<br>
+<img width="100" src="https://raw.githubusercontent.com/Parking-Master/Parking-Master-2.0/main/preview.gif" />
 Play multiplayer, offline-cached edition, login/signup, the possibilities are endless!
 [Download for MacOS](https://parkingmaster.tk/Parking Master 2.0 (Mac v1).zip)
 [Download for Windows](https://parkingmaster.tk/Parking Master 2.0 (Win v1).zip)
