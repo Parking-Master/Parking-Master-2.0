@@ -4,7 +4,8 @@ The first 20 people to star this repository will get a shoutout below:
 - CrunchyCarrots
 - Daily-Tutorials
 - RTBeadDesigns
-# Parking-Master-2.0
+::
+# <img alt="Favicon" src="favicon.ico" width="24" />&nbsp;&nbsp;Parking-Master-2.0
 Welcome to the all-new Parking-Master-2.0!
 <img src="preview.png" />
 Parking-Master-2.0 is the all new Parking Master!
