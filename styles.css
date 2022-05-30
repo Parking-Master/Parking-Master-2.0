@@ -43,19 +43,27 @@ text {
   text-align: center;
   margin-top: -30px;
 }
+.buttons {
+  position: relative;
+  width: 80vw;
+  left: 50%;
+  margin-left: -40vw;
+}
 .nav-btn {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 60px;
   height: 60px;
   padding: 10px;
+  left: 8vw;
   background: #ddd;
   border-radius: 100%;
   text-align: center;
   font-size: 45px;
   font-weight: bold;
   color: #fff;
-  left: 20vw;
   margin-right: 14vw;
   fill: #fff;
   -webkit-user-select: none !important;
@@ -63,6 +71,9 @@ text {
   -ms-user-select: none !important;
   user-select: none !important;
   cursor: pointer;
+}
+#load-cover {
+  display: none !important;
 }
 .tippy-box[data-theme~="parkingmaster"] {
   background-color: #ddd;
@@ -100,78 +111,107 @@ text {
 img {
   animation: startspin 1s ease-out;
 }
-@media only screen and (max-width:1000px) {
+@media only screen and (max-width:1383px) {
   .nav-btn {
-    left: 12.5vw !important;
+    margin-right: 13vw !important;
   }
 }
-@media only screen and (max-width:810px) {
+@media only screen and (max-width:1301px) {
   .nav-btn {
-    left: 8.5vw !important;
-  }
-  .buttons a#last > .nav-btn {
-    margin-right: 0 !important;
+    margin-right: 12.5vw !important;
   }
 }
-@media only screen and (max-width:720px) {
+@media only screen and (max-width:1100px) {
   .nav-btn {
-    left: 5.5vw !important;
-    margin-right: 10vw;
+    margin-right: 12vw !important;
   }
 }
-@media only screen and (max-width:555px) {
+@media only screen and (max-width:1035px) {
   .nav-btn {
-    left: 4.2vw !important;
+    margin-right: 11vw !important;
   }
 }
-@media only screen and (max-width:545px) {
-  .buttons a[href="/help.html"] {
+@media only screen and (max-width:922px) {
+  .nav-btn {
+    margin-right: 10vw !important;
+  }
+}
+@media only screen and (max-width:829px) {
+  .nav-btn {
+    margin-right: 8vw !important;
+  }
+}
+@media only screen and (max-width:700px) {
+  .nav-btn {
+    margin-right: 7vw !important;
+  }
+}
+@media only screen and (max-width:640px) {
+  .nav-btn {
+    margin-right: 6vw !important;
+  }
+}
+@media only screen and (max-width:592px) {
+  a#last {
     display: none !important;
   }
   .nav-btn {
-    margin-right: 12.5vw;
-    left: 10vw !important;
+    margin-right: 7.5vw !important;
+  }
+}
+@media only screen and (max-width:465px) {
+  .nav-btn {
+    left: 6vw;
+  }
+  .main-title svg {
+    width: 850px;
+    margin-left: -15px;
+  }
+}
+@media only screen and (max-width:275px) {
+  a.cars-btn {
+    display: none !important;
   }
 }
 @import url('https://fonts.googleapis.com/css?family=Mukta:700');
 #container * {
-     box-sizing: border-box;
+  box-sizing: border-box;
 }
 #container *::before, #container *::after {
-     box-sizing: border-box;
+  box-sizing: border-box;
 }
 #container {
-     font-family: 'Mukta', sans-serif;
-     font-size: 1rem;
-     line-height: 1.5;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     margin: 0;
-     min-height: 100vh;
-   position: absolute;
-   top: -46%;
-   margin-top: 0;
-   margin: 0 !important;
+  font-family: 'Mukta', sans-serif;
+  font-size: 1rem;
+  line-height: 1.5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  min-height: 100vh;
+  position: absolute;
+  top: -46%;
+  margin-top: 0;
+  margin: 0 !important;
 }
 button {
-     position: relative;
-     display: inline-block;
-     cursor: pointer;
-     outline: none;
-     border: 0;
-     vertical-align: middle;
-     text-decoration: none;
-     background: transparent;
-     padding: 0;
-     font-size: inherit;
-     font-family: inherit;
-   margin: 5px;
-   margin-top: 0 !important;
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  text-decoration: none;
+  background: transparent;
+  padding: 0;
+  font-size: inherit;
+  font-family: inherit;
+  margin: 5px;
+  margin-top: 0 !important;
 }
 button.learn-more {
-     width: 12rem;
-     height: auto;
+  width: 12rem;
+  height: auto;
 }
 button.learn-more .circle {
      transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
