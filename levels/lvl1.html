@@ -133,25 +133,26 @@
           <iframe class="steering" src="https://parking-master.github.io/Parking-Master/game/steering.html#steering" scrolling="no" style="margin:0!important;height:90px;width:100px;border:none!important;outline:none!important;"></iframe>
         </div>
         <span class="timer">00:15</span>
-        <img class="parking-lot" src="../images/parking-spots/lvl0.png" style="position:absolute;width:100vw;z-index:9998;top:-8.5vw;left:50%;margin-left:-50vw;" />
-        <img src="../images/npc.png" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:3vw;" />
-        <img src="../images/npc2.png" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:45vw;" />
+        <img class="parking-lot" src="../images/parking-spots/lvl1.png" style="position:absolute;width:100vw;z-index:9998;top:-8.5vw;left:50%;margin-left:-50vw;" />
+        <img src="../images/npc.png" id="car1" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:3vw;" />
+        <img src="../images/npc2.png" id="car2" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:45vw;" />
+        <img src="../images/smoke.png" id="smoke" style="opacity:0;transition:opacity .1s;position:absolute;width:20vw;z-index:9999;top:12vw;left:8.5vw;" />
         <div id="slider"></div>
         <script>
-          if (!localStorage["car"]) {
-            window.default_specs = [60, -18, 18, 33, -6];
-            window.defaultCar = {
-              baseColor: "#999",
-              windowColor: "#222",
-              roofColor: "#fff",
-              minSpeed: 2,
-              maxSpeed: 20
-            };
-          } else {
-            window.default_specs = JSON.parse(localStorage["car"]).default_specs;
-            window.defaultCar = JSON.parse(localStorage["car"]);
-          }
-        function GameOver() {
+        if (!localStorage["car"]) {
+          window.default_specs = [60, -18, 18, 33, -6];
+          window.defaultCar = {
+            baseColor: "#999",
+            windowColor: "#222",
+            roofColor: "#fff",
+            minSpeed: 2,
+            maxSpeed: 20
+          };
+        } else {
+          window.default_specs = JSON.parse(localStorage["car"]).default_specs;
+          window.defaultCar = JSON.parse(localStorage["car"]);
+        }
+        function GameOver(msg) {
           window.onkeydown = null;
           document.onkeydown = null;
           document.documentElement.onkeydown = null;
@@ -168,7 +169,7 @@
           swal({
             icon: "https://user-images.githubusercontent.com/88283567/133125808-dc7f4b5b-f810-4132-b1bf-b65b1b640001.png",
             title: "Game Over",
-            text: "You ran out of time!",
+            text: msg || "You ran out of time!",
             buttons: ["Close", "Try Again (10 PTS)"],
             closeOnEsc: false,
             closeOnClickOutside: false
@@ -267,7 +268,7 @@
             document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
             return;
           }
-          if (((screenpos.y / (document.querySelector("canvas").width / 1.5))) > 0.15 && ((screenpos.y / (document.querySelector("canvas").width / 1.5))) < 0.20 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 1.0 || ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 1.1)) {
+          if (((screenpos.y / (document.querySelector("canvas").width / 1.5))) > 0.15 && ((screenpos.y / (document.querySelector("canvas").width / 1.5))) < 0.20 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.4 || ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.5)) {
             stopTimer();
             swal({
               icon: "success",
@@ -599,7 +600,64 @@
         document.body.addEventListener("keydown", function(e) {
           (!e.repeat && e.key == "Enter") && parkOption();
         });
-        stopTimer();
-        </script>
+        crashLeft = 0;
+        crashRear = 0;
+        crashRight = 0;
+        let r = false;
+        function crash(crashType, specs) {
+          if (r) {
+            return;
+          }
+          if (crashType == "side") {
+            if (specs == "left") {
+              crashLeft += 1;
+              setTimeout(() => (r = true), 800);
+              document.querySelector("#car1").style.marginLeft = crashLeft + "px";
+            } else if (specs == "right") {
+              crashRight += 1;
+              setTimeout(() => (r = true), 750);
+              document.querySelector("#car1").style.marginLeft = -crashRight + "px";
+            }
+          } else if (crashType == "rear") {
+            crashRear += 1;
+            setTimeout(() => (r = true), 1500);
+            document.querySelector("#car1").style.marginTop = -crashRear + "px";
+          }
+          document.querySelector("#car1").style.transform = "rotate(20deg)";
+          document.querySelector("#smoke").style.opacity = "1";          
+          setTimeout(() => (document.querySelector("#car1").style.transition = "transform .2s", document.querySelector("#car1").style.transform = "rotate(0deg)", document.querySelector("#smoke").style.opacity = "0"), 500);
+          GameOver("You crashed!");
+          mouseUp();
+          mouseLeftUp();
+          mouseReverseUp();
+          mouseRightUp();
+          stopTimer();
+        }
+        setInterval(function() {
+          let y = ((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(2);
+          let x = ((screenpos.x / (document.querySelector("canvas").width / 1.5)));
+          let car1Y = "0.19";
+          let car1EndY = "0.3";
+          let car1EndY2 = "0.4";
+          let car2Y = "0.8";
+          let car2EndY = "0.9";
+          let car2EndY2 = "1.0";
+          let car1X = "0.41";
+          let car2X = "0.37";
+          if (y == car1Y && x < 0.35) {
+            crash("side", "left");
+            car1Y = (parseFloat(car1Y, 0)  + .1).toFixed(2);
+            console.log(car1Y);
+          }
+          if (y == "0.37" && x == "0.35") {
+            crash("rear");
+            car1Y = (parseFloat(car1Y, 0)  + .1).toFixed(2);
+            console.log(car1Y);
+          }
+          if (x.toFixed(3) > -0.075 && x.toFixed(3) < 0.395 && y < 0.35) {
+            crash("side", "right");
+          }
+        }, 1);
+      </script>
     </body>
 </html>
