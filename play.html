@@ -13,7 +13,7 @@
       const lvl = localStorage["current_lvl"] || "";
       const proof = lvl.replace(/lvl(.)/i, ":");
       if (proof === ":") {
-        load("/levels/" + lvl + ".html", ".main");
+        load("levels/" + lvl + ".html", ".main");
       }
     </script>
   </body>
