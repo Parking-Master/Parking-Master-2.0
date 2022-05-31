@@ -112,6 +112,7 @@
         </style>
     </head>
     <body>
+        <audio id="car_crash" src="../sounds/car_crash.mp3"></audio>
         <audio autoplay src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master-2.0@latest/sounds/car-start.mp3"></audio>
         <audio id="first_drive" src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master-2.0@latest/sounds/car-first-drive.mp3"></audio>
         <script name="three.js" src="https://threejs.org/build/three.min.js"></script>
@@ -136,7 +137,8 @@
         <img class="parking-lot" src="../images/parking-spots/lvl1.png" style="position:absolute;width:100vw;z-index:9998;top:-8.5vw;left:50%;margin-left:-50vw;" />
         <img src="../images/npc.png" id="car1" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:3vw;" />
         <img src="../images/npc2.png" id="car2" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:45vw;" />
-        <img src="../images/smoke.png" id="smoke" style="opacity:0;transition:opacity .1s;position:absolute;width:20vw;z-index:9999;top:12vw;left:8.5vw;" />
+        <img src="../images/smoke.png" id="smoke1" style="opacity:0;transition:opacity .1s;position:absolute;width:20vw;z-index:9999;top:12vw;left:8.5vw;" />
+        <img src="../images/smoke.png" id="smoke2" style="opacity:0;transition:opacity .1s;position:absolute;width:20vw;z-index:9999;top:12vw;left:45vw;" />
         <div id="slider"></div>
         <script>
         if (!localStorage["car"]) {
@@ -604,7 +606,8 @@
         crashRear = 0;
         crashRight = 0;
         let r = false;
-        function crash(crashType, specs) {
+        let p = false;
+        function crash(car, crashType, specs) {
           if (r) {
             return;
           }
@@ -612,27 +615,29 @@
             if (specs == "left") {
               crashLeft += 1;
               setTimeout(() => (r = true), 800);
-              document.querySelector("#car1").style.marginLeft = crashLeft + "px";
+              document.querySelector("#car" + car).style.marginLeft = crashLeft + "px";
             } else if (specs == "right") {
               crashRight += 1;
               setTimeout(() => (r = true), 750);
-              document.querySelector("#car1").style.marginLeft = -crashRight + "px";
+              document.querySelector("#car" + car).style.marginLeft = -crashRight + "px";
             }
           } else if (crashType == "rear") {
             crashRear += 1;
             setTimeout(() => (r = true), 1500);
-            document.querySelector("#car1").style.marginTop = -crashRear + "px";
+            document.querySelector("#car" + car).style.marginTop = -crashRear + "px";
           }
-          document.querySelector("#car1").style.transform = "rotate(20deg)";
-          document.querySelector("#smoke").style.opacity = "1";          
-          setTimeout(() => (document.querySelector("#car1").style.transition = "transform .2s", document.querySelector("#car1").style.transform = "rotate(0deg)", document.querySelector("#smoke").style.opacity = "0"), 500);
+          document.querySelector("#car" + car).style.transform = "rotate(20deg)";
+          document.querySelector("#smoke" + car).style.opacity = "1";          
+          setTimeout(() => (document.querySelector("#car" + car).style.transition = "transform .2s", document.querySelector("#car" + car).style.transform = "rotate(0deg)", document.querySelector("#smoke" + car).style.opacity = "0"), 500);
           GameOver("You crashed!");
           mouseUp();
           mouseLeftUp();
           mouseReverseUp();
           mouseRightUp();
           stopTimer();
+          p ? void(0) : (p = true, document.querySelector("#car_crash").play());
         }
+        stopTimer();
         setInterval(function() {
           let y = ((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(2);
           let x = ((screenpos.x / (document.querySelector("canvas").width / 1.5)));
@@ -645,17 +650,30 @@
           let car1X = "0.41";
           let car2X = "0.37";
           if (y == car1Y && x < 0.35) {
-            crash("side", "left");
+            crash(1, "side", "left");
             car1Y = (parseFloat(car1Y, 0)  + .1).toFixed(2);
             console.log(car1Y);
           }
           if (y == "0.37" && x == "0.35") {
-            crash("rear");
+            crash(1, "rear");
             car1Y = (parseFloat(car1Y, 0)  + .1).toFixed(2);
             console.log(car1Y);
           }
           if (x.toFixed(3) > -0.075 && x.toFixed(3) < 0.395 && y < 0.35) {
-            crash("side", "right");
+            crash(1, "side", "right");
+          }
+          if (y == car2Y && x < 0.35) {
+            crash(2, "side", "left");
+            car2Y = (parseFloat(car2Y, 0)  + .1).toFixed(2);
+            console.log(car2Y);
+          }
+          if (y <= 0.40 && x.toFixed(3) <= 0.982 && x.toFixed(3) >= 0.511) {
+            crash(2, "rear");
+            car2Y = (parseFloat(car2Y, 0)  + .1).toFixed(2);
+            console.log(car2Y);
+          }
+          if (x.toFixed(3) >= 0.518 && x.toFixed(3) < 0.967 && y < 0.35) {
+            crash(2, "side", "right");
           }
         }, 1);
       </script>
