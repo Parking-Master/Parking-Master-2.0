@@ -259,7 +259,7 @@
             }).then(function() {
               localStorage.setItem("current_lvl", "lvl0");
               localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
-              location.replace("lvl1.html");
+              location.replace("lvl4.html");
             });
             document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
           } else if (((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.2 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(2) >= 0.3 && ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) <= 0.5)) {
@@ -276,7 +276,7 @@
             }).then(function() {
               localStorage.setItem("current_lvl", "lvl2");
               localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 2);
-              location.replace("lvl3.html");
+              location.replace("lvl4.html");
             });
             document.querySelector(".swal-button").style.backgroundColor = "#0037a7";
             document.querySelector(".swal-icon").style.width = "15%";
@@ -599,7 +599,6 @@
         document.body.addEventListener("keydown", function(e) {
           (!e.repeat && e.key == "Enter") && parkOption();
         });
-        stopTimer();
         </script>
     </body>
 </html>
