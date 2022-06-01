@@ -183,7 +183,7 @@
               localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 10).toString());
               return window.location.reload();
             }
-            localStorage["current_lvl"] = "lvl1";
+            localStorage["current_lvl"] = "lvl0";
             top.location.replace("/");
           });
           for (let i = 0; i < document.querySelectorAll(".swal-button").length; i++) {
@@ -284,7 +284,7 @@
               closeOnEnterKey: true
             }).then(function() {
               localStorage.setItem("current_lvl", "lvl2");
-              localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
+              localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 2);
               location.replace("lvl3.html");
             });
             document.querySelector(".swal-button").style.backgroundColor = "#0037a7";
