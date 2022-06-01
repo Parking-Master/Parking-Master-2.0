@@ -9,7 +9,7 @@
       function load(url, frame) {
         document.querySelector(frame).src = String(url);
         document.querySelector(frame).focus();
-      } 
+      }
       const lvl = localStorage["current_lvl"] || "";
       const proof = lvl.replace(/lvl(.)/i, ":");
       if (proof === ":") {
