@@ -5,6 +5,7 @@
   </head>
   <body>
     <iframe style="position:absolute;height:100%;width:100%;padding:0;margin:0;top:0;left:0;bottom:0;right:0;border:none;" class="main"></iframe>
+    <div class="current-lvl"></div>
     <script>
       function load(url, frame) {
         document.querySelector(frame).src = String(url);
@@ -15,7 +16,11 @@
       const proof = lvl.replace(/lvl(.)/i, ":");
       if (proof === ":") {
         levelFrame = load("levels/" + lvl + ".html", ".main");
-        levelFrame.onload = () => alert(levelFrame.contentWindow.location);
+        levelFrame.onload = function() {
+          currentLevel = levelFrame.contentWindow.location.href;
+          levelText = ("Level " + ((currentLevel.split("/").pop().split(".")[0].split("").map(Number).join("").split("NaN").join("") - 0) + 1));
+          document.querySelector(".current-lvl").textContent = levelText;
+        }
       }
     </script>
   </body>
