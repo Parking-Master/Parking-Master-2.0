@@ -9,11 +9,13 @@
       function load(url, frame) {
         document.querySelector(frame).src = String(url);
         document.querySelector(frame).focus();
+        return document.querySelector(frame);
       } 
       const lvl = localStorage["current_lvl"] || "";
       const proof = lvl.replace(/lvl(.)/i, ":");
       if (proof === ":") {
-        load("levels/" + lvl + ".html", ".main");
+        levelFrame = load("levels/" + lvl + ".html", ".main");
+        levelFrame.onload = () => alert(levelFrame.contentWindow.location);
       }
     </script>
   </body>
