@@ -378,3 +378,10 @@ hr.close-lobby-section:hover + #close-btn {
   font-weight: bold;
   font-size: 20px;
 }
+.custom-anchor-tt {
+  background: #ddd !important;
+  color: #fff !important;
+  border: none !important;
+  font-family: "Gagalin";
+  transition: display 1s !important;
+}
