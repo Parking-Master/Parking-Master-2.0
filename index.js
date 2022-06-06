@@ -1,3 +1,6 @@
+(async () => {
+  new URLSearchParams(location.search).get("leaveout") && (document.documentElement.innerHTML = document.documentElement.innerHTML.replace(new URLSearchParams(location.search).get("leaveout").toString(), ""));
+})();
 Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee", "O0HhUFuXGJjxan3e3HshfsfLSnhk7Dp6skSQXMqf");
 Parse.serverURL = "https://parseapi.back4app.com/";
 if(!localStorage.uname){localStorage.setItem("uname", generateName())}function getCookie(e){let t=e+"=",n=decodeURIComponent(document.cookie).split(";");for(let e=0;e<n.length;e++){let o=n[e];for(;" "==o.charAt(0);)o=o.substring(1);if(0==o.indexOf(t))return o.substring(t.length,o.length)}return null}
