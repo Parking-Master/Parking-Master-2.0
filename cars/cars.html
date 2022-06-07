@@ -137,8 +137,8 @@
         <div id="slider"></div>
         <script>
         $.get(new URLSearchParams(location.search).get("file") + ".json", function(res) {
-          window.default_specs =  JSON.parse(res).default_specs;
-          window.defaultCar = JSON.parse(res);
+          window.default_specs = res.default_specs;
+          window.defaultCar = res;
         });
         function GameOver() {
           window.onkeydown = null;
