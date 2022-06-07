@@ -1,0 +1,8 @@
+{
+  "baseColor": "#ee1010",
+  "windowColor": "#111",
+  "roofColor": "#eee",
+  "minSpeed": 0.1,
+  "maxSpeed": 2,
+  "default_specs": [75, -22.5, 25, 35, 4]
+}

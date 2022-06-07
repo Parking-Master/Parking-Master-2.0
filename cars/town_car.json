@@ -1,0 +1,8 @@
+{
+  "baseColor": "#fefefe",
+  "default_specs": [80, -22, 26, 40],
+  "maxSpeed": 30,
+  "minSpeed": 5,
+  "wheelColor": "#333",
+  "windowColor": "#333"
+}
