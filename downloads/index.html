@@ -11,8 +11,10 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- Style -->
     <link rel="stylesheet" href="css/style.css">
-    <script>function formatBytes(t,B=2){if(0===t)return"0 Bytes";const o=B<0?0:B,a=Math.floor(Math.log(t)/Math.log(1024));return parseFloat((t/Math.pow(1024,a)).toFixed(o))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][a]}function getFileSize(e){var t="",n=new XMLHttpRequest;return n.open("HEAD",e,!1),n.send(null),200===n.status&&(t=n.getResponseHeader("content-length")),t}function getDownloadURL(o,e){return location.protocol+"//"+location.host+"/"+encodeURIComponent(o.split(" ").reverse().splice(1).reverse().concat([e]).join(" ")+" "+o.split(" ").reverse()[0])+".zip"}</script>
+    <script>const downloadZip=async e=>{const t=e=>new Promise(((t,n)=>{JSZipUtils.getBinaryContent(e,((e,s)=>{e?n(e):t(s)}))})),n=e=>{const t=new Uint8Array(e).subarray(0,4);let n="";for(var s=0;s<t.length;s++)n+=t[s].toString(16);switch(n){case"89504e47":return"png";case"47494638":return"gif";case"ffd8ffe0":case"ffd8ffe1":case"ffd8ffe2":case"ffd8ffe3":case"ffd8ffe8":return"jpg";default:return""}};this.progress=!0;const s=new JSZip;for(const f in e){const a=e[f],r=await t(a),i=`${f}.${n(r)||a.split(".").pop().split(/#|\?/)[0]}`;s.file(i,r,{binary:!0})}await s.generateAsync({type:"blob"}).then((e=>{FileSaver.saveAs(e,"download.zip")}))};function formatBytes(t,B=2){if(0===t)return"0 Bytes";const o=B<0?0:B,a=Math.floor(Math.log(t)/Math.log(1024));return parseFloat((t/Math.pow(1024,a)).toFixed(o))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][a]}function getFileSize(e){var t="",n=new XMLHttpRequest;return n.open("HEAD",e,!1),n.send(null),200===n.status&&(t=n.getResponseHeader("content-length")),t}function getDownloadURL(o,e){return location.protocol+"//"+location.host+"/"+encodeURIComponent(o.split(" ").reverse().splice(1).reverse().concat([e]).join(" ")+" "+o.split(" ").reverse()[0])+".zip"}</script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Simple-Alert@latest/simplealert.min.js"></script>
+    <script type="text/javascript" src="../jszip/dist/jszip.min.js"></script>
+    <script type="text/javascript" src="../jszip/dist/jszip-utils.min.js"></script>
     <title>Parking Master 2.0 Downloads</title>
   </head>
   <body>
@@ -20,7 +22,7 @@
     <div class="container">
       <h2 class="mb-5">Downloads</h2>
       <br>
-      <h2 align="left" class="mb-5"><a href="" onclick="event.preventDefault(); if (!document.querySelectorAll('.ios-switch-control-input:checked').length) { simple.alert('Please select one or more download options.') }" class="more">Download selected</a></h2>
+      <h2 align="left" class="mb-5"><a href="" onclick="event.preventDefault(); ua = []; if (!document.querySelectorAll('.ios-switch-control-input:checked').length) { simple.alert('Please select one or more download options.'); } else { for (let i = 0; i < document.querySelectorAll('.ios-switch-control-input:checked').length; i++) { document.querySelectorAll('.ios-switch-control-input:checked').length > 1 ? ua.push(document.querySelectorAll('.ios-switch-control-input:checked')[i].parentElement.parentElement.parentElement.querySelector('a.d-name').href) : location.assign(document.querySelectorAll('.ios-switch-control-input:checked')[i].parentElement.parentElement.parentElement.querySelector('a.d-name').href); } } document.querySelectorAll('.ios-switch-control-input:checked').length > 1 && downloadZip(ua)" class="more">Download selected</a></h2>
       <div class="table-responsive">
         <table class="table table-striped custom-table">
           <thead>
@@ -32,14 +34,14 @@
             </tr>
           </thead>
           <tbody>
-            <tr scope="row">
+            <tr scope="row" data-download="https://drive.google.com/u/0/uc?id=1LxUzCrbfRy39WVmKQzgaWG-H64_wq1rd&export=download&confirm=t">
               <td class="pl-0">
                 <div class="d-flex align-items-center">
                   <label class="custom-control ios-switch">
                   <input type="checkbox" class="ios-switch-control-input">
                   <span class="ios-switch-control-indicator"></span>
                   </label>
-                  <a class="d-name" href="#">Parking Master 2.0 Compact</a>
+                  <a class="d-name" href="https://drive.google.com/u/0/uc?id=1Y88Qv4fRSZrE1hZ-nnRKu2dlVsIclxqj&export=download&confirm=t">Parking Master 2.0 Compact</a>
                 </div>
               </td>
               <td class="d-comp">
@@ -48,7 +50,7 @@
               </td>
               <td>Includes only game and os-specific files</td>
               <td>Supported</td>
-              <td><a href="" onclick="event.preventDefault();simple.alert(`File size: ${formatBytes(getFileSize(getDownloadURL(parentElement.parentElement.querySelector('a.d-name').textContent, parentElement.parentElement.querySelector('.d-comp').textContent)) - 0, 2)} (${getFileSize(getDownloadURL(parentElement.parentElement.querySelector('a.d-name').textContent))} Bytes)\nFile name: ${decodeURIComponent(getDownloadURL(parentElement.parentElement.querySelector('a.d-name').textContent).split('/').pop())}`)" class="more">Details</a></td>
+              <td><a href="" data-name="Parking Master 2.0 Mac Compact.zip" onclick="event.preventDefault();simple.alert(`File size: ${formatBytes(201818893, 2)} (201,818,893 Bytes)\nFile name: ${decodeURIComponent(this.dataset.name)}`)" class="more">Details</a></td>
             </tr>
             <tr scope="row">
               <td class="pl-0">
