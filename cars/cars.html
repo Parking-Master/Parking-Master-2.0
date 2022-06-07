@@ -133,13 +133,12 @@
           <br>
           <iframe class="steering" src="https://parking-master.github.io/Parking-Master/game/steering.html#steering" scrolling="no" style="margin:0!important;height:90px;width:100px;border:none!important;outline:none!important;"></iframe>
         </div>
-        <span class="timer">00:15</span>
-        <img class="parking-lot" src="../images/parking-spots/lvl0.png" style="position:absolute;width:100vw;z-index:9998;top:-8.5vw;left:50%;margin-left:-50vw;" />
+        <span class="timer">00:00</span>
         <div id="slider"></div>
         <script>
         $.get(new URLSearchParams(location.search).get("file") + ".json", function(res) {
           window.default_specs =  JSON.parse(result).default_specs;
-          window.defaultCar = JSON.parse(result);
+          window.defaultCar = JSON.parse(res);
         });
         function GameOver() {
           window.onkeydown = null;
@@ -204,6 +203,7 @@
         function stopTimer() {
           clearInterval(over);
         }
+        stopTimer();
         function checkTouching(a, d) {
           let b1 = a.position.y - a.geometry.parameters.height / 2;
           let t1 = a.position.y + a.geometry.parameters.height / 2;
