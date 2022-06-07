@@ -137,7 +137,7 @@
         <div id="slider"></div>
         <script>
         $.get(new URLSearchParams(location.search).get("file") + ".json", function(res) {
-          window.default_specs =  JSON.parse(result).default_specs;
+          window.default_specs =  JSON.parse(res).default_specs;
           window.defaultCar = JSON.parse(res);
         });
         function GameOver() {
