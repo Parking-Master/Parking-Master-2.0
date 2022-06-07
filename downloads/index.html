@@ -22,7 +22,7 @@
     <div class="container">
       <h2 class="mb-5">Downloads</h2>
       <br>
-      <h2 align="left" class="mb-5"><a href="" onclick="event.preventDefault(); ua = []; if (!document.querySelectorAll('.ios-switch-control-input:checked').length) { simple.alert('Please select one or more download options.'); } else { for (let i = 0; i < document.querySelectorAll('.ios-switch-control-input:checked').length; i++) { document.querySelectorAll('.ios-switch-control-input:checked').length > 1 ? ua.push(document.querySelectorAll('.ios-switch-control-input:checked')[i].parentElement.parentElement.parentElement.querySelector('a.d-name').href) : location.assign(document.querySelectorAll('.ios-switch-control-input:checked')[i].parentElement.parentElement.parentElement.querySelector('a.d-name').href); } } document.querySelectorAll('.ios-switch-control-input:checked').length > 1 && downloadZip(ua)" class="more">Download selected</a></h2>
+      <h2 align="left" class="mb-5"><a href="" onclick="event.preventDefault(); ua = []; if (!document.querySelectorAll('.ios-switch-control-input:checked').length || document.querySelectorAll('.ios-switch-control-input:checked').length > 1) { simple.alert('Please select at least/only one download option.'); } else { for (let i = 0; i < document.querySelectorAll('.ios-switch-control-input:checked').length; i++) { document.querySelectorAll('.ios-switch-control-input:checked').length > 1 ? ua.push(document.querySelectorAll('.ios-switch-control-input:checked')[i].parentElement.parentElement.parentElement.querySelector('a.d-name').href) : location.assign(document.querySelectorAll('.ios-switch-control-input:checked')[i].parentElement.parentElement.parentElement.querySelector('a.d-name').href); } } document.querySelectorAll('.ios-switch-control-input:checked').length > 1 && downloadZip(ua)" class="more">Download selected</a></h2>
       <div class="table-responsive">
         <table class="table table-striped custom-table">
           <thead>
@@ -30,7 +30,7 @@
               <th scope="col">Name</th>
               <th scope="col">Compatible</th>
               <th scope="col">Description</th>
-              <th scope="col">Supported</th>
+              <th scope="col">Supported <p onclick="simple.alert('Supported defines whether a package has been released, taked down, or moved. Packages marked \'Not supported\' define this, and packages marked \'Supported\' are downloadable and free.')" style="display:inline-block;text-align:center;position:relative;width:15px!important;height:15px;border-radius:50%;border:1px solid #000;cursor:pointer;font-size:10px;font-weight:bold;justify-content:center;align-items:center;"><b>?</b></p></th>
             </tr>
           </thead>
           <tbody>
