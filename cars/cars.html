@@ -137,9 +137,8 @@
         <div id="slider"></div>
         <script>
         $.get(new URLSearchParams(location.search).get("file") + ".json", function(res) {
-          window.default_specs = res.default_specs;
-          window.defaultCar = res;
-        });
+        window.default_specs = res.default_specs;
+        window.defaultCar = res;
         function GameOver() {
           window.onkeydown = null;
           document.onkeydown = null;
@@ -224,16 +223,16 @@
         }
         globalDrivefunction = mouseDown;
         function blank() {}
-        function shiftOption(src) {
+        window.shiftOption = function(src) {
           src == "D" && (globalDrivefunction = mouseDown);
           src == "R" && (globalDrivefunction = mouseReverseDown);
           src == "P" && ((globalDrivefunction = blank), parkOption());
           src == "A" && ((globalDrivefunction = blank), simple.confirm("Auto Park Option (APO): Requires at least 100+ PTS. Would you like to use it one time?", () => { localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - 100).toString()); stopTimer(); autoPark(); })); (parseFloat(localStorage["current_pts"], 0)) < 100 && (document.querySelector(".swal-button--confirm").disabled = "disabled");
         }
-        function go() {
+        window.go = function() {
           globalDrivefunction();
         }
-        function stop() {
+        window.stop = function() {
           mouseUp(), mouseLeftUp(), mouseReverseUp(), mouseRightUp();
         }
         function parkOption(auto = false) {
@@ -588,6 +587,7 @@
         };
         document.body.addEventListener("keydown", function(e) {
           (!e.repeat && e.key == "Enter") && parkOption();
+        });
         });
         </script>
     </body>
