@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="fonts/icomoon/style.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Style -->
+    <link rel="stylesheet" href="css/style.css">
+    <script>const downloadZip=async e=>{const t=e=>new Promise(((t,n)=>{JSZipUtils.getBinaryContent(e,((e,s)=>{e?n(e):t(s)}))})),n=e=>{const t=new Uint8Array(e).subarray(0,4);let n="";for(var s=0;s<t.length;s++)n+=t[s].toString(16);switch(n){case"89504e47":return"png";case"47494638":return"gif";case"ffd8ffe0":case"ffd8ffe1":case"ffd8ffe2":case"ffd8ffe3":case"ffd8ffe8":return"jpg";default:return""}};this.progress=!0;const s=new JSZip;for(const f in e){const a=e[f],r=await t(a),i=`${f}.${n(r)||a.split(".").pop().split(/#|\?/)[0]}`;s.file(i,r,{binary:!0})}await s.generateAsync({type:"blob"}).then((e=>{FileSaver.saveAs(e,"download.zip")}))};function formatBytes(t,B=2){if(0===t)return"0 Bytes";const o=B<0?0:B,a=Math.floor(Math.log(t)/Math.log(1024));return parseFloat((t/Math.pow(1024,a)).toFixed(o))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][a]}function getFileSize(e){var t="",n=new XMLHttpRequest;return n.open("HEAD",e,!1),n.send(null),200===n.status&&(t=n.getResponseHeader("content-length")),t}function getDownloadURL(o,e){return location.protocol+"//"+location.host+"/"+encodeURIComponent(o.split(" ").reverse().splice(1).reverse().concat([e]).join(" ")+" "+o.split(" ").reverse()[0])+".zip"}</script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/Parking-Master/Simple-Alert@latest/simplealert.min.js"></script>
+    <script type="text/javascript" src="../jszip/dist/jszip.min.js"></script>
+    <script type="text/javascript" src="../jszip/dist/jszip-utils.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/EastDesire/jscolor@latest/jscolor.min.js"></script>
+    <title>Parking Master 2.0 Downloads</title>
+  </head>
+  <body>
+  <div class="content">
+    <div class="container">
+      <h2 class="mb-5">Settings</h2>
+      <br>
+      <h2 align="left" class="mb-5"><a href="" class="more">Apply settings</a></h2>
+      <div class="table-responsive">
+        <table class="table table-striped custom-table">
+          <thead>
+            <tr>
+              <th scope="col">Setting</th>
+              <th scope="col">Options</th>
+              <th scope="col">More info <p onclick="simple.alert('Each option will have a description, and a link in this field for more information to that description.')" style="display:inline-block;text-align:center;position:relative;width:15px!important;height:15px;border-radius:50%;border:1px solid #000;cursor:pointer;font-size:10px;font-weight:bold;justify-content:center;align-items:center;"><b>?</b></p></th>
+              <th scope="col">Performance <b>(1-10)</b></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr scope="row">
+              <td class="pl-0">
+                <div class="d-flex align-items-center">
+                  <label class="custom-control ios-switch">
+                  <input type="checkbox" class="ios-switch-control-input">
+                  <span class="ios-switch-control-indicator"></span>
+                  </label>
+                  Cookies
+                </div>
+              </td>
+              <td class="d-comp">
+                Enable/Disable
+                <small class="d-block">Cookies keep info on the client-side stored on your computer.</small>
+              </td>
+              <td><a href="https://www.internetcookies.com/">https://www.internetcookies.com/</a></td>
+              <td>-1</td>
+              
+            </tr>
+            <tr scope="row">
+              <td class="pl-0">
+                <div class="d-flex align-items-center">
+                  <label class="custom-control ios-switch">
+                  <input type="checkbox" class="ios-switch-control-input">
+                  <span class="ios-switch-control-indicator"></span>
+                  </label>
+                  Bots
+                </div>
+              </td>
+              <td class="d-comp">
+                Enable/Disable
+                <small class="d-block">In multiplayer, you can manually start a bot or auto-search a bot.</small>
+              </td>
+              <td><a href="https://bit.ly/Parking-Master-Bot">https://bit.ly/Parking-Master-Bot</a></td>
+              <td>-1</td>
+              
+            </tr>
+            <tr scope="row">
+              <td class="pl-0">
+                <div class="d-flex align-items-center">
+                  <label class="custom-control ios-switch">
+                  <input value="#ddd" type="text" data-jscolor="{}" style="width: 125px; margin-top: 5px; margin-right: -15px; margin-left: -15px; transform: scale(0.5); border: 3.5px solid #ddd; cursor: pointer;">
+                  </label>
+                  <span style="position:relative;justify-content:center;text-align:center;align-items:center;margin-top:-2px;">Color</span>
+                </div>
+              </td>
+              <td class="d-comp">
+                Custom value
+                <small class="d-block">Change the color of the foreground on the start page.</small>
+              </td>
+              <td>No more information available</td>
+              <td>&plusmn;0</td>
+              
+            </tr>
+            <tr scope="row">
+              <td class="pl-0">
+                <div class="d-flex align-items-center">
+                  <label class="custom-control ios-switch">
+                  <select style="background: #fff; width: 125px; margin-top: 5px; margin-right: -15px; margin-left: -15px; transform: scale(0.5); border: 3.5px solid #ddd; cursor: pointer;">
+                    <option value="Modern">Modern</option>
+                    <option value="Classic">Classic</option>
+                    <option value="Low Performance">Low Performance</option>
+                    <option value="Windows 2000">Windows 2000</option>
+                  </select>
+                  </label>
+                  Style
+                </div>
+              </td>
+              <td class="d-comp">
+                Select option
+                <small class="d-block">Choose the style of the start page. Default is Modern.</small>
+              </td>
+              <td>No more information available</td>
+              <td>&plusmn;0</td>
+              
+            </tr>
+            <tr scope="row">
+              <td class="pl-0">
+                <div class="d-flex align-items-center">
+                  <label class="custom-control ios-switch">
+                  <input type="checkbox" class="ios-switch-control-input">
+                  <span class="ios-switch-control-indicator"></span>
+                  </label>
+                  Limit Performance
+                </div>
+              </td>
+              <td class="d-comp">
+                Enable/Disable
+                <small class="d-block">Changes how performance is impacted for Mobile devices/etc.</small>
+              </td>
+              <td>No more information available</td>
+              <td>-5</td>
+              
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  </body>
+</html>
