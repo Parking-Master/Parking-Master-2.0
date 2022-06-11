@@ -1,9 +1,6 @@
-### Free shoutouts
-The first 20 people to star this repository will get a shoutout below:
-- Parking-Master
-- CrunchyCarrots
-- Daily-Tutorials
-- RTBeadDesigns
+### Development Progress Tracker _(DPT)_
+50% <img height="15" width="50%" style="margin:0!important;" src="images/bar.png">
+
 # <img alt="Favicon" src="favicon.ico" width="24" />&nbsp;&nbsp;Parking-Master-2.0
 Welcome to the all-new Parking-Master-2.0!
 <img src="preview.png" />
