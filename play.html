@@ -61,7 +61,7 @@
         levelFrame = load("levels/" + lvl + ".html", ".main");
         levelFrame.onload = function() {
           currentLevel = levelFrame.contentWindow.location.href;
-          levelText = ("Level " + ((currentLevel.split("/").pop().split(".")[0].split("").map(Number).join("").split("NaN").join("") - 0) + 1));
+          levelText = ((!currentLevel.includes("bonus") ? "Level" : "Bonus") + " " + ((currentLevel.split("/").pop().split(".")[0].split("").map(Number).join("").split("NaN").join("") - 0) + 1));
           document.querySelector(".current-lvl").textContent = levelText;
           currentPoints = parseFloat(localStorage["current_pts"], 0) || 0;
           pointsText = ("PTS: " + currentPoints);
