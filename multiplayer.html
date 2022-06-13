@@ -294,6 +294,7 @@
         }
     </style>
     <script>
+      currentUsers = 0;
       usingBot = false;
       winner = undefined;
       window.addEventListener("load", function() {
@@ -316,6 +317,17 @@
       const chosenTeams = { positive_team: positive_teams[chosenTeamsPosition], negative_team: negative_teams[chosenTeamsPosition] };
       var CurrentUserID = [];
       gametime.onconnect = function() {
+        if (currentUsers >= 2) {
+          gametime.disconnect();
+          swal({
+            icon: "info",
+            title: "Lobby full",
+            text: "Do you want to go back or spectate the players?",
+            buttons: ["Go back", "Spectate"]
+          });
+          return;
+        }
+        currentUsers += 1;
         setInterval(function() {
           if (!team) {
             return;
@@ -814,7 +826,17 @@
           setTimeout(() => ((parkDetector(1) || planB()), setTimeout(() => swal.close(), 1000)), 8000 + (slowEvent ? 100: 200));
         }, 15500);
       }
+      gametime.make("postCount");
+      gametime.on("postCount", () => {
+        currentUsers += 1;
+      });
+      let y = true;
+      setInterval(() => {
+        y && (currentUsers = currentUsers - 1, y = false);
+      }, 100);
+      let d = true;
       let startGameState = setInterval(async function() {
+        d && (gametime.run("postCount"), d = false);
         if (CurrentUserID.length >= 2) {
           clearInterval(startGameState);
           startGame();
