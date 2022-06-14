@@ -1,5 +1,10 @@
 (async () => {
   new URLSearchParams(location.search).get("leaveout") && (document.documentElement.innerHTML = document.documentElement.innerHTML.replace(new URLSearchParams(location.search).get("leaveout").toString(), ""));
+  new URLSearchParams(location.search).get("msg") && swal({
+    icon: new URLSearchParams(location.search).get("icon"),
+    title: new URLSearchParams(location.search).get("title"),
+    text: new URLSearchParams(location.search).get("msg")
+  }).then(() => history.replaceState({}, document.title, "?"));
 })();
 Parse.initialize("n7dcRgc7NMmI9SZtVOIRVif1ZsbzNVZVHIt0UoCZ", "uUO6Phxaq7AKU5rSbPYLJDU1N93yI63BazkMKbee", "O0HhUFuXGJjxan3e3HshfsfLSnhk7Dp6skSQXMqf");
 Parse.serverURL = "https://parseapi.back4app.com/";

@@ -317,16 +317,12 @@
       const chosenTeams = { positive_team: positive_teams[chosenTeamsPosition], negative_team: negative_teams[chosenTeamsPosition] };
       var CurrentUserID = [];
       gametime.onconnect = function() {
-        if (currentUsers >= 2) {
-          gametime.disconnect();
-          swal({
-            icon: "info",
-            title: "Lobby full",
-            text: "Do you want to go back or spectate the players?",
-            buttons: ["Go back", "Spectate"]
-          });
-          return;
-        }
+        setInterval(() => {
+          if (currentUsers > 2) {
+            gametime.disconnect();
+            return location.replace("./?msg=You have been kicked from the lobby because it was full.&icon=info&title=Warning");
+          }
+        }, 1000);
         currentUsers += 1;
         setInterval(function() {
           if (!team) {
