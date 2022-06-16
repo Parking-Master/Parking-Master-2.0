@@ -1,0 +1,410 @@
+@font-face {
+    src: url(fonts/CooperHewitt-Bold.ttf);
+    font-family: "Cooper";
+  }
+  @font-face {
+    src: url(fonts/Gagalin-Regular.ttf);
+    font-family: "Gagalin";
+  }
+  body {
+    overflow-y: hidden !important;
+    overflow-x: hidden !important;
+    background-image: url(images/skid3.png);
+    background-size: 100vw;
+    background-position: center;
+    background-position-y: 10vw;
+    background-repeat: no-repeat;
+    font-family: Arial, Helvetica, sans-serif;
+    background-blend-mode: saturation;
+  }
+  .main-title {
+    position: relative;
+    width: 5vw;
+    left: 50%;
+    margin-left: -15vw;
+    font-family: "Cooper";
+  }
+  text {
+    fill: #333;
+    stroke: #333;
+    text-align: center !important;
+    stroke-width: 1;
+    font-family: "Cooper";
+    font-size: 4.166666666666667vw;
+    color: transparent;
+  }
+  .stroke {
+    margin: 0;
+    font-size: 110px;
+    font-weight: thin;
+  }
+  .secondary-title {
+    font-family: "Gagalin";
+    color: #333;
+    font-size: 100px;
+    text-align: center;
+    margin-top: -30px;
+  }
+  .buttons {
+    position: relative;
+    width: 80vw;
+    left: 50%;
+    margin-left: -40vw;
+  }
+  .nav-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 65px;
+    height: 22.5px;
+    padding: 10px;
+    left: 8vw;
+    background: #333;
+    border-radius: 1px;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    color: #fff;
+    margin-right: 13.5vw;
+    fill: #fff;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    cursor: default;
+  }
+  .nav-btn:hover {
+    transform: scale(1.1);
+  }
+  .tippy-box[data-theme~="parkingmaster"] {
+    background-color: #333;
+    color: #fff;
+    font-family: "Cooper", Arial;
+    border: none;
+    border-color: #333;
+    transition: none !important;
+  }
+  .tippy-arrow {
+    border-color: #333 !important;
+  }
+  .tippy-box[data-theme~="parkingmaster"]::before {
+    border: none;
+    background: #333;
+  }
+  .tippy-arrow {
+    background: #333;
+  }
+  .midline {
+    width: 60%;
+    background: #333;
+    height: 4px;
+    border: none !important;
+    outline: none !important;
+    border-radius: 3px;
+    margin-top: 25px;
+  }
+  .midline:first {
+    margin-top: 50px;
+  }
+  #m1 {
+    position: relative;
+    margin-top: 50px !important;
+  }
+  @keyframes startspin {
+    from { left: -50%; transform: rotateZ(-25deg) }
+  }
+  @media only screen and (max-width:1383px) {
+    .nav-btn {
+      margin-right: 13vw !important;
+    }
+  }
+  @media only screen and (max-width:1301px) {
+    .nav-btn {
+      margin-right: 12.5vw !important;
+    }
+  }
+  @media only screen and (max-width:1100px) {
+    .nav-btn {
+      margin-right: 12vw !important;
+    }
+  }
+  @media only screen and (max-width:1035px) {
+    .nav-btn {
+      margin-right: 11vw !important;
+    }
+  }
+  @media only screen and (max-width:922px) {
+    .nav-btn {
+      margin-right: 10vw !important;
+    }
+  }
+  @media only screen and (max-width:829px) {
+    .nav-btn {
+      margin-right: 8vw !important;
+    }
+  }
+  @media only screen and (max-width:700px) {
+    .nav-btn {
+      margin-right: 7vw !important;
+    }
+  }
+  @media only screen and (max-width:640px) {
+    .nav-btn {
+      margin-right: 6vw !important;
+    }
+  }
+  @media only screen and (max-width:592px) {
+    a#last {
+      display: none !important;
+    }
+    .nav-btn {
+      margin-right: 7.5vw !important;
+    }
+  }
+  @media only screen and (max-width:465px) {
+    .nav-btn {
+      left: 6vw;
+    }
+    .main-title svg {
+      width: 850px;
+      margin-left: -15px;
+    }
+  }
+  @media only screen and (max-width:275px) {
+    a.cars-btn {
+      display: none !important;
+    }
+  }
+  @import url('https://fonts.googleapis.com/css?family=Mukta:700');
+  #container * {
+    box-sizing: border-box;
+  }
+  #container *::before, #container *::after {
+    box-sizing: border-box;
+  }
+  #container {
+    font-family: 'Mukta', sans-serif;
+    font-size: 1rem;
+    line-height: 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    min-height: 100vh;
+    position: absolute;
+    top: -46%;
+    margin-top: 0;
+    margin: 0 !important;
+  }
+  button {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    outline: none;
+    border: 0;
+    vertical-align: middle;
+    text-decoration: none;
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+    margin: 5px;
+    margin-top: 0 !important;
+  }
+  button.learn-more {
+    width: 12rem;
+    height: auto;
+  }
+  button.learn-more .circle {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: relative;
+    display: block;
+    margin: 0;
+    width: 3rem;
+    height: 3rem;
+    background: #333;
+    border-radius: 1.625rem;
+    display: none !important;
+  }
+  button.learn-more .circle .icon {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: #fff;
+    display: none !important;
+  }
+  button.learn-more .circle .icon.arrow {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    left: 0.625rem;
+    width: 1.125rem;
+    height: 0.125rem;
+    background: none;
+    display: none !important;
+  }
+  button.learn-more .circle .icon.arrow::before {
+    position: absolute;
+    content: '';
+    top: -0.25rem;
+    right: 0.0625rem;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-top: 0.125rem solid #fff;
+    border-right: 0.125rem solid #fff;
+    transform: rotate(45deg);
+  }
+  button.learn-more .button-text {
+    transition: all 0.45s cubic-bezier(0.65, 0, 0.076, 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 1.35rem 0;
+    margin: 0 0 0 1.85rem;
+    color: #eee;
+    font-weight: 700;
+    line-height: 1.6;
+    text-align: center;
+    text-transform: uppercase;
+    background: #333;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  img {
+    display: none;
+  }
+  button:hover .circle {
+    width: 100%;
+  }
+  button:hover .circle .icon.arrow {
+    background: #fff;
+    transform: translate(1rem, 0);
+  }
+  button:hover .button-text {
+    color: #fff;
+  }
+  .page-mark {
+    position: absolute;
+    left: 90%;
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+    width: 20vw;
+    background: #333;
+    padding: 10px;
+    color: #fff;
+    font-family: "Cooper";
+  }
+  .lobbies {
+    position: absolute;
+    width: 40%;
+    left: 50%;
+    margin-left: -20%;
+    background: #fff;
+    border-left: 2px solid #333;
+    border-bottom: 2px solid #333;
+    border-right: 2px solid #333;
+    top: -215px;
+    height: 200px;
+    z-index: 9999;
+    transition: top .6s;
+    padding: 4px;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+  }
+  .createLobby {
+    background: #333;
+    color: #fff;
+    font-weight: normal;
+    border: none;
+    outline: none;
+    padding: 3px;
+    border-radius: 5px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: 100%;
+    margin: 0px;
+  }
+  .createLobby:active {
+    box-shadow: 0 .5px .2px #333;
+  }
+  .currentLobbies a {
+    color: #333;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    text-decoration: none !important;
+    border-bottom: 1px solid currentColor !important;
+  }
+  .currentLobbies {
+    text-align: center;
+  }
+  * {
+    scrollbar-color: #333;
+    scrollbar-width: thin;
+  }
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #333;
+  }
+  hr.close-lobby-section {
+    height: 5px;
+    border: none;
+    outline: none;
+    background: #333;
+    border-radius: 8px;
+    transition: left 1s, width 1s;
+  }
+  /* hr.close-lobby-section:hover {
+    width: 94% !important;
+    left: -6%;
+    margin-left: 0;
+    display: inline-block;
+    cursor: pointer;
+  }
+  hr.close-lobby-section:hover + #close-btn {
+    display: inline-block;
+  }
+  #close-btn:hover {
+    display: inline-block;
+  } */
+  #close-btn {
+    display: none;
+    margin: 0;
+    padding: 0;
+    color: #333;
+    transform: translateY(-6px);
+    margin-left: 2px;
+    cursor: pointer;
+  }
+  .fa-coffee {
+    position: relative;
+    color: #333;
+    font-size: 150px !important;
+    width: 150px;
+    left: 50%;
+    margin-left: -75px;
+    margin-top: 12%;
+  }
+  .fa-coffee + p {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    color: #333;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .progress_bar {
+    background: #333 !important;
+  }
+  #load-cover {
+    background: #fff !important;
+  }
+  .custom-anchor-tt {
+    background: #333 !important;
+    color: #fff !important;
+    border: none !important;
+    font-family: "Gagalin";
+    transition: display 1s !important;
+  }
