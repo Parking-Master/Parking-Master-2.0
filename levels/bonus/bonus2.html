@@ -133,13 +133,12 @@
           <br>
           <iframe class="steering" src="https://parking-master.github.io/Parking-Master/game/steering.html#steering" scrolling="no" style="margin:0!important;height:90px;width:100px;border:none!important;outline:none!important;"></iframe>
         </div>
-        <span class="timer">00:10</span>
-        <img class="parking-lot" src="../images/parking-spots/lvl5.png" style="position:absolute;width:100vw;z-index:9998;top:-8.5vw;left:50%;margin-left:-50vw;" />
-        <img src="../images/npc2.png" id="car2" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:45vw;" />
-        <img src="../images/npc2.png" id="car3" style="position:absolute;width:12vw;z-index:9999;top:.5vw;left:65vw;" />
-        <img src="../images/npc3.png" id="car4" style="position:absolute;width:22.5vw;z-index:9999;top:15vw;left:2vw;" />
-        <img src="../images/smoke.png" id="smoke2" style="opacity:0;transition:opacity .1s;position:absolute;width:20vw;z-index:9999;top:12vw;left:45vw;" />
-        <img src="../images/smoke.png" id="smoke3" style="opacity:0;transition:opacity .1s;position:absolute;width:20vw;z-index:9999;top:12vw;left:65vw;" />
+        <span class="timer">00:15</span>
+        <img class="parking-lot" src="../../images/parking-spots/bonus/bonus2.png" style="position:absolute;width:100vw;z-index:9998;top:-8.5vw;left:50%;margin-left:-50vw;" />
+        <img src="../../images/npc.png" id="car1" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:3vw;" />
+        <img src="../../images/npc2.png" id="car2" style="position:absolute;width:12vw;z-index:9999;top:1vw;left:45vw;" />
+        <img src="../../images/smoke.png" id="smoke1" style="opacity:0;transition:opacity .1s;position:absolute;width:20vw;z-index:9999;top:12vw;left:8.5vw;" />
+        <img src="../../images/smoke.png" id="smoke2" style="opacity:0;transition:opacity .1s;position:absolute;width:20vw;z-index:9999;top:12vw;left:45vw;" />
         <div id="slider"></div>
         <script>
         if (!localStorage["car"]) {
@@ -155,7 +154,7 @@
           window.default_specs = JSON.parse(localStorage["car"]).default_specs;
           window.defaultCar = JSON.parse(localStorage["car"]);
         }
-        function GameOver(msg) {
+        function GameOver(msg, lostPts) {
           window.onkeydown = null;
           document.onkeydown = null;
           document.documentElement.onkeydown = null;
@@ -182,6 +181,7 @@
               return window.location.reload();
             }
             localStorage["current_lvl"] = "lvl0";
+            lostPts > parseFloat(localStorage["current_pts"], 0) ? localStorage.setItem("current_pts", (0).toString()) : localStorage.setItem("current_pts", (parseFloat(localStorage["current_pts"], 0) - lostPts).toString());
             top.location.replace("/");
           });
           for (let i = 0; i < document.querySelectorAll(".swal-button").length; i++) {
@@ -199,7 +199,7 @@
             e.preventDefault();
           }
         }
-        let timerCount = 10;
+        let timerCount = 15;
         let timeLeft = timerCount.toString();
         let over = setInterval(function() {
           if (timerCount == 0) {
@@ -264,14 +264,14 @@
               closeOnClickOutside: true,
               closeOnEnterKey: true
             }).then(function() {
-              localStorage.setItem("current_lvl", "lvl5");
+              localStorage.setItem("current_lvl", "lvl0");
               localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
-              location.replace("bonus/bonus2.html");
+              location.replace("../lvl6.html");
             });
             document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
             return;
           }
-          if (((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.2 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) >= 1.3 && ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) <= 1.4)) {
+          if (((screenpos.y / (document.querySelector("canvas").width / 1.5))) > 0.15 && ((screenpos.y / (document.querySelector("canvas").width / 1.5))) < 0.20 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.4 || ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.5)) {
             stopTimer();
             swal({
               icon: "success",
@@ -281,18 +281,13 @@
               closeOnClickOutside: true,
               closeOnEnterKey: true
             }).then(function() {
-              localStorage.setItem("current_lvl", "lvl5");
+              localStorage.setItem("current_lvl", "lvl0");
               localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
-              location.replace("bonus/bonus2.html");
+              location.replace("../lvl6.html");
             });
             document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
-            return;
-          }
-          if ((((screenpos.y / (document.querySelector("canvas").width / 1.5))) > 0.15 && ((screenpos.y / (document.querySelector("canvas").width / 1.5))) < 0.20 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.4 || ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.5))) {
-            stopTimer();
-            GameOver("You parked in the danger spot!");
-          } else if ((((screenpos.y / (document.querySelector("canvas").width / 1.5))) > 0.15 && ((screenpos.y / (document.querySelector("canvas").width / 1.5))) < 0.20 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.1 || ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.2))) {
-            simple.alert("This spot will waste your time!");
+          } else if (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(2) <= 1.14 && ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(2) >= 1.01 && ((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.2) {
+            GameOver("You parked in the handicap spot. You lost 200 PTS!", 200);
           } else {
             let e = document.createElement("div");
             e.innerHTML = '<span style="color:#444;">Try <span style="color:#DB4437;text-decoration:underline;">parking again</span> or <span style="color:#DB4437;text-decoration:underline;">get closer</span> to the spot.';
@@ -362,17 +357,6 @@
                     return l.position.x = default_specs[4], l.position.y = 25.5, t.add(l), t
                 }();
                 c.position.y = -50;
-                window.roll = function() {
-                  let l = setInterval(function() {
-                    if (c.rotation.z < -1.2 && c.rotation.x < -1.2) {
-                      clearInterval(l);
-                    } else {
-                      c.rotation.z -= .2;
-                      c.rotation.x -= .2;
-                      GameOver("An obstacle hit you!");
-                    }
-                  }, 100);
-                };
                 setInterval(() => (window.coordinates = c.position));
                 c.name = "car1";
                 s.add(c);
@@ -435,7 +419,6 @@
                     x6 = 4
                 }));
                 const u = () => {
-                    window.screenpos = nestedObjecttoScreenXYZ(c, w, document.querySelector("canvas").width, document.querySelector("canvas").height, true);
                     switch (m) {
                         case "ArrowUp":
                             window.screenpos = nestedObjecttoScreenXYZ(c, w, document.querySelector("canvas").width, document.querySelector("canvas").height, true);
@@ -694,44 +677,7 @@
           if (x.toFixed(3) >= 0.518 && x.toFixed(3) < 0.967 && y < 0.35) {
             crash(2, "side", "right");
           }
-          // ...
-          if (y == car2Y && x < 0.35) {
-            crash(3, "side", "left");
-            car2Y = (parseFloat(car2Y, 0)  + .1).toFixed(2);
-            console.log(car2Y);
-          }
-          if (y <= 0.38 && x.toFixed(3) <= 1.322 && x.toFixed(3) >= 0.851) {
-            crash(3, "rear");
-            car2Y = (parseFloat(car2Y, 0)  + .1).toFixed(2);
-            console.log(car2Y);
-          }
-          if (x.toFixed(3) >= 0.518 && x.toFixed(3) < 0.967 && y < 0.35) {
-            crash(3, "side", "right");
-          }
         }, 1);
-        w = 2;
-        w1 = 0;
-        window.addEventListener("load", function() {
-          let l = setInterval(function() {
-            w += .085;
-            document.querySelector("#car4").style.left = w + "vw";
-            if ((document.querySelector("#car4").style.left.split("vw")[0] - 0) >= 56.5) {
-              clearInterval(l);
-            }
-            setTimeout(function() {
-              clearInterval(l);
-            }, 4500);
-          }, 0);
-        });
-        setTimeout(function() {
-          setInterval(function() {
-            if ((((document.querySelector("#car4").style.left.split("").reverse().splice(2).reverse().join("") - 0) - (document.querySelector("canvas").width / 50)) * 3.5 + ((w / 5).toFixed(0) - 2) / 3).toFixed(0) >= ((((((((screenpos.x || 700) / (document.querySelector("canvas").width / 1.5))).toFixed(3)) * 40 * w / 50 * 2) / 1.25) - 1.55).toFixed(0) - 1) && ((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(3) <= 0.550 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(3)) < 1.330 && !(((((((((screenpos.x || 700) / (document.querySelector("canvas").width / 1.5))).toFixed(3)) * 40 * w / 50 * 2) / 1.25) - 1.55).toFixed(0) - 1) - 5 < ((w.toFixed(0)) - 10))) {
-              roll();
-              document.querySelector("#car_crash").play();
-              stopTimer();
-            }
-          }, 100);
-        }, 500)
       </script>
     </body>
 </html>
