@@ -42,7 +42,7 @@
           <div class="progress">
             <div class="progress_bar"></div>
           </div>
-          <script>!function(){let e=0;if(0==e){e=1;let t=1,r=setInterval((function(){t>=100?(clearInterval(r),e=0,setTimeout(()=>(document.querySelector("#load-cover").style.opacity="0",setTimeout(()=>document.querySelector("#load-cover").remove(),200)),0)):(t+=.75,document.querySelector("#load-percent").textContent=t.toFixed(0),document.querySelector(".progress_bar").style.width=t+"%")}),1)}}();</script>
+          <script>!function(){let e=0;if(0==e){e=1;let t=1,r=setInterval((function(){t>=100?(clearInterval(r),e=0,setTimeout(()=>(document.querySelector("#load-cover").style.opacity="0",setTimeout(()=>document.querySelector("#load-cover").remove(),200)),0)):(t+=1,document.querySelector("#load-percent").textContent=t.toFixed(0),document.querySelector(".progress_bar").style.width=t+"%")}),0)}}();</script>
         <noscript><div style="position:absolute;left:0;top:0;right:0;bottom:0;margin:0;background:#f9f9f9;padding:0;"><span style="z-index:1;color:#222;font-weight:bold;font-size:2vw;text-align:center;font-family:Arial">JavaScript is disabled</span></div></noscript>
       </div>
     </div>
@@ -69,5 +69,7 @@
         }
       }
     </script>
+    <script src="https://cdn.jsdelivr.net/gh/notiflix/Notiflix/dist/notiflix-aio-3.2.5.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/Parking-Master/Parking-Master-Tipper@main/tipper.js" defer></script>
   </body>
 </html>

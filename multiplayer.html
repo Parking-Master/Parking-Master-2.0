@@ -755,10 +755,10 @@
       }
       function triggerMouseEvent(e,t){var n=document.createEvent("MouseEvents");n.initEvent(t,!0,!0),e.dispatchEvent(n)}
       function startBot() {
-        const utterances=[["hi","hey","hello"],["how are you","how are things"],["what is going on","what is up"],["happy","good","well","fantastic","cool"],["bad","bored","tired","sad"],["tell me story","tell me joke"],["thanks","thank you"],["bye","good bye","goodbye"]],answers=[["Hello!","Hi!","Hey!","Hi there!"],["Fine... how are you?","Pretty well, how are you?","Fantastic, how are you?"],["Nothing much","Exciting things!"],["Glad to hear it"],["Why?","Cheer up buddy"],["What about?","Once upon a time..."],["You're welcome","No problem"],["Goodbye","See you later"]],alternatives=["Same","Go on...","Try again","I'm listening...","Bro..."];function output(e){let t,a=e.toLowerCase().replace(/[^\w\s\d]/gi,"");a=a.replace(/ a /g," ").replace(/whats/g,"what is").replace(/please /g,"").replace(/ please/g,"").replace(/r u/g,"are you"),t=compare(utterances,answers,a)?compare(utterances,answers,a):alternatives[Math.floor(Math.random()*alternatives.length)];return(t)}function compare(e,t,a){let o,r=!1;for(let n=0;n<e.length;n++){for(let l=0;l<e[n].length;l++)if(e[n][l]===a){let e=t[n];o=e[Math.floor(Math.random()*e.length)],r=!0;break}if(r)break}return o}
+        const utterances=[["hi","hey","hello"],["how are you","how are things"],["what is going on","what is up"],["happy","good","well","fantastic","cool"],["bad","bored","tired","sad"],["tell me story","tell me joke"],["thanks","thank you"],["bye","good bye","goodbye"]],answers=[["Hello!","Hi!","Hey!","Hi there!"],["Fine... how are you?","Pretty well, how are you?","Fantastic, how are you?"],["Nothing much","Exciting things!"],["Glad to hear it"],["Why?","Cheer up buddy"],["What about?","Once upon a time..."],["You're welcome","No problem"],["Goodbye","See you later"]],alternatives=["Same","Go on...","Try again","I'm listening...","Bro..."];globalThis.output=function(e){let t,a=e.toLowerCase().replace(/[^\w\s\d]/gi,"");a=a.replace(/ a /g," ").replace(/whats/g,"what is").replace(/please /g,"").replace(/ please/g,"").replace(/r u/g,"are you"),t=compare(utterances,answers,a)?compare(utterances,answers,a):alternatives[Math.floor(Math.random()*alternatives.length)];return(t)};function compare(e,t,a){let o,r=!1;for(let n=0;n<e.length;n++){for(let l=0;l<e[n].length;l++)if(e[n][l]===a){let e=t[n];o=e[Math.floor(Math.random()*e.length)],r=!0;break}if(r)break}return o}
         if (location.protocol == "https") {
           document.querySelector("iframe").contentWindow.document.querySelector("button.send").addEventListener("click", function() {
-            setTimeout(() => document.querySelector("iframe").contentWindow.sendMessage(generateName() + ": " + output(document.querySelector("iframe").contentWindow.document.querySelector("input").value)), 2000);
+            setTimeout(() => document.querySelector("iframe").contentWindow.sendMessage(generateName() + ": " + output(document.querySelector("iframe").contentWindow.document.querySelector("input").value)), 1000);
           });
         }
         usingBot = true;
@@ -865,6 +865,9 @@
               document.querySelector(".park-btn.-red").style.background = team;
               document.querySelector(".banner-blue").style.background = "#444";
               document.querySelector(".park-btn.-blue").style.background = "#444";
+              for (let i = 0; i < defaultCarColors.length; i++) {
+                defaultCarColors[i] == team && (window.teamPos = (i + 1));
+              }
               init();
               drawParkingLot();
             } else if (CurrentUserID[1] == gametime.user.id) {
@@ -880,6 +883,9 @@
               document.querySelector(".park-btn.-blue").style.background = team;
               document.querySelector(".banner-red").style.background = "#444";
               document.querySelector(".park-btn.-red").style.background = "#444";
+              for (let i = 0; i < defaultCarColors.length; i++) {
+                defaultCarColors[i] == team && (window.teamPos = (i + 1));
+              }
               init();
               drawParkingLot();
             }
@@ -1066,6 +1072,31 @@
           return;
         } else {
           top.document.querySelector(".swal-overlay").remove();
+        }
+      });
+      document.addEventListener("keydown", function(e) {
+        if (e.repeat) { return; }
+        if (e.key == "ArrowUp") {
+          let simMousedownEvent=new MouseEvent("mousedown",{view:window,bubbles:!0,cancelable:!0});document.querySelector(".drive-btn.-"+team).dispatchEvent(simMousedownEvent);
+        } else if (e.key == "ArrowDown") {
+          let simMousedownEvent=new MouseEvent("mousedown",{view:window,bubbles:!0,cancelable:!0});document.querySelector(".reverse-btn.-"+team).dispatchEvent(simMousedownEvent);
+        } else if (e.key == "ArrowRight") {
+          let simMousedownEvent=new MouseEvent("mousedown",{view:window,bubbles:!0,cancelable:!0});document.querySelector(".right-btn.-"+team).dispatchEvent(simMousedownEvent);
+        } else if (e.key == "ArrowLeft") {
+          let simMousedownEvent=new MouseEvent("mousedown",{view:window,bubbles:!0,cancelable:!0});document.querySelector(".left-btn.-"+team).dispatchEvent(simMousedownEvent);
+        } else if (e.key == "Enter") {
+          parkDetector(teamPos);
+        }
+      });
+      document.addEventListener("keyup", function(e) {
+        if (e.key == "ArrowUp") {
+          let simMousedownEvent=new MouseEvent("mouseup",{view:window,bubbles:!0,cancelable:!0});document.querySelector(".drive-btn.-"+team).dispatchEvent(simMousedownEvent);
+        } else if (e.key == "ArrowDown") {
+          let simMousedownEvent=new MouseEvent("mouseup",{view:window,bubbles:!0,cancelable:!0});document.querySelector(".reverse-btn.-"+team).dispatchEvent(simMousedownEvent);
+        } else if (e.key == "ArrowRight") {
+          let simMousedownEvent=new MouseEvent("mouseup",{view:window,bubbles:!0,cancelable:!0});document.querySelector(".right-btn.-"+team).dispatchEvent(simMousedownEvent);
+        } else if (e.key == "ArrowLeft") {
+          let simMousedownEvent=new MouseEvent("mouseup",{view:window,bubbles:!0,cancelable:!0});document.querySelector(".left-btn.-"+team).dispatchEvent(simMousedownEvent);
         }
       });
     </script>
