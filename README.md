@@ -1,6 +1,6 @@
 ### Development Progress Tracker _(DPT)_
->80% <img height="10" width="80%" style="margin:0!important;" src="images/bar.png"><br>
-Game developement day 80 of 100 <b><sup>80</sup>_/_<sub>100</sub></b><br>20% Developement work left
+>82% <img height="10" width="80%" src="images/bar.png" style="filter:invert(100%);border:1px solid #222;border-radius:5px;"><br>
+Game developement day 82 of 100 (<b><sup>82</sup>_/_<sub>100</sub></b>)<br>18% Developement work left
 # <img alt="Favicon" src="favicon.ico" width="24" />&nbsp;&nbsp;Parking-Master-2.0
 Welcome to the all-new Parking-Master-2.0!
 <img src="preview.png" />
