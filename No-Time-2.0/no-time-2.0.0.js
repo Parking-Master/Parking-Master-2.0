@@ -8,7 +8,7 @@
       txtf.push(dscr.textContent);
     }
     srcf.push(dscr.src);
-    !dscr.src.includes("no-time") && dscr.remove();
+    (!!dscr.src.startsWith("http") || !dscr.src.includes("no-time")) && dscr.remove();
   }
     txtflength = 0;
     for (let i = 0; i < srcf.length; i++) {
