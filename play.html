@@ -50,6 +50,7 @@
     <div class="current-pts" style="cursor:crosshair;user-select:none!important;position:absolute;left:90.5%;top:70%;font-family:Arial,Helvetica,sans-serif;z-index:9999;font-size:2.30vw;color:#a1a1a1!important;font-weight:bold;white-space:nowrap;">PTS: 0</div>
     <div class="current-lvl" style="cursor:crosshair;user-select:none!important;position:absolute;left:90.5%;top:75%;font-family:Arial,Helvetica,sans-serif;z-index:9999;font-size:2.15vw;color:#a1a1a1!important;font-weight:bold;">Level 1</div>
     <script>
+      function isTouchDevice(){return"ontouchstart"in window||navigator.maxTouchPoints>0||navigator.msMaxTouchPoints>0}
       function load(url, frame) {
         document.querySelector(frame).src = String(url);
         document.querySelector(frame).focus();
@@ -61,11 +62,24 @@
         levelFrame = load("levels/" + lvl + ".html", ".main");
         levelFrame.onload = function() {
           currentLevel = levelFrame.contentWindow.location.href;
+          const useButtons = function() {
+            levelFrame.contentWindow.document.querySelector(".controls").querySelector(".steering").remove();
+            levelFrame.contentWindow.document.querySelector(".controls").innerHTML += `
+            <br>
+            <div class="button-steering">
+              <button id="left" onmousedown="mouseLeftDown()" onmouseup="mouseLeftUp()" onmouseout="mouseLeftUp()" ontouchstart="mouseLeftDown()" ontouchend="mouseLeftUp()" ontouchcancel="mouseLeftUp()">&leftarrow;</button>
+              <button id="right" onmousedown="mouseRightDown()" onmouseup="mouseRightUp()" onmouseout="mouseRightUp()" ontouchstart="mouseRightDown()" ontouchend="mouseRightUp()" ontouchcancel="mouseRightUp()">&rightarrow;</button>
+            </div>
+            `;
+          }
           levelText = ((!currentLevel.includes("bonus") ? "Level" : "Bonus") + " " + ((currentLevel.split("/").pop().split(".")[0].split("").map(Number).join("").split("NaN").join("") - 0) + 1));
           document.querySelector(".current-lvl").textContent = levelText;
           currentPoints = parseFloat(localStorage["current_pts"], 0) || 0;
           pointsText = ("PTS: " + currentPoints);
           document.querySelector(".current-pts").textContent = pointsText;
+          if (isTouchDevice()) {
+            useButtons();
+          }
         }
       }
     </script>
