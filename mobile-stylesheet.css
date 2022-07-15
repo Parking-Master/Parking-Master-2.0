@@ -1,0 +1,64 @@
+html, body {
+  position: fixed;
+  width: 50vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
+  margin: 0;
+  top: 0 !important;
+  left: 50% !important;
+  margin-left: -25%;
+  overflow: hidden !important;
+  background-size: 50vw;
+  background-position-y: 0vw;
+}
+.nav-btn {
+  border-radius: 5px !important;
+  height: 50px;
+  margin-right: 5vw !important;
+  left: 6.25vw;
+}
+@media only screen and (max-width:1235px) {
+  .download-btn {
+    display: none !important;
+  }
+}
+@media only screen and (max-width:790px) {
+  .nav-btn {
+    left: 4vw !important;
+  }
+}
+@media only screen and (max-width:715px) {
+  .nav-btn {
+    left: 10vw !important;
+  }
+  .settings-btn {
+    display: none !important;
+  }
+  body {
+    width: 60vw;
+    margin-left: -30vw;
+    background-position-y: 50vw;
+    background-size: 60vw;
+  }
+  #container {
+    left: 0 !important;
+    transform: scale(.9);
+  }
+}
+@media only screen and (max-width:500px) {
+    .nav-btn {
+      left: 5vw !important;
+    }
+    .settings-btn {
+      display: none !important;
+    }
+  }
+.buttons {
+  width: 50vw;
+  left: 50%;
+  margin-left: -25vw;
+}
+.midline {
+  display: none !important;
+}
