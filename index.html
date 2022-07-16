@@ -24,7 +24,7 @@
     <!-- End Google Tag Manager -->
     <script>
       (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) && top.location.hostname != "m.parkingmaster.tk") && location.replace("https://m.parkingmaster.tk");
-      top != window && (document.head.innerHTML += `<link rel="stylesheet" href="./mobile-stylesheet.css" />`);
+      (top != window && new URLSearchParams(location.search).get("env") == "mobile") && (document.head.innerHTML += `<link rel="stylesheet" href="./mobile-stylesheet.css" />`);
     </script>
   </head>
   <body>
