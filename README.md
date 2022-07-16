@@ -100,4 +100,4 @@ Leave an idea in the "Issues" section and it may be<br>available on Parking Mast
 Send us an email for a any other purposes: __parkingmaster@email.com__
 
 ## License
-Parking Master and this project are licensed under the [MIT license](./blob/main/LICENSE).
+Parking Master and this project are licensed under the [MIT license](LICENSE).
