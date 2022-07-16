@@ -90,3 +90,14 @@ A list of items that helped make Parking-Master-2.0 possible.
 ##### Node.js \> https://www.nodejs.org/en
 ##### Google reCaptcha \> https://developers.google.com/recaptcha
 ##### W3Schools Spaces \> https://spaces.w3schools.com
+##### ElectronJS \> https://electronjs.org
+___
+## Support & Contribution
+Anyone can support this project by opening an issue<br>for bug details, feedback, and even your own opinion!
+
+Leave an idea in the "Issues" section and it may be<br>available on Parking Master 2.0 one day!
+
+Send us an email for a any other purposes: __parkingmaster@email.com__
+
+## License
+Parking Master and this project are licensed under the [MIT license](./blob/main/LICENSE).
