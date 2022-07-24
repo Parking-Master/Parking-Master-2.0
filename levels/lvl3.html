@@ -247,6 +247,23 @@
           let carPositionX = ((((coordinates.x * window.innerHeight / 10) / 5) * window.innerHeight / 10) / 5 * window.innerHeight / 10);
           let e = ["Good", "Good job!", "Nice!", "Awesome!"];
           let t = e[Math.floor(Math.random() * e.length)];
+          if (auto) {
+            stopTimer();
+            swal({
+              icon: "success",
+              title: t,
+              text: "You parked! Click Next to continue.",
+              button: "Next",
+              closeOnClickOutside: true,
+              closeOnEnterKey: true
+            }).then(function() {
+              localStorage.setItem("current_lvl", "lvl1");
+              localStorage.setItem("current_pts", parseFloat(localStorage["current_pts"], 0) + 1);
+              location.replace("bonus/bonus1.html");
+            });
+            document.querySelector(".swal-button").style.backgroundColor = "#6cc22e";
+            return;
+          }
           if (((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(1) == 0.2 && (((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(2) >= 0.1 && ((screenpos.x / (document.querySelector("canvas").width / 1.5))).toFixed(1) <= 0.3)) {
             stopTimer();
             swal({
@@ -368,25 +385,17 @@
                       height: "100%"
                     });
                     mouseLeftDown();
-                    setTimeout(mouseLeftUp, 1000);
-                    setTimeout(function() {
-                      mouseDown();
-                      setTimeout(mouseUp, 100);
-                    }, 1500);
-                    setTimeout(function() {
-                      mouseLeftDown();
-                      setTimeout(mouseLeftUp, 300);
-                    }, 1800);
+                    setTimeout(mouseLeftUp, 1350);
                     setTimeout(function() {
                       mouseDown();
                       let mupc = setInterval(() => {
-                        if (((screenpos.y / (document.querySelector("canvas").width / 1.5))) > 0.15 && ((screenpos.y / (document.querySelector("canvas").width / 1.5))) < 0.20) {
+                        if (((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(2) <= 0.25) {
                           mouseUp();
                           clearInterval(mupc);
                         }
                       }, 100);
                       setTimeout(() => parkOption(true), 650);
-                    }, 2500);
+                    }, 1500);
                 };
                 const d = new THREE.AmbientLight(16777215, .6);
                 s.add(d);

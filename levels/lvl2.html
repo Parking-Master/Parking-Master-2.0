@@ -403,25 +403,17 @@
                       height: "100%"
                     });
                     mouseLeftDown();
-                    setTimeout(mouseLeftUp, 1000);
-                    setTimeout(function() {
-                      mouseDown();
-                      setTimeout(mouseUp, 100);
-                    }, 1500);
-                    setTimeout(function() {
-                      mouseLeftDown();
-                      setTimeout(mouseLeftUp, 300);
-                    }, 1800);
+                    setTimeout(mouseLeftUp, 1350);
                     setTimeout(function() {
                       mouseDown();
                       let mupc = setInterval(() => {
-                        if (((screenpos.y / (document.querySelector("canvas").width / 1.5))) > 0.15 && ((screenpos.y / (document.querySelector("canvas").width / 1.5))) < 0.20) {
+                        if (((screenpos.y / (document.querySelector("canvas").width / 1.5))).toFixed(2) <= 0.25) {
                           mouseUp();
                           clearInterval(mupc);
                         }
                       }, 100);
                       setTimeout(() => parkOption(true), 650);
-                    }, 2500);
+                    }, 1500);
                 };
                 const d = new THREE.AmbientLight(16777215, .6);
                 s.add(d);
