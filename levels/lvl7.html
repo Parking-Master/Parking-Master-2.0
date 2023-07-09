@@ -329,7 +329,7 @@
                     t.add(n);
                     const o = R();
                     o.position.y = 6, o.position.x = /*18*/default_specs[2], t.add(o);
-                    const r = new THREE.Mesh(new THREE.BoxBufferGeometry(/*60*/default_specs[0], 15, 30), new THREE.MeshLambertMaterial({
+                    const r = new THREE.Mesh(new THREE.BoxGeometry(/*60*/default_specs[0], 15, 30), new THREE.MeshLambertMaterial({
                         color: e
                     }));
                     r.position.y = 12, t.add(r);
@@ -338,7 +338,7 @@
                         c = H(),
                         d = H();
                     d.center = new THREE.Vector2(.5, .5), d.rotation = Math.PI, d.flipY = !1;
-                    const l = new THREE.Mesh(new THREE.BoxBufferGeometry(/*33*/default_specs[3], 15, 26), [new THREE.MeshLambertMaterial({
+                    const l = new THREE.Mesh(new THREE.BoxGeometry(/*33*/default_specs[3], 15, 26), [new THREE.MeshLambertMaterial({
                         map: i
                     }), new THREE.MeshLambertMaterial({
                         map: s
@@ -449,7 +449,7 @@
                 };
 
                 function R() {
-                    const e = new THREE.BoxBufferGeometry(12, 12, 33),
+                    const e = new THREE.BoxGeometry(12, 12, 33),
                         t = new THREE.MeshLambertMaterial({
                             color: "#333"
                         });
